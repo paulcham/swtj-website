@@ -10,6 +10,26 @@
     --color-brand-yellow: #e6b400;
 }
 
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Jura', sans-serif;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+}
+
 /* Announcement section */
 .announcement {
     padding: 2rem 0;
@@ -65,34 +85,14 @@
     background-color: var(--color-brand-yellow);
     color: var(--color-black);
     font-size: 1.5rem;
-    transition: all 0.3s ease;
 }
 
 .announcement-cta .cta-button:hover {
     background-color: var(--color-pure-white);
-    transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Reset and base styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: 'Jura', sans-serif;
-    background-color: var(--color-black);
-    color: var(--color-white);
-    line-height: 1.6;
-    position: relative;
-    overflow-x: hidden;
-}
 
 /* Noise overlay for rock texture */
 .noise-overlay {
@@ -250,7 +250,6 @@ nav ul li a:hover::after {
 .cta-button:hover {
     background-color: var(--color-pure-white);
     color: var(--color-black);
-    transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
