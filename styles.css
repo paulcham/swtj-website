@@ -491,6 +491,7 @@ footer {
     header {
         flex-direction: column;
         text-align: center;
+        padding: 1rem;
     }
     
     nav ul {
@@ -500,12 +501,99 @@ footer {
     nav ul li {
         margin: 0 10px;
     }
-    
+
     .hero {
-        height: 50vh;
+        height: auto;
+        padding: 3rem 1rem;
     }
-    
-    .band-image-placeholder {
+
+    .hero-title {
+        font-size: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .announcement-content {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .announcement-image {
+        order: 1;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .announcement-content > div:first-child {
+        order: 2;
+        text-align: center;
+    }
+
+    .announcement-title {
+        font-size: 1.4rem;
+        margin-top: 1.5rem;
+    }
+
+    .band-members {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .member {
+        margin: 0 auto;
+    }
+
+    .member-image {
+        width: 140px;
+        height: 140px;
+    }
+
+    .member h3 {
+        font-size: 1rem;
+    }
+
+    .member p {
+        font-size: 0.8rem;
+    }
+
+    .music-links {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+
+    .music-platform {
+        width: 100%;
+        padding: 0.8rem;
+    }
+
+    .music-platform i {
+        font-size: 1.5rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .music-platform span {
+        font-size: 0.8rem;
+    }
+
+    .music-platform:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        max-width: 50%;
+        margin: 0 auto;
+    }
+
+    section {
+        padding: 3rem 1rem;
+    }
+
+    section h2 {
+        font-size: 2rem;
+    }
+}
+
+.band-image-placeholder {
         height: 250px;
     }
     
