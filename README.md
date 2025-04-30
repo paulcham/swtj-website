@@ -4,20 +4,37 @@ A rock and roll themed website for the Dad band "Swimming with the Jaguars" from
 
 ## Features
 
-- Responsive single-page design
-- Rock and roll aesthetic with animations
-- Band bio and member information
-- Links to music platforms (Spotify and Apple Music)
-- Placeholder for contact form
-- Social media links
+- Modern, responsive single-page design
+- Rock and roll aesthetic with grayscale-to-color hover effects
+- Band bio and member profiles with playful titles
+- Featured announcement section for latest release "Christmas Dead Mouse"
+- Direct links to music platforms (Spotify and Apple Music) with icon buttons
+- Mobile-optimized layout with 2-column grids
+
+## Current Content
+
+- Hero section with tagline "Dad rock - reimagined for the 21st century"
+- Latest release announcement with streaming links
+- Band member profiles with fun descriptions
+- Band bio section with origin story
+- Music section with streaming platform links
 
 ## Technologies Used
 
 - HTML5
-- CSS3 (with animations and responsive design)
-- JavaScript (for interactive elements)
-- Font Awesome (for icons)
-- Google Fonts (Rock Salt and Jura)
+- CSS3 (with hover effects and responsive design)
+- Font Awesome (for Spotify and Apple Music icons)
+- Google Fonts (Jura)
+
+## Local Development
+
+Run a local server to view the website:
+
+```bash
+python3 -m http.server 8000
+```
+
+Then visit `http://localhost:8000` in your browser.
 
 ## Getting Started
 
