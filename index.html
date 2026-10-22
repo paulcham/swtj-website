@@ -1,210 +1,857 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Swimming with the Jaguars | Dad Rock Band</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Jura:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#80261b">
+<title>Swimming with the Jaguars</title>
+<meta name="description" content="Swimming with the Jaguars, Northern New Jersey's premiere Dad rock band serving Essex and Hudson counties. Stream the album ingrid and the holiday single Christmas Dead Mouse.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Bitter:ital,wght@0,400;0,600;0,800;1,400&family=Rye&family=Ultra&display=swap" rel="stylesheet">
+<style>
+:root {
+  --stock: #80261b;
+  --stock-deep: #5e1a12;
+  --yellow: #e6b400;
+  --ink: #1a120f;
+  --bone: #f3e8cf;
+  --gothic: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --slab: "Ultra", "Rockwell", serif;
+  --orn: "Rye", serif;
+  --text: "Bitter", Georgia, serif;
+  --gut: clamp(12px, 1.4vw, 20px);
+  --rule: 0px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scrollbar-color: var(--yellow) var(--stock-deep); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--stock);
+  color: var(--bone);
+  font-family: var(--text);
+  font-size: 18px;
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--yellow); color: var(--ink); }
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: var(--stock-deep); }
+::-webkit-scrollbar-thumb { background: var(--yellow); border: 3px solid var(--stock-deep); }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--bone); outline-offset: 3px; }
+
+/* Poster stock: fibers and uneven ink take-up, multiplied over everything */
+body::after {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  mix-blend-mode: multiply;
+  opacity: .35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.011' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .92  0 0 0 0 .85  -1.1 0 0 0 .95'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23fff'/%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+/* Printed softness: crisp type, the whole sheet sits a hair out of focus like a printed poster */
+.poster { filter: blur(.45px); }
+
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.poster {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--gut);
+}
+.sheet {
+  margin: 0;
+}
+
+/* Bands: each line is a full-width slab sized by the fitter */
+.band {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  min-width: 0;
+  line-height: .86;
+  white-space: nowrap;
+  font-size: var(--fallback, 8vw);
+}
+.band > .fit { display: block; flex: none; position: relative; }
+.gothic { font-family: var(--gothic); font-weight: 900; text-transform: uppercase; letter-spacing: .005em; }
+.gothic-md { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+.slab { font-family: var(--slab); font-weight: 400; text-transform: uppercase; letter-spacing: -.005em; }
+.c-yellow { color: var(--yellow); }
+.c-bone { color: var(--bone); }
+.c-ink { color: var(--ink); }
+
+/* The second run of ink: a contracted key pass printed under the first, landing
+   off-register by a different distance and direction on every band */
+.reg::before {
+  content: attr(data-text);
+  position: absolute; left: 0; top: 0;
+  color: var(--pass, var(--ink));
+  -webkit-text-stroke: .02em var(--stroke, var(--stock));
+  z-index: -1;
+  transform: translate(var(--rx, .03em), var(--ry, .03em));
+  mix-blend-mode: var(--blend, multiply);
+  white-space: nowrap;
+}
+.reg { isolation: auto; z-index: 0; }
+
+.rule { border: 0; border-top: var(--rule) solid var(--ink); }
+.rule-thin { border: 0; border-top: 1.5px solid var(--ink); margin: 6px 0; }
+
+/* Masthead strip */
+.strip {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: stretch;
+  border-bottom: var(--rule) solid var(--ink);
+}
+.strip-home {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 18px;
+  border-right: 1.5px solid var(--ink);
+  text-decoration: none;
+  font-family: var(--gothic); font-weight: 800; text-transform: uppercase;
+  font-size: 22px; letter-spacing: .08em; line-height: 1;
+  color: var(--bone);
+}
+.strip-home small { display: block; font-size: 13px; letter-spacing: .3em; color: var(--yellow); margin-top: 3px; }
+.strip-cta {
+  display: flex; align-items: center; gap: 12px;
+  margin: 8px; padding: 0 22px;
+  background: var(--yellow); color: var(--ink);
+  font-family: var(--gothic); font-weight: 900; text-transform: uppercase;
+  font-size: 24px; letter-spacing: .08em; text-decoration: none;
+  transition: background-color .18s ease-out;
+}
+.strip-cta:hover { background: var(--bone); }
+.strip-cta svg { width: 18px; height: 18px; }
+
+/* Hero */
+.hero { padding: clamp(8px, .8vw, 12px) clamp(14px, 2.4vw, 34px) 0; }
+.hero .band + .band { margin-top: .06em; }
+.presents { --fallback: 7vw; }
+.name-1 { --fallback: 10vw; margin-top: clamp(6px, .8vw, 12px); }
+.name-2 { --fallback: 22vw; }
+.premiere {
+  display: flex; align-items: center; gap: 18px;
+  font-family: var(--gothic); font-weight: 800; text-transform: uppercase;
+  letter-spacing: .22em; font-size: clamp(14px, 1.6vw, 24px);
+  color: var(--bone); margin: clamp(8px, 1vw, 14px) 0 clamp(4px, .6vw, 10px);
+  white-space: nowrap;
+}
+.premiere::before, .premiere::after { content: ""; flex: 1; height: 0; border-top: 3px double var(--ink); border-bottom: 1.5px solid var(--ink); padding-top: 4px; }
+.dadrock { --fallback: 24vw; }
+.reimagined {
+  display: flex; justify-content: center; align-items: center; gap: clamp(10px, 2vw, 28px);
+  margin: clamp(8px, 1vw, 14px) 0 clamp(10px, 1.2vw, 18px);
+}
+.reimagined p {
+  font-family: var(--orn); color: var(--yellow);
+  font-size: clamp(22px, 3vw, 44px); line-height: 1; text-align: center;
+}
+.star { width: clamp(18px, 2.6vw, 38px); height: auto; color: var(--ink); flex: none; }
+
+/* Row of three boxed facts under the headline */
+.facts {
+  display: grid; grid-template-columns: 1fr 1.6fr 1fr;
+  border-top: 1.5px solid var(--ink);
+}
+.facts > * { padding: clamp(14px, 1.6vw, 22px); text-align: center; display: grid; place-content: center; gap: 6px; }
+.facts > * + * { border-left: 1.5px solid var(--ink); }
+.fact-small { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .2em; font-size: clamp(13px, 1.1vw, 17px); color: var(--bone); }
+.fact-big { font-family: var(--gothic); font-weight: 900; text-transform: uppercase; font-size: clamp(34px, 4vw, 64px); line-height: .9; color: var(--yellow); }
+.fact-mid { font-family: var(--slab); text-transform: uppercase; font-size: clamp(22px, 2.3vw, 36px); line-height: 1; color: var(--bone); }
+.hero .dadrock { width: 56%; margin-inline: auto; }
+.hero { padding-top: clamp(28px, 3.6vw, 56px); }
+.serving { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: clamp(12px, 1.6vw, 24px); row-gap: 2px; padding: clamp(14px, 1.8vw, 24px) 16px; border-top: var(--rule) solid var(--ink); text-align: center; }
+.serving .fact-big { white-space: nowrap; }
+@media (max-width: 640px) { .serving { flex-direction: column; align-items: center; } }
+.fact-center { display: flex !important; align-items: center; justify-content: center; gap: clamp(10px, 1.6vw, 22px); }
+.fact-center .hand { width: clamp(46px, 5vw, 78px); color: var(--yellow); flex: none; }
+.fact-center .songlink .fact-small:last-child { margin-top: .45em; }
+.fact-center .hand.flip { transform: scaleX(-1); }
+
+/* Ticket buttons: the action band */
+.actions {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1.5px solid var(--ink);
+}
+.orn {
+  display: flex; align-items: center; gap: 14px;
+  padding: clamp(28px, 3.4vw, 52px) clamp(14px, 2.4vw, 34px);
+  border-top: var(--rule) solid var(--ink);
+  color: var(--yellow);
+}
+.orn span { flex: 1; height: 7px; border-top: 3px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+.orn .star { width: 22px; color: var(--yellow); }
+.ticket {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  min-height: 60px; padding: 10px 18px;
+  font-family: var(--gothic); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(22px, 2.2vw, 34px); letter-spacing: .06em; line-height: 1;
+  text-decoration: none; text-align: center;
+  transition: background-color .18s ease-out, color .18s ease-out;
+}
+.ticket + .ticket { border-left: 1.5px solid var(--ink); }
+.ticket svg { width: .8em; height: .8em; flex: none; transition: transform .2s cubic-bezier(.2,.9,.2,1); }
+.ticket:hover svg { transform: translateX(4px); }
+.t-yellow { background: var(--yellow); color: var(--ink); }
+.t-yellow:hover { background: var(--bone); }
+.t-ink { background: var(--ink); color: var(--yellow); }
+.t-ink:hover { color: var(--bone); }
+.t-bone { background: var(--bone); color: var(--ink); }
+.t-bone:hover { background: var(--yellow); }
+
+/* Section header bands */
+.head {
+  padding: clamp(18px, 2.4vw, 34px) clamp(14px, 2.4vw, 34px) clamp(12px, 1.4vw, 18px);
+  border-top: var(--rule) solid var(--ink);
+}
+.head .band { --fallback: 12vw; }
+.head.knock { background: var(--ink); --pass: var(--stock); --stroke: var(--ink); --blend: normal; }
+.sub {
+  font-family: var(--gothic); font-weight: 800; text-transform: uppercase;
+  letter-spacing: .24em; font-size: clamp(14px, 1.3vw, 20px);
+  text-align: center; color: var(--bone); margin-top: 12px;
+  display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;
+}
+.sub .star { width: 14px; color: var(--yellow); }
+.sub > span { white-space: nowrap; display: inline-flex; align-items: center; gap: 14px; }
+
+/* ingrid */
+.album {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+}
+.album-art { padding: clamp(16px, 2.4vw, 36px); display: grid; gap: 22px; align-content: start; }
+.cover {
+  display: block; width: 100%; height: auto; aspect-ratio: 1;
+}
+.album-note {
+  font-family: var(--text); font-style: italic; font-size: clamp(19px, 1.6vw, 24px); line-height: 1.4;
+  color: var(--bone); text-align: center; text-wrap: balance;
+}
+.album-note::before, .album-note::after { font-family: var(--orn); color: var(--yellow); font-style: normal; }
+.album-note::before { content: "\201C"; }
+.album-note::after { content: "\201D"; }
+.tracks { padding: clamp(16px, 2.4vw, 36px) clamp(16px, 2.6vw, 40px); }
+.tracks ol { list-style: none; counter-reset: t; }
+.tracks li {
+  counter-increment: t;
+  display: grid; grid-template-columns: 2.4em 1fr; align-items: center;
+  padding: 4px 0 6px;
+}
+.tracks li::before {
+  content: counter(t);
+  font-family: var(--slab); font-size: clamp(16px, 1.4vw, 22px); color: var(--ink);
+  background: var(--yellow);
+  width: 1.9em; height: 1.9em; display: grid; place-items: center;
+  border-radius: 50%;
+}
+.tracks .band { justify-content: flex-start; text-align: left; --fallback: 6vw; }
+.tracks li:nth-child(odd) .band { color: var(--bone); }
+.tracks li:nth-child(even) .band { color: var(--yellow); }
+.tracks .gothic { font-weight: 800; }
+.listen {
+  border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); border-right: 1.5px solid var(--ink);
+  display: grid; grid-template-columns: auto repeat(5, 1fr);
+}
+.listen-label {
+  display: grid; place-items: center; padding: 14px 22px;
+  background: var(--ink); color: var(--yellow);
+  font-family: var(--gothic); font-weight: 900; text-transform: uppercase; letter-spacing: .14em;
+  font-size: clamp(18px, 1.6vw, 24px); line-height: 1.05; text-align: center;
+}
+.platform {
+  display: grid; place-items: center; min-height: 72px; padding: 12px 10px;
+  border-left: 1.5px solid var(--ink);
+  font-family: var(--gothic); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(18px, 1.6vw, 26px); letter-spacing: .08em; line-height: 1; text-align: center;
+  text-decoration: none; color: var(--bone);
+  transition: background-color .18s ease-out, color .18s ease-out;
+}
+.platform:hover { background: var(--yellow); color: var(--ink); }
+
+/* New singles: three ruled cells, covers printed in one ink */
+.releases {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.release {
+  min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr);
+  grid-row: span 4; grid-template-rows: subgrid; row-gap: 14px;
+  padding: clamp(14px, 1.8vw, 26px); text-align: center;
+}
+.inkcover { aspect-ratio: 1; background: var(--yellow); border: 3px solid var(--ink); overflow: hidden; }
+.inkcover img {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(1) contrast(1.45) brightness(1.05);
+  mix-blend-mode: multiply;
+}
+.release-title { align-self: center; display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; gap: .08em; }
+.release-title .band { --fallback: 6vw; color: var(--yellow); }
+.release-meta {
+  display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap;
+  font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .2em;
+  font-size: 16px; color: var(--bone);
+  border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); padding: 8px 0;
+}
+.release-meta > span { display: inline-flex; align-items: center; gap: 12px; white-space: nowrap; }
+.release-meta .star { width: 13px; color: var(--yellow); }
+.release-meta time { white-space: nowrap; }
+.release-play {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  min-height: 56px; padding: 10px 16px;
+  background: var(--yellow); color: var(--ink); text-decoration: none;
+  font-family: var(--gothic); font-weight: 900; text-transform: uppercase; letter-spacing: .08em;
+  font-size: clamp(19px, 1.7vw, 24px); line-height: 1;
+  transition: background-color .18s ease-out;
+}
+.release-play:hover { background: var(--bone); }
+.release-play svg { width: .8em; height: .8em; flex: none; }
+
+/* Holiday single */
+.single { border-bottom: 10px solid var(--stock);
+  border-top: var(--rule) solid var(--ink);
+  background: var(--ink);
+  color: var(--bone);
+  display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); align-items: center;
+}
+/* Holiday section: a printed winter night behind the single, drawn in the poster's own inks */
+.single { position: relative; overflow: hidden; isolation: isolate; }
+.single > figure, .single > .single-copy { position: relative; z-index: 2; }
+.winter { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.single { --night: #10203a; background: linear-gradient(180deg, #0c1a31 0%, #17304f 70%, #1f3d60 100%); }
+.w-hill-far { fill: #8fa1b6; }
+.w-far { fill: #2c6150; }
+.w-hill { fill: #b4bfcd; }
+.w-near { fill: #44725f; }
+.snow { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+.single figure { margin: clamp(14px, 2vw, 28px); border: 2px solid var(--yellow); justify-self: center;
+  /* Same width as a New Singles cover: one third of the sheet, less that card's padding */
+  width: calc((min(100vw, 1440px) - 2 * var(--gut)) / 3 - 2 * clamp(14px, 1.8vw, 26px)); }
+@media (max-width: 980px) { .single figure { margin-inline: auto; } }
+@media (max-width: 640px) { .single figure { width: calc(100% - 2 * clamp(14px, 2vw, 28px)); max-width: 320px; } }
+.single figure img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+.single-copy { padding: clamp(20px, 3vw, 44px) clamp(18px, 3vw, 44px) clamp(20px, 3vw, 44px) 0; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+.single-copy .kick { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .3em; font-size: 16px; color: var(--yellow); display: flex; align-items: center; gap: 12px; }
+.single-copy .kick .star { width: 16px; color: var(--yellow); }
+.single-copy .band { justify-content: flex-start; text-align: left; --fallback: 9vw; color: var(--yellow); --pass: var(--stock); --stroke: var(--ink); --blend: normal; }
+.single-copy p.blurb { font-size: 19px; max-width: 34ch; color: var(--bone); }
+.single-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.single-links a {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 12px 20px; border: 2px solid var(--yellow); background: var(--night, var(--ink));
+  font-family: var(--gothic); font-weight: 900; text-transform: uppercase; letter-spacing: .1em; font-size: 22px; line-height: 1;
+  text-decoration: none; color: var(--yellow);
+  transition: background-color .18s ease-out, color .18s ease-out;
+}
+.single-links a:hover { background: var(--yellow); color: var(--ink); }
+.single-links svg { width: 16px; height: 16px; }
+
+/* The band */
+.lineup {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1.5px solid var(--ink);
+}
+.member { min-width: 0; padding: clamp(14px, 1.8vw, 24px); display: grid; grid-template-columns: minmax(0, 1fr); grid-row: span 3; grid-template-rows: subgrid; row-gap: 12px; text-align: center; }
+.member .name { align-self: center; display: grid; gap: .1em; }
+.halftone {
+  position: relative; aspect-ratio: 1; overflow: hidden;
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  isolation: isolate;
+}
+.halftone img {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+  mix-blend-mode: multiply;
+}
+.member .band { --fallback: 7vw; color: var(--yellow); }
+.member .aka { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .3em; font-size: 14px; color: var(--bone); }
+.member .tag {
+  font-family: var(--text); font-style: italic; font-size: 18px; line-height: 1.35; color: var(--bone);
+  border-top: 1.5px solid var(--ink); padding-top: 10px;
+}
+
+/* Bio: a bone handbill pasted onto the poster */
+.story { border-top: var(--rule) solid var(--ink); padding: clamp(18px, 3vw, 48px); }
+#band { margin-top: clamp(36px, 5vw, 80px); }
+.handbill {
+  background: var(--bone); color: var(--ink);
+  padding: clamp(22px, 3.4vw, 56px);
+}
+.handbill .band { --fallback: 9vw; color: var(--stock); --stroke: var(--bone); }
+.handbill .sub { color: var(--ink); }
+.handbill .sub .star { color: var(--stock); }
+.bio {
+  columns: 2 32ch; column-gap: clamp(28px, 4vw, 64px); column-rule: 1.5px solid var(--ink);
+  margin-top: clamp(20px, 2.6vw, 36px);
+  font-size: 18.5px; line-height: 1.62;
+  hyphens: auto;
+}
+.bio p + p { margin-top: 1em; }
+.bio p:first-child::first-letter {
+  font-family: var(--slab); color: var(--stock);
+  float: left; font-size: 4.6em; line-height: .82; margin: .06em .1em 0 0;
+}
+.thanks {
+  text-align: center; margin-top: clamp(22px, 2.8vw, 38px);
+  font-family: var(--orn); color: var(--stock); font-size: clamp(26px, 3vw, 44px); line-height: 1;
+}
+
+/* Booking */
+.book { border-top: var(--rule) solid var(--ink); background: var(--yellow); color: var(--ink); --stroke: var(--yellow); }
+.book .book-1 { --pass: var(--stock); }
+.book .head { border-top: 0; }
+.book .band { --fallback: 14vw; }
+.book .book-1 { color: var(--ink); }
+.book .book-2 { color: var(--stock); }
+.book .sub { color: var(--ink); letter-spacing: .14em; font-size: clamp(16px, 1.6vw, 24px); }
+.book .sub .star { color: var(--stock); }
+.dm {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: var(--rule) solid var(--ink);
+}
+.dm a {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  min-height: 96px; padding: 16px;
+  font-family: var(--gothic); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(22px, 2.4vw, 38px); letter-spacing: .06em; line-height: 1; text-decoration: none;
+  color: var(--ink);
+  transition: background-color .18s ease-out, color .18s ease-out;
+}
+.dm a + a { border-left: 1.5px solid var(--ink); }
+.dm a:first-child { background: var(--ink); color: var(--yellow); }
+.dm a:hover { background: var(--stock); color: var(--bone); }
+.dm small { display: block; font-family: var(--text); font-weight: 600; font-size: 14px; letter-spacing: .02em; text-transform: none; margin-top: 6px; opacity: .85; }
+.dm .hand { width: 54px; flex: none; }
+
+/* Foot */
+.foot {
+  border-top: var(--rule) solid var(--ink);
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px;
+  padding: clamp(16px, 2vw, 26px) clamp(16px, 2.4vw, 34px);
+}
+.foot .logo { width: clamp(150px, 16vw, 220px); color: var(--yellow); display: block; }
+.foot p { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .2em; font-size: 14px; color: var(--bone); text-align: center; }
+.foot nav { display: flex; gap: 18px; }
+.foot nav a { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .14em; font-size: 16px; text-underline-offset: 5px; }
+.foot nav a:hover { color: var(--yellow); }
+
+.hero-logo { position: relative; display: block; width: 100%; max-width: min(100%, calc(48vh * 1.828)); margin: clamp(28px, 4vw, 64px) auto clamp(32px, 4.4vw, 72px); }
+.hero-logo svg { display: block; width: 100%; height: auto; }
+.hero-logo .ink1 { position: relative; color: var(--yellow); }
+.hero-logo .ink2 { position: absolute; inset: 0; color: var(--ink); transform: translate(.55%, .9%); mix-blend-mode: multiply; }
+.press.inked .hero-logo .ink2 { animation: slip-logo .7s cubic-bezier(.16, .9, .2, 1) .16s both; }
+@keyframes slip-logo { from { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .press.inked .hero-logo .ink2 { animation: none; } }
+/* Every song and album mention is a Spotify link */
+.songlink { display: block; color: inherit; text-decoration: none; transition: filter .2s, transform .2s; }
+.songlink:hover { filter: brightness(1.18); }
+.songlink:focus-visible { outline: 3px solid var(--bone); outline-offset: 4px; }
+.tracks .songlink:hover .fit { text-decoration: none; }
+.tracks .songlink:hover { filter: none; }
+.tracks .songlink:hover .band { color: var(--bone); }
+.songlink { min-width: 0; }
+.release-title .songlink { display: grid; grid-template-columns: minmax(0, 1fr); gap: inherit; }
+.facts > * > .songlink { display: grid; place-content: center; gap: 6px; }
+.logo-hero { display: block; width: clamp(120px, 12vw, 170px); color: var(--yellow); }
+
+/* Press pull: each run of ink strikes once as its section comes under the platen.
+   Content never starts hidden; the strike is a thump of the main ink and the
+   second run sliding from registered to its off-register rest. */
+@keyframes strike {
+  0% { transform: translateY(-.06em) scale(1.018); filter: blur(1.2px); }
+  55% { transform: translateY(.012em) scale(.998); filter: none; }
+  100% { transform: none; filter: none; }
+}
+@keyframes slip {
+  from { transform: translate(0, 0); opacity: 0; }
+  to { transform: translate(var(--rx, .03em), var(--ry, .03em)); opacity: 1; }
+}
+.press.inked .band > .fit { animation: strike .5s cubic-bezier(.16, .9, .2, 1) both; }
+.press.inked .band > .fit.reg::before { animation: slip .7s cubic-bezier(.16, .9, .2, 1) .16s both; }
+.press.inked .band:nth-of-type(2) > .fit { animation-delay: .07s; }
+.press.inked .band:nth-of-type(3) > .fit { animation-delay: .14s; }
+@media (prefers-reduced-motion: reduce) {
+  .press.inked .band > .fit, .press.inked .band > .fit.reg::before { animation: none; }
+}
+
+/* Narrow sheets: boxes stack, the bands keep filling the measure */
+@media (max-width: 980px) {
+  .strip-home { border-right: 0; }
+  .facts { grid-template-columns: 1fr 1fr; }
+  .facts .fact-center { grid-column: 1 / -1; grid-row: 1; border-left: 0 !important; border-bottom: 1.5px solid var(--ink); }
+  .facts > :nth-child(3) { border-left: 1.5px solid var(--ink); }
+  .album { grid-template-columns: minmax(0, 1fr); }
+  .album-art .cover { max-width: 560px; justify-self: center; }
+  .listen { grid-template-columns: repeat(2, 1fr); }
+  .listen-label { grid-column: 1 / -1; }
+  .platform:nth-child(even) { border-left: 0; }
+  .platform { border-top: 1.5px solid var(--ink); }
+  .platform:last-child { grid-column: 1 / -1; }
+  .single { grid-template-columns: minmax(0, 1fr); }
+  .single-copy { padding: 0 clamp(18px, 4vw, 34px) clamp(24px, 5vw, 40px); }
+  .lineup { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .releases { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .member:nth-child(3) { border-left: 0; }
+  .foot { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
+}
+@media (max-width: 640px) {
+  body { font-size: 17px; }
+  .sheet { margin: 4px; outline-offset: 3px; }
+  :root { --rule: 0px; }
+        .strip-home { padding: 10px 12px; font-size: 16px; letter-spacing: .03em; white-space: nowrap; }
+  .strip-home small { font-size: 11px; letter-spacing: .16em; }
+  .strip-cta { font-size: 16px; padding: 0 12px; margin: 6px; }
+  .strip-cta svg { display: none; }
+  .facts { grid-template-columns: minmax(0, 1fr); }
+  .facts > :nth-child(3) { border-left: 0; border-top: 1.5px solid var(--ink); }
+  .actions, .dm { grid-template-columns: minmax(0, 1fr); }
+  .ticket + .ticket, .dm a + a { border-left: 0; border-top: 1.5px solid var(--ink); }
+  .ticket { min-height: 68px; }
+  .premiere { letter-spacing: .14em; gap: 10px; }
+  .lineup { grid-template-columns: minmax(0, 1fr); }
+  .releases { grid-template-columns: minmax(0, 1fr); }
+  .release .inkcover { max-width: 320px; width: 100%; justify-self: center; }
+  .member .halftone { max-width: 320px; width: 100%; justify-self: center; }
+  .bio { columns: 1; font-size: 17.5px; }
+  .single-links a { flex: 1; justify-content: center; white-space: nowrap; font-size: 19px; padding: 12px 14px; }
+  .foot nav { flex-wrap: wrap; justify-content: center; }
+}
+
+/* Play row: one play strip per single, one icon per service */
+.play-row { display: grid; grid-template-columns: auto repeat(4, minmax(0, 1fr)); min-height: 58px; border: 1.5px solid var(--ink); background: var(--yellow); }
+.play-label {
+  display: flex; align-items: center; gap: 10px; padding: 0 18px;
+  background: var(--ink); color: var(--yellow);
+  font-family: var(--gothic); font-weight: 900; text-transform: uppercase; letter-spacing: .1em; font-size: clamp(19px, 1.7vw, 24px); line-height: 1;
+}
+.play-label svg { width: .8em; height: .8em; flex: none; }
+.play-svc { display: grid; place-items: center; color: var(--ink); transition: background-color .18s ease-out, color .18s ease-out; }
+.play-svc + .play-svc { border-left: 1.5px solid var(--ink); }
+.play-svc svg { width: 26px; height: 26px; transition: transform .2s cubic-bezier(.2, .9, .2, 1); }
+.play-svc:hover { background: var(--bone); }
+.play-svc:hover svg { transform: scale(1.12); }
+.play-svc:focus-visible { outline: 3px solid var(--bone); outline-offset: -5px; }
+.single .play-row { margin-top: 8px; max-width: 460px; border: 2px solid var(--yellow); background: var(--night, var(--ink)); }
+.single .play-label { background: var(--yellow); color: var(--ink); }
+.single .play-svc { color: var(--yellow); }
+.single .play-svc + .play-svc { border-left: 2px solid var(--yellow); }
+.single .play-svc:hover { background: var(--yellow); color: var(--ink); }
+.platform { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.platform svg { width: 1.05em; height: 1.05em; flex: none; }
+.play-svc svg.wide { width: 46px; height: 46px; }
+.platform svg.wide { width: 1.9em; height: 1.9em; margin-block: -.4em; }
+@media (max-width: 640px) { .play-label { padding: 0 14px; } .play-svc svg.wide { width: 42px; height: 42px; } .play-svc svg { width: 24px; height: 24px; } }
+
+/* Holiday greeting across the top of the winter scene */
+.single > .holiday { grid-column: 1 / -1; position: relative; z-index: 2; text-align: center; padding: clamp(26px, 3.6vw, 56px) clamp(18px, 4vw, 64px) clamp(4px, 1vw, 12px); }
+.holiday .band { --fallback: 9vw; font-family: var(--orn); color: var(--yellow); --pass: var(--ink); --stroke: var(--night); --blend: normal; }
+.holiday-note { max-width: 60ch; margin: clamp(14px, 1.6vw, 22px) auto 0; font-style: italic; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.5; color: var(--bone); text-wrap: balance; }
+</style>
 </head>
 <body>
-    <div class="noise-overlay"></div>
-    
-    <header>
-        <div class="logo-container">
-            <div class="header-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1105.756" height="153.909" viewBox="0 0 1105.756 153.909" class="header-logo-svg">
-                    <defs>
-                        <clipPath id="header-logo-clip">
-                            <rect width="1105.756" height="153.909" fill="none"/>
-                        </clipPath>
-                    </defs>
-                    <g transform="translate(0 0)">
-                        <g transform="translate(0 0)" clip-path="url(#header-logo-clip)">
-                            <path class="header-logo-path" d="M10.12,153.449C3.842,153.442-.01,149.013,0,138.685L.039,96.318l29.976.026L30,111.944c0,1.686.566,2.95,1.85,2.95,1.144,0,1.859-1.262,1.859-2.948l.019-20.236L9.889,91.689c-6.85,0-9.843-5.7-9.834-14.974L.108,14.957C.118,5.682,3.119,0,9.969,0L53.938.039c6.85.007,9.843,5.7,9.834,14.976l-.029,32.669-29.976-.024,0-5.9c0-1.686-.566-2.953-1.85-2.953s-1.859,1.264-1.859,2.95l-.01,11.38,23.839.022c6.85.007,9.841,5.7,9.831,14.974l-.06,70.4c-.01,9.275-3.011,14.966-10,14.959Z" transform="translate(0 0)" fill="#040504"/>
-                            <path class="header-logo-path" d="M61.135,114.925l2.278,0L63.519,1.739,93.5,1.765l-.1,111.082c0,1.476.568,2.107,1.423,2.11h1.712l.092-99.909c.007-9.275,3.011-14.961,10-14.957l19.983.019-.123,138.481c-.012,9.275-3.011,14.964-10,14.957l-4.855,0L75.376,153.3v.21l-35.833-.031c-6.847,0-9.841-5.7-9.834-14.976L29.832.024,49.673.041C55.954.046,59.805,4.475,59.8,14.8l-.087,97.17c0,2.11.421,2.953,1.426,2.953" transform="translate(41.845 0.034)" fill="#040504"/>
-                            <path class="header-logo-path" d="M103.254,38.751l-.1,114.663-29.976-.026.1-114.665ZM103.285.176l-.029,34.147L73.28,34.3,73.309.15Z" transform="translate(103.064 0.212)" fill="#040504"/>
-                            <path class="header-logo-path" d="M121.127,38.966l-2.141,0-.1,114.665L88.906,153.6,89.041.153,175.973.021c6.85,0,9.843,5.7,9.834,14.974l-.12,138.695-20.128-.019c-6.85,0-9.843-5.7-9.834-14.976l.087-96.958c0-1.9-.426-2.738-1.57-2.95h-1.568l-.1,114.875-20.125-.019c-6.855,0-9.848-5.7-9.839-14.976l.087-97.589c-.14-1.476-.708-1.9-1.566-2.11" transform="translate(125.223 0.03)" fill="#040504"/>
-                            <path class="header-logo-path" d="M164.591,39H162.45l-.1,114.665-29.978-.029L132.5.195,219.437.06c6.85.007,9.843,5.7,9.834,14.974l-.12,138.692-20.128-.019c-6.85,0-9.843-5.7-9.834-14.971l.087-96.958c0-1.9-.426-2.741-1.57-2.955h-1.568l-.1,114.875-20.125-.019c-6.855,0-9.848-5.7-9.839-14.974l.087-97.592c-.14-1.474-.708-1.9-1.566-2.11" transform="translate(186.441 0.085)" fill="#040504"/>
-                            <path class="header-logo-path" d="M205.915,38.842l-.1,114.663-29.976-.026.1-114.665ZM205.946.267l-.029,34.147-29.976-.029L175.97.241Z" transform="translate(247.661 0.34)" fill="#040504"/>
-                            <path class="header-logo-path" d="M223.788,38.981l-2.141,0-.1,114.665-29.978-.026L191.7.168l53.815.048c6.852.007,9.846,5.7,9.836,14.974l-.123,138.483-20.125-.017c-6.855-.007-9.848-5.7-9.839-14.976l.087-97.589c-.14-1.476-.568-1.9-1.565-2.11" transform="translate(269.819 0.237)" fill="#040504"/>
-                            <path class="header-logo-path" d="M284.56,118.637c1.855,0,2.57-1.474,2.575-4l.1-114.608h29.978l-.13,135.887c-.01,9.275-3.008,14.961-9.86,14.954l-53.815-.046.031-32.211Z" transform="translate(356.922 0.037)" fill="#040504"/>
-                            <path class="header-logo-path" d="M283.38,153.464,283.5,14.984c.01-9.275,3.011-14.964,9.86-14.957l43.822.039c7,0,9.99,5.7,9.981,14.976l-.123,138.481-29.976-.026.048-56.067-3.709,0-.048,56.069ZM313.457,41.778l-.029,32.038,3.709,0,.029-32.04c0-1.686-.568-2.95-1.852-2.95s-1.857,1.262-1.857,2.948" transform="translate(399.136 0.039)" fill="#040504"/>
-                            <path class="header-logo-path" d="M362.7.093c6.284.007,10.132,4.436,10.123,14.764l-.087,96.961c0,2.317.568,3.16,1.994,3.162h1.712l.1-113.189,29.976.029-.135,151.761-53.815-.048c-6.85,0-9.843-5.7-9.834-14.976L342.861.076Z" transform="translate(482.745 0.108)" fill="#040504"/>
-                            <path class="header-logo-path" d="M372.7,153.544l.123-138.481c.01-9.275,3.011-14.964,9.86-14.957l43.822.039c7,0,9.99,5.7,9.981,14.974L436.366,153.6l-29.976-.026.048-56.067-3.709,0-.048,56.069ZM402.78,41.858,402.751,73.9l3.709,0,.029-32.04c0-1.686-.568-2.95-1.852-2.95s-1.857,1.262-1.857,2.948" transform="translate(524.946 0.151)" fill="#040504"/>
-                            <path class="header-logo-path" d="M434.416,88.686H432.7l-.058,64.918-29.976-.026L402.8.129l53.815.048c6.421,0,9.844,5.7,9.839,13.709l-.046,48.059c-.007,9.273-3.011,14.964-9.86,14.957h-.144l0,2.953h.145c6.85,0,9.843,5.7,9.834,14.971l-.05,58.808-20.125-.017c-6.854-.007-9.848-5.7-9.839-14.974l.041-47c0-2.317-.568-2.953-1.992-2.953m2.04-49.742-3.709,0-.029,32.038,1.712,0c1.139,0,1.854-.421,2-2.107Z" transform="translate(567.149 0.182)" fill="#040504"/>
-                            <path class="header-logo-path" d="M442.751,153.609c-6.279-.007-10.13-4.436-10.121-14.764l.039-42.368,29.976.026-.014,15.6c0,1.686.566,2.95,1.85,2.95,1.144,0,1.859-1.262,1.859-2.948l.019-20.236-23.839-.022c-6.85,0-9.843-5.7-9.834-14.974l.053-61.758C432.749,5.842,435.75.155,442.6.16L486.569.2c6.85.007,9.843,5.7,9.834,14.976l-.029,32.669L466.4,47.819l0-5.9c0-1.686-.566-2.953-1.85-2.953s-1.859,1.264-1.859,2.95l-.01,11.38,23.839.022c6.85.007,9.841,5.7,9.831,14.974l-.06,70.4c-.01,9.275-3.011,14.966-10,14.959Z" transform="translate(609.353 0.226)" fill="#040504"/>
-                            <path class="header-logo-path" d="M9.215,6.91v.5H36.5v6.594H9.711c-.347,0-.5.125-.5.313V14.7H32.7c2.18,0,3.8.66,3.8,2.2v4.4H3.666c-2.18,0-3.666-.66-3.666-2.2V2.168C0,.66,1.486,0,3.666,0H36.5V4.367c0,1.38-1.32,2.23-3.748,2.23H9.908c-.5,0-.694.094-.694.313" transform="translate(638.782 113.866) rotate(180)" fill="#040504"/>
-                            <path class="header-logo-path" d="M36.5,6.6H28.145V0H36.5Zm-9.4,0H0V0H27.105Z" transform="translate(638.782 90.283) rotate(180)" fill="#040504"/>
-                            <path class="header-logo-path" d="M15.113,14.008H3.668c-2.182,0-3.668-.66-3.668-2.17V2.168C0,.66,1.486,0,3.668,0H36.505V6.6h-9.4v7.411H16.946V6.6H9.959c-.544,0-.742.123-.742.438v.376h5.9Z" transform="translate(638.785 81.395) rotate(180)" fill="#040504"/>
-                            <path class="header-logo-path" d="M3.666,6.594C1.486,6.594,0,5.934,0,4.427V0H36.5V4.427c0,1.508-1.618,2.168-3.8,2.168H20.067c-.4,0-.5.125-.5.407s.1.409.5.409H32.7c2.18,0,3.8.66,3.8,2.168v4.427H0V9.579C0,8.071,1.486,7.411,3.666,7.411H14.713c.5,0,.7-.125.7-.409s-.149-.407-.7-.407Z" transform="translate(638.782 65.097) rotate(180)" fill="#040504"/>
-                            <path class="header-logo-path" d="M15.113,14.008H3.668C1.486,14.008,0,13.348,0,11.84V2.168C0,.66,1.486,0,3.668,0H36.505V6.6h-9.4v7.411H16.946V6.6H9.959c-.544,0-.742.125-.742.438v.376h5.9Z" transform="translate(638.785 45.116) rotate(180)" fill="#040504"/>
-                            <path class="header-logo-path" d="M3.666,6.6C1.486,6.6,0,5.937,0,4.429V0H36.5V4.429c0,1.508-1.618,2.168-3.8,2.168H20.067c-.4,0-.5.125-.5.407s.1.409.5.409H32.7c2.18,0,3.8.66,3.8,2.168v4.427H0V9.581C0,8.073,1.486,7.413,3.666,7.413H14.713c.5,0,.7-.125.7-.409s-.149-.407-.7-.407Z" transform="translate(638.782 28.804) rotate(180)" fill="#040504"/>
-                            <path class="header-logo-path" d="M36.5,11.6H25.031V5.725c0-.157-.21-.26-.691-.26h-.829V11.6H12.806V5.465h-.831c-.484,0-.689.1-.689.26V11.6H0V1.8C0,.549,1.958,0,5,0h26.32C34.355,0,36.5.549,36.5,1.8Z" transform="translate(638.782 12.491) rotate(180)" fill="#040504"/>
-                            <path class="header-logo-path" d="M283.705,60.361H254.341V71.97h1.44c.159,0,.287.222.287.491v38.261c0,1.079-.833,2.064-2.584,2.064-1.724,0-2.873-.985-2.873-1.968l.087-7.647-.048-43.078c0-2.864.694-3.683,2.512-3.685l30.458-.026L283.585.368H230.911c-6.705,0-9.636,7.36-9.629,16.363l.108,119.894c.007,9,2.948,14.9,9.653,14.892h43.032c6.71-.007,9.639-5.944,9.629-15.152Z" transform="translate(311.672 0.519)" fill="#040504"/>
-                            <path class="header-logo-path" d="M375.766,60.361H346.4V71.97h1.44c.159,0,.287.222.287.491v38.261c0,1.079-.833,2.064-2.584,2.064-1.724,0-2.873-.985-2.873-1.968l.087-7.647-.048-43.078c0-2.864.694-3.683,2.512-3.685l30.458-.026L375.646.368H322.972c-6.705,0-9.636,7.36-9.629,16.363l.108,119.894c.007,9,2.948,14.9,9.653,14.892h43.032c6.71-.007,9.639-5.944,9.629-15.152Z" transform="translate(441.338 0.519)" fill="#040504"/>
-                        </g>
-                    </g>
-                </svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-star" viewBox="0 0 40 38">
+      <path fill="currentColor" d="M20 0l4.9 13.6 14.6.5-11.5 9 4 14-12-8.2-12 8.2 4-14L.5 14.1l14.6-.5z"/>
+    </symbol>
+    <symbol id="i-hand" viewBox="0 0 120 60">
+      <!-- a printer's manicule: cuff, fist, extended index finger -->
+      <path fill="currentColor" d="M2 14h16v34H2z"/>
+      <path fill="currentColor" d="M21 16c6-3 12-6 19-8 5-1.5 9 .5 11 3l3 4h54c6 0 10 3.5 10 8s-4 8-10 8H71c1.4 1.4 2.2 3.3 2.2 5.3 0 2.4-1.2 4.4-3 5.6 1.5 1.3 2.4 3.2 2.4 5.2 0 3.4-2.4 6.2-5.6 6.8.4.9.6 1.8.6 2.8 0 3.9-3.1 6.3-7 6.3H40c-8 0-14-3-19-6z"/>
+      <path fill="none" stroke="var(--knuckle, #1a120f)" stroke-width="2.4" stroke-linecap="round" d="M56 31h12m-12 10.4h11.4M56 51.6h9.6M52 23h54"/>
+    </symbol>
+    <symbol id="i-arrow" viewBox="0 0 20 20">
+      <path fill="currentColor" d="M2 8.2h10.6L8.4 4l2.5-2.5L19.4 10l-8.5 8.5-2.5-2.5 4.2-4.2H2z"/>
+    </symbol>
+    <symbol id="i-spotify" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></symbol>
+    <symbol id="i-applemusic" viewBox="0 0 24 24"><path fill="currentColor" d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026-.747.043-1.49.123-2.193.4-1.336.53-2.3 1.452-2.865 2.78-.192.448-.292.925-.363 1.408-.056.392-.088.785-.1 1.18 0 .032-.007.062-.01.093v12.223c.01.14.017.283.027.424.05.815.154 1.624.497 2.373.65 1.42 1.738 2.353 3.234 2.801.42.127.856.187 1.293.228.555.053 1.11.06 1.667.06h11.03a12.5 12.5 0 001.57-.1c.822-.106 1.596-.35 2.295-.81a5.046 5.046 0 001.88-2.207c.186-.42.293-.87.37-1.324.113-.675.138-1.358.137-2.04-.002-3.8 0-7.595-.003-11.393zm-6.423 3.99v5.712c0 .417-.058.827-.244 1.206-.29.59-.76.962-1.388 1.14-.35.1-.706.157-1.07.173-.95.045-1.773-.6-1.943-1.536a1.88 1.88 0 011.038-2.022c.323-.16.67-.25 1.018-.324.378-.082.758-.153 1.134-.24.274-.063.457-.23.51-.516a.904.904 0 00.02-.193c0-1.815 0-3.63-.002-5.443a.725.725 0 00-.026-.185c-.04-.15-.15-.243-.304-.234-.16.01-.318.035-.475.066-.76.15-1.52.303-2.28.456l-2.325.47-1.374.278c-.016.003-.032.01-.048.013-.277.077-.377.203-.39.49-.002.042 0 .086 0 .13-.002 2.602 0 5.204-.003 7.805 0 .42-.047.836-.215 1.227-.278.64-.77 1.04-1.434 1.233-.35.1-.71.16-1.075.172-.96.036-1.755-.6-1.92-1.544-.14-.812.23-1.685 1.154-2.075.357-.15.73-.232 1.108-.31.287-.06.575-.116.86-.177.383-.083.583-.323.6-.714v-.15c0-2.96 0-5.922.002-8.882 0-.123.013-.25.042-.37.07-.285.273-.448.546-.518.255-.066.515-.112.774-.165.733-.15 1.466-.296 2.2-.444l2.27-.46c.67-.134 1.34-.27 2.01-.403.22-.043.442-.088.663-.106.31-.025.523.17.554.482.008.073.012.148.012.223.002 1.91.002 3.822 0 5.732z"/></symbol>
+    <symbol id="i-youtubemusic" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12l-6.132 3.54z"/></symbol>
+    <symbol id="i-amazonmusic" viewBox="0 0 24 24"><path fill="currentColor" d="M14.8454 9.4083c-1.3907 1.0194-3.405 1.563-5.1424 1.563a9.333 9.333 0 0 1-6.2768-2.3835c-.1313-.117-.0143-.277.1415-.1846a12.693 12.693 0 0 0 6.285 1.6574c1.5384 0 3.2348-.318 4.7917-.9764.2359-.0985.4328.1538.203.324h-.002zm.5784-.6564c-.1784-.2257-1.1753-.1087-1.6225-.0554-.1374.0164-.158-.1026-.0349-.1867.796-.5558 2.0984-.3958 2.2502-.2092.1539.1867-.041 1.4872-.7856 2.1087-.1149.0964-.2236.0451-.1723-.082.1682-.4165.5436-1.3498.3651-1.5754zm-1.5917-4.1702v-.5394c0-.082.0615-.1375.1374-.1375h2.4348c.078 0 .1395.0554.1395.1354v.4636c0 .078-.0656.1805-.1846.3405L15.0997 6.635c.4677-.0102.9641.0595 1.3887.2974.0964.0534.123.1334.1292.2113v.5744c0 .082-.0882.1723-.1784.123a2.8163 2.8163 0 0 0-2.5723.0062c-.0861.0451-.1743-.0451-.1743-.1251v-.5477c0-.0882.002-.238.0902-.3713l1.4626-2.0881h-1.2718c-.078 0-.1415-.0534-.1436-.1354l.002.002zm4.808-.7466c1.0995 0 1.6944.9395 1.6944 2.1333 0 1.1528-.6564 2.0676-1.6943 2.0676-1.079 0-1.6656-.9395-1.6656-2.1087 0-1.1774.5948-2.0922 1.6656-2.0922zm.0062.7713c-.5456 0-.5805.7384-.5805 1.202 0 .4615-.0061 1.4481.5744 1.4481.5743 0 .601-.7958.601-1.282 0-.318-.0144-.6994-.1108-1.001-.082-.2625-.2482-.3671-.4841-.3671zm-6.008 3.3414c-.0493.041-.1395.0451-.1744.0164-.2543-.1949-.4246-.4923-.4246-.4923-.4061.4123-.6954.5374-1.2225.5374-.6215 0-1.1077-.3835-1.1077-1.1486a1.2512 1.2512 0 0 1 .7897-1.2041c.402-.1764.9641-.2072 1.3928-.2564 0 0 .0349-.4615-.0902-.6297a.521.521 0 0 0-.4164-.1908c-.2728 0-.5395.1477-.5928.4328-.0144.082-.0739.1518-.1395.1436L9.945 5.08a.1292.1292 0 0 1-.1108-.1537c.1641-.8657.9498-1.1282 1.6554-1.1282.361 0 .8307.0964 1.1158.3671.359.3344.3262.7795.3262 1.2677v1.1487c0 .3446.1436.4964.279.681.0471.0677.0574.1477-.002.197-.1519.125-.5703.4881-.5703.4881zm-.7467-1.7969v-.16c-.5353 0-1.1015.115-1.1015.7426 0 .318.1662.5333.4513.5333.2051 0 .3938-.1272.5128-.3344.1436-.2564.1374-.4943.1374-.7815zM2.9278 7.948c-.0472.041-.1375.045-.1723.0163-.2544-.1949-.4246-.4923-.4246-.4923-.4082.4123-.6954.5374-1.2226.5374-.6235 0-1.1076-.3835-1.1076-1.1486a1.2512 1.2512 0 0 1 .7897-1.2041c.402-.1764.964-.2072 1.3928-.2564 0 0 .0348-.4615-.0903-.6297a.521.521 0 0 0-.4164-.1908c-.2748 0-.5395.1477-.5928.4328-.0143.082-.0759.1518-.1395.1436L.2345 5.08a.1292.1292 0 0 1-.1087-.1537c.162-.8657.9497-1.1282 1.6553-1.1282.361 0 .8308.0964 1.1159.3671.359.3344.324.7795.324 1.2677v1.1487c0 .3446.1437.4964.279.681.0472.0677.0575.1477-.002.197-.1518.125-.5702.4881-.5702.4881zm-.7446-1.797v-.16c-.5354 0-1.1015.115-1.1015.7426 0 .318.164.5333.4512.5333.2052 0 .3939-.1272.5128-.3344.1436-.2564.1375-.4943.1375-.7815zm2.9127-.3343v2.002a.1379.1379 0 0 1-.1395.1374H4.218a.1374.1374 0 0 1-.1395-.1374v-3.766a.1379.1379 0 0 1 .1395-.1375h.6913a.1374.1374 0 0 1 .1374.1374v.482h.0143c.1805-.4758.519-.6994.9744-.6994.4636 0 .7528.2236.962.6995a1.0523 1.0523 0 0 1 1.0215-.6995c.3118 0 .6502.1272.8574.4143.236.318.1867.7795.1867 1.1857v2.3855c0 .076-.0636.1354-.1436.1354H8.181a.1374.1374 0 0 1-.1334-.1354v-2.004c0-.16.0144-.558-.0205-.7077-.0554-.2564-.2215-.3282-.4369-.3282a.4923.4923 0 0 0-.441.3118c-.076.1908-.0698.5087-.0698.724v2.0041c0 .076-.0635.1354-.1435.1354h-.7385a.1374.1374 0 0 1-.1333-.1354v-2.004c0-.4226.0677-1.042-.4574-1.042-.5334 0-.5128.603-.5128 1.042h.002zm16.8077 2.002a.1374.1374 0 0 1-.1374.1374h-.7405a.1374.1374 0 0 1-.1374-.1374v-3.766a.1374.1374 0 0 1 .1374-.1375h.683c.0821 0 .1396.0636.1396.1067v.5764h.0143c.2051-.517.4964-.7631 1.0092-.7631.3323 0 .6564.119.8636.4451.1928.3036.1928.8123.1928 1.1774V7.837a.1395.1395 0 0 1-.1415.119h-.7426a.1395.1395 0 0 1-.1313-.119V5.552c0-.763-.2933-.7856-.4635-.7856-.197 0-.357.1538-.4246.2953a1.7025 1.7025 0 0 0-.1231.722l.002 2.0349zM.1914 20.0582c-.1271 0-.1907-.0615-.1907-.1907v-4.4491c0-.1272.0636-.1908.1907-.1908H.616c.0616 0 .1129.0144.1477.039.0349.0246.0595.0738.0718.1436l.0575.3035c.6133-.4184 1.2102-.6276 1.7907-.6276.5948 0 .9969.2256 1.2081.6769.6318-.4513 1.2636-.677 1.8954-.677.441 0 .7794.1231 1.0153.3693.236.2502.3549.603.3549 1.0584v3.3538c0 .1271-.0656.1907-.1928.1907h-.5641c-.1272 0-.1928-.0615-.1928-.1907v-3.085c0-.318-.0616-.5539-.1805-.7057-.1231-.1538-.3139-.2297-.5744-.2297-.4677 0-.9353.1436-1.4092.4307a.997.997 0 0 1 .0103.1416v3.448c0 .1272-.0636.1908-.1908.1908H3.297c-.1272 0-.1908-.0615-.1908-.1907v-3.085c0-.318-.0615-.5539-.1825-.7057-.1231-.1538-.3139-.2297-.5744-.2297-.4861 0-.9517.1395-1.399.4205v3.5999c0 .1271-.0615.1907-.1907.1907H.1914zm9.731.1436c-.4533 0-.8-.1272-1.044-.3815-.242-.2544-.3631-.6133-.3631-1.0769v-3.321c0-.1292.0615-.1927.1908-.1927h.564c.1293 0 .1929.0635.1929.1907v3.0215c0 .3425.0656.5948.201.7569.1333.162.3487.242.642.242.4595 0 .923-.1518 1.3887-.4574v-3.565c0-.1272.0615-.1908.1908-.1908h.564c.1293 0 .1929.0636.1929.1908v4.4511c0 .1252-.0636.1887-.1928.1887h-.4103c-.0636 0-.1149-.0123-.1497-.0369-.0349-.0266-.0575-.0738-.0718-.1436l-.0657-.3323c-.5948.437-1.204.6564-1.8297.6564zm5.4399 0c-.5374 0-1.0195-.0882-1.4461-.2666a.3754.3754 0 0 1-.158-.1047c-.0287-.039-.043-.0984-.043-.1805v-.2687c0-.1148.0369-.1723.1148-.1723.0452 0 .1231.0205.238.0575.4225.1333.8615.199 1.3128.199.3138 0 .5517-.0616.7138-.1806.164-.121.244-.2954.244-.523a.4923.4923 0 0 0-.1476-.3734 1.606 1.606 0 0 0-.5415-.285l-.8144-.3037c-.7097-.2605-1.0625-.7056-1.0625-1.3333 0-.4143.16-.7487.484-1.001.3221-.2543.7447-.3815 1.2677-.3815a3.487 3.487 0 0 1 1.2164.2195c.076.0246.1313.0574.1641.0985.0308.041.0472.1025.0472.1846v.2584c0 .1149-.041.1723-.123.1723a.8615.8615 0 0 1-.2216-.0472 3.5495 3.5495 0 0 0-1.0359-.1538c-.6112 0-.919.2072-.919.6195 0 .164.0514.2953.154.3897.1025.0964.3035.201.603.3159l.7466.2872c.3774.1436.6482.318.8144.519.1661.1989.2482.4574.2482.7753 0 .4513-.1682.8102-.5067 1.0769-.3385.2666-.7877.4-1.3497.4v.002zm3.0645-.1436c-.1272 0-.1928-.0615-.1928-.1907v-4.4491c0-.1272.0656-.1908.1928-.1908h.5641c.1272 0 .1928.0636.1928.1908v4.4511c0 .1251-.0656.1887-.1928.1887h-.564zm.2872-5.688c-.1846 0-.3303-.0513-.437-.1559a.558.558 0 0 1-.1579-.4143c0-.1724.0534-.3098.158-.4144a.5907.5907 0 0 1 .4369-.158c.1846 0 .3282.0534.4349.158.1066.1026.1579.242.1579.4144 0 .1702-.0513.3076-.158.4143-.1046.1026-.2502.1559-.4348.1559zm4.002 5.7926c-.7529 0-1.3293-.2133-1.7272-.642-.4-.4307-.599-1.0502-.599-1.8625 0-.8061.2052-1.4318.6175-1.8728.4102-.441.9948-.6625 1.7476-.6625.3446 0 .683.0615 1.0154.1825.0697.0247.119.0554.1477.0944s.043.1026.043.1908v.2564c0 .1271-.041.1907-.123.1907-.0329 0-.082-.0082-.1539-.0287a2.8307 2.8307 0 0 0-.7959-.1128c-.5353 0-.923.1333-1.1589.404s-.3528.6996-.3528 1.2924v.123c0 .5764.119 1.001.359 1.2718.24.2687.6174.404 1.1343.404.2666 0 .5538-.043.8615-.1332.0718-.0206.119-.0288.1436-.0288.082 0 .1251.0636.1251.1908v.2585c0 .082-.0123.1435-.039.1805-.0246.0369-.0759.0718-.1518.1025-.3138.1354-.6769.201-1.0933.201z"/></symbol>
+    <symbol id="i-bandcamp" viewBox="0 0 24 24"><path fill="currentColor" d="M0 18.75l7.437-13.5H24l-7.438 13.5H0z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 20 20"><path fill="currentColor" d="M4 1.5l14.5 8.5L4 18.5z"/></symbol>
+  </defs>
+</svg>
+
+<div class="poster">
+  <div class="sheet">
+
+    <main id="top">
+      <section class="hero press" aria-labelledby="hero-title">
+        <h1 id="hero-title" class="sr-only">Swimming with the Jaguars. Dad rock, reimagined for the 21st century.</h1>
+        <div aria-hidden="true">
+          <span class="band slab c-bone presents grain" data-fit data-max="600"><span class="fit reg" data-text="Live! Loud! Local!" style="--rx:.03em;--ry:.03em">Live! Loud! Local!</span></span>
+          <span class="hero-logo"><svg class="ink2" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 513.425 280.863"><defs><clipPath id="hl2"><rect width="513.425" height="280.863" fill="none"/></clipPath></defs><g clip-path="url(#hl2)"><path fill="currentColor" d="M97.994,116.317c-4.761,0-7.683-3.359-7.683-11.185V73.014h22.724V84.837c0,1.279.435,2.237,1.409,2.237.865,0,1.407-.958,1.407-2.237V69.5H97.778c-5.193,0-7.467-4.31-7.467-11.34V11.342C90.311,4.312,92.585,0,97.778,0h33.331c5.2,0,7.467,4.312,7.467,11.342V36.109H115.85V31.637c0-1.279-.435-2.237-1.407-2.237s-1.409.958-1.409,2.237v8.626l16.517,1.559c5.193,0,9.024,2.753,9.024,9.781V104.97c0,7.03-2.272,11.347-7.574,11.347Z" transform="translate(118.609 0)" /><path fill="currentColor" d="M128.873,74.084h1.094l-1-55.758h14.8l.564,54.748c0,.71.273,1.011.685,1.011h.821V26.2c0-4.444-.123-8.12,3.229-8.12h9.579L160.212,85.4c0,4.446-1.439,7.176-4.791,7.176H153.1l-17.38-.1v.1H118.541c-3.285,0-4.722-2.73-4.722-7.176l-1.557-67.321h9.51c3.01,0,5.638,3.086,5.638,8.039l.777,46.554c0,1.009.206,1.413.685,1.413" transform="translate(147.439 23.743)" /><path fill="currentColor" d="M148.1,18.186l.588,17.165H134.323l-.245-17.165Zm.588,74.126H134.321V37.475h14.368Z" transform="translate(176.09 23.884)" /><path fill="currentColor" d="M158.435,37.616h-1.027V92.574H143.04l-1.557-74.5h41.668c3.285,0,6.281,3.576,6.281,8.023V92.574h-9.647c-3.285,0-4.722-2.73-4.722-7.176V38.928c0-.907-.206-1.312-.754-1.416h-.752V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.342-.911-.752-1.011" transform="translate(185.815 23.743)" /><path fill="currentColor" d="M180.25,37.616h-1.027V92.574H164.855l-1.557-74.5h41.668c3.285,0,6.281,3.576,6.281,8.023V92.574H201.6c-3.285,0-4.722-2.73-4.722-7.176V38.928c0-.907-.206-1.312-.754-1.416h-.752V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.342-.911-.752-1.011" transform="translate(214.466 23.743)" /><path fill="currentColor" d="M199.48,35.493H185.112V18.078H199.48Zm0,56.961H185.112V37.616H199.48Z" transform="translate(243.115 23.743)" /><path fill="currentColor" d="M207.92,37.616h-1.027V92.574H192.524l-.113-74.249,24.353-.248c3.283,0,6.278,3.676,6.278,8.12V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.271-.911-.752-1.011" transform="translate(252.701 23.743)" /><path fill="currentColor" d="M139.084,95.4h.8V52.056h10.477V94.615c0,.551.2.789.5.789h.6V58.089c0-3.465,1.048-6.033,3.493-6.033h6.986V104.22c0,3.463-1.048,5.825-3.493,5.825H131.549c-2.4,0-3.442-2.362-3.442-5.825V52.056h6.935c2.2,0,3.542,2.1,3.542,5.952V94.3c0,.789.15,1.1.5,1.1" transform="translate(168.248 68.367)" /><path fill="currentColor" d="M154.782,65.33H144.3V52.056h10.479Zm0,44.715H144.3V66.984h10.479Z" transform="translate(189.519 68.367)" /><path fill="currentColor" d="M172.658,86.036v18.183c0,3.465-1.048,5.825-3.442,5.825H153.851c-2.4,0-3.445-2.36-3.445-5.825V52.055h10.479V66.983h11.773v16.14H160.885v11.1c0,.865.2,1.182.7,1.182h.594V86.036Z" transform="translate(197.534 68.366)" /><path fill="currentColor" d="M172.077,104.22c0,3.463-1.048,5.825-3.442,5.825H161.6V52.056h7.037c2.394,0,3.442,2.57,3.442,6.033V78.162c0,.632.2.789.648.789s.65-.157.65-.789V58.089c0-3.463,1.046-6.033,3.442-6.033h7.035v57.989h-7.035c-2.4,0-3.442-2.362-3.442-5.825V86.666c0-.787-.2-1.1-.65-1.1s-.648.236-.648,1.1Z" transform="translate(212.233 68.367)" /><path fill="currentColor" d="M197.575,86.036v18.183c0,3.465-1.048,5.825-3.442,5.825H178.766c-2.4,0-3.445-2.36-3.445-5.825V52.055H185.8V66.983h11.775v16.14H185.8v11.1c0,.865.2,1.182.7,1.182h.6V86.036Z" transform="translate(230.256 68.366)" /><path fill="currentColor" d="M197,104.22c0,3.463-1.048,5.825-3.442,5.825h-7.037V52.056h7.037c2.394,0,3.442,2.57,3.442,6.033V78.162c0,.632.2.789.648.789s.652-.157.652-.789V58.089c0-3.463,1.043-6.033,3.44-6.033h7.035v57.989h-7.035c-2.4,0-3.44-2.362-3.44-5.825V86.666c0-.787-.2-1.1-.652-1.1s-.648.236-.648,1.1Z" transform="translate(244.968 68.367)" /><path fill="currentColor" d="M216.16,52.056V70.278h-9.341c-.248,0-.414.331-.414,1.1v1.316h9.755V89.7H206.4V91.02c0,.768.167,1.1.414,1.1h9.341v17.928H200.577c-1.983,0-2.85-3.111-2.85-7.942V60.291c0-4.828.867-8.235,2.85-8.235Z" transform="translate(259.683 68.367)" /><path fill="currentColor" d="M32.1,176.382c1.915,0,2.649-1.522,2.649-4.132V52.056H65.673v145c0,9.566-3.1,15.439-10.162,15.439H0V176.382Z" transform="translate(0 68.367)" /><path fill="currentColor" d="M32.078,212.5V68.858c0-9.566,3.091-16.8,10.158-16.8H87.443c7.213,0,10.3,7.236,10.3,16.8V212.5H66.827V153.873H63V212.5ZM63,96.472v33.051h3.829V96.472c0-1.737-.588-3.042-1.913-3.042S63,94.735,63,96.472" transform="translate(42.129 68.367)" /><path fill="currentColor" d="M116.7,52.056c6.48,0,10.454,5.931,10.454,16.587V168.66c0,2.392.59,3.262,2.063,3.262h1.765V52.056H161.9V212.5H106.391c-7.067,0-10.158-6.653-10.158-16.221V52.056Z" transform="translate(126.387 68.367)" /><path fill="currentColor" d="M128.311,176.541V88.826c0-5.82,3.091-9.394,10.158-9.394h45.207c7.213,0,10.3,3.574,10.3,9.394v87.715H163.06V140.56h-3.829v35.982Zm30.92-70.911v20.112h3.829V105.631a1.915,1.915,0,0,0-3.829,0" transform="translate(168.516 104.321)" /><path fill="currentColor" d="M193.077,135h-1.767V176.54h-30.92V79.433H215.9c6.625,0,10.158,3.572,10.158,8.6V118.2c0,5.823-3.091,9.394-10.158,9.394h-.148v1.853h.148c7.067,0,10.158,3.572,10.158,9.392v37.7H205.3c-7.07,0-10.16-4.356-10.16-10.179v-29.5c0-1.457-.588-1.853-2.061-1.853m2.061-31.225h-3.829v20.112h1.767c1.177,0,1.915-.266,2.061-1.326Z" transform="translate(210.645 104.323)" /><path fill="currentColor" d="M202.92,176.54c-6.48,0-10.454-3.563-10.454-10.047V139.9h30.92v9.792a1.719,1.719,0,0,0,1.915,1.851,1.79,1.79,0,0,0,1.913-1.851v-12.7H202.624c-7.067,0-10.158-3.572-10.158-9.395V88.825c0-5.82,3.091-9.392,10.158-9.392h45.353c7.067,0,10.16,3.572,10.16,9.392v20.51H227.215v-3.706a1.915,1.915,0,0,0-3.829,0v7.146h24.591c7.067,0,10.16,3.572,10.16,9.394v44.192c0,5.823-3.093,10.179-10.306,10.179Z" transform="translate(252.773 104.323)" /><path fill="currentColor" d="M241.9,73.346h-16.54V83.759h2.05c.09,0,.162.2.162.44l-.555,33.992c0,.509.1,1.957-1.548,1.957a2,2,0,0,1-2.212-1.55l.049-6.857-.028-38.635c0-2.568.391-3.3,1.416-3.3l17.158-.023-.018-50.917-31.23-.248c-3.778,0-3.87,7.528-3.866,15.6l.06,107.524c0,8.074,1.661,13.026,5.436,13.02h24.241c3.78,0,5.429-4.994,5.425-13.253Z" transform="translate(271.521 24.448)" /><path fill="currentColor" d="M130.289,115.737H99.119V128.06h1.529c.169,0,.305.234.305.523v40.611c0,1.145-.886,2.191-2.746,2.191-1.83,0-3.049-1.046-3.049-2.089l.093-8.115L95.2,115.452c0-3.04.736-3.907,2.667-3.91l32.329-.028-.035-59.46H74.251c-7.118,0-10.23,7.814-10.223,17.371l.116,127.261c.009,9.556,3.128,15.816,10.246,15.809h45.679c7.123-.007,10.23-6.311,10.22-16.085Z" transform="translate(84.091 68.366)" /></g></svg><svg class="ink1" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 513.425 280.863"><defs><clipPath id="hl1"><rect width="513.425" height="280.863" fill="none"/></clipPath></defs><g clip-path="url(#hl1)"><path fill="currentColor" d="M97.994,116.317c-4.761,0-7.683-3.359-7.683-11.185V73.014h22.724V84.837c0,1.279.435,2.237,1.409,2.237.865,0,1.407-.958,1.407-2.237V69.5H97.778c-5.193,0-7.467-4.31-7.467-11.34V11.342C90.311,4.312,92.585,0,97.778,0h33.331c5.2,0,7.467,4.312,7.467,11.342V36.109H115.85V31.637c0-1.279-.435-2.237-1.407-2.237s-1.409.958-1.409,2.237v8.626l16.517,1.559c5.193,0,9.024,2.753,9.024,9.781V104.97c0,7.03-2.272,11.347-7.574,11.347Z" transform="translate(118.609 0)" /><path fill="currentColor" d="M128.873,74.084h1.094l-1-55.758h14.8l.564,54.748c0,.71.273,1.011.685,1.011h.821V26.2c0-4.444-.123-8.12,3.229-8.12h9.579L160.212,85.4c0,4.446-1.439,7.176-4.791,7.176H153.1l-17.38-.1v.1H118.541c-3.285,0-4.722-2.73-4.722-7.176l-1.557-67.321h9.51c3.01,0,5.638,3.086,5.638,8.039l.777,46.554c0,1.009.206,1.413.685,1.413" transform="translate(147.439 23.743)" /><path fill="currentColor" d="M148.1,18.186l.588,17.165H134.323l-.245-17.165Zm.588,74.126H134.321V37.475h14.368Z" transform="translate(176.09 23.884)" /><path fill="currentColor" d="M158.435,37.616h-1.027V92.574H143.04l-1.557-74.5h41.668c3.285,0,6.281,3.576,6.281,8.023V92.574h-9.647c-3.285,0-4.722-2.73-4.722-7.176V38.928c0-.907-.206-1.312-.754-1.416h-.752V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.342-.911-.752-1.011" transform="translate(185.815 23.743)" /><path fill="currentColor" d="M180.25,37.616h-1.027V92.574H164.855l-1.557-74.5h41.668c3.285,0,6.281,3.576,6.281,8.023V92.574H201.6c-3.285,0-4.722-2.73-4.722-7.176V38.928c0-.907-.206-1.312-.754-1.416h-.752V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.342-.911-.752-1.011" transform="translate(214.466 23.743)" /><path fill="currentColor" d="M199.48,35.493H185.112V18.078H199.48Zm0,56.961H185.112V37.616H199.48Z" transform="translate(243.115 23.743)" /><path fill="currentColor" d="M207.92,37.616h-1.027V92.574H192.524l-.113-74.249,24.353-.248c3.283,0,6.278,3.676,6.278,8.12V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.271-.911-.752-1.011" transform="translate(252.701 23.743)" /><path fill="currentColor" d="M139.084,95.4h.8V52.056h10.477V94.615c0,.551.2.789.5.789h.6V58.089c0-3.465,1.048-6.033,3.493-6.033h6.986V104.22c0,3.463-1.048,5.825-3.493,5.825H131.549c-2.4,0-3.442-2.362-3.442-5.825V52.056h6.935c2.2,0,3.542,2.1,3.542,5.952V94.3c0,.789.15,1.1.5,1.1" transform="translate(168.248 68.367)" /><path fill="currentColor" d="M154.782,65.33H144.3V52.056h10.479Zm0,44.715H144.3V66.984h10.479Z" transform="translate(189.519 68.367)" /><path fill="currentColor" d="M172.658,86.036v18.183c0,3.465-1.048,5.825-3.442,5.825H153.851c-2.4,0-3.445-2.36-3.445-5.825V52.055h10.479V66.983h11.773v16.14H160.885v11.1c0,.865.2,1.182.7,1.182h.594V86.036Z" transform="translate(197.534 68.366)" /><path fill="currentColor" d="M172.077,104.22c0,3.463-1.048,5.825-3.442,5.825H161.6V52.056h7.037c2.394,0,3.442,2.57,3.442,6.033V78.162c0,.632.2.789.648.789s.65-.157.65-.789V58.089c0-3.463,1.046-6.033,3.442-6.033h7.035v57.989h-7.035c-2.4,0-3.442-2.362-3.442-5.825V86.666c0-.787-.2-1.1-.65-1.1s-.648.236-.648,1.1Z" transform="translate(212.233 68.367)" /><path fill="currentColor" d="M197.575,86.036v18.183c0,3.465-1.048,5.825-3.442,5.825H178.766c-2.4,0-3.445-2.36-3.445-5.825V52.055H185.8V66.983h11.775v16.14H185.8v11.1c0,.865.2,1.182.7,1.182h.6V86.036Z" transform="translate(230.256 68.366)" /><path fill="currentColor" d="M197,104.22c0,3.463-1.048,5.825-3.442,5.825h-7.037V52.056h7.037c2.394,0,3.442,2.57,3.442,6.033V78.162c0,.632.2.789.648.789s.652-.157.652-.789V58.089c0-3.463,1.043-6.033,3.44-6.033h7.035v57.989h-7.035c-2.4,0-3.44-2.362-3.44-5.825V86.666c0-.787-.2-1.1-.652-1.1s-.648.236-.648,1.1Z" transform="translate(244.968 68.367)" /><path fill="currentColor" d="M216.16,52.056V70.278h-9.341c-.248,0-.414.331-.414,1.1v1.316h9.755V89.7H206.4V91.02c0,.768.167,1.1.414,1.1h9.341v17.928H200.577c-1.983,0-2.85-3.111-2.85-7.942V60.291c0-4.828.867-8.235,2.85-8.235Z" transform="translate(259.683 68.367)" /><path fill="currentColor" d="M32.1,176.382c1.915,0,2.649-1.522,2.649-4.132V52.056H65.673v145c0,9.566-3.1,15.439-10.162,15.439H0V176.382Z" transform="translate(0 68.367)" /><path fill="currentColor" d="M32.078,212.5V68.858c0-9.566,3.091-16.8,10.158-16.8H87.443c7.213,0,10.3,7.236,10.3,16.8V212.5H66.827V153.873H63V212.5ZM63,96.472v33.051h3.829V96.472c0-1.737-.588-3.042-1.913-3.042S63,94.735,63,96.472" transform="translate(42.129 68.367)" /><path fill="currentColor" d="M116.7,52.056c6.48,0,10.454,5.931,10.454,16.587V168.66c0,2.392.59,3.262,2.063,3.262h1.765V52.056H161.9V212.5H106.391c-7.067,0-10.158-6.653-10.158-16.221V52.056Z" transform="translate(126.387 68.367)" /><path fill="currentColor" d="M128.311,176.541V88.826c0-5.82,3.091-9.394,10.158-9.394h45.207c7.213,0,10.3,3.574,10.3,9.394v87.715H163.06V140.56h-3.829v35.982Zm30.92-70.911v20.112h3.829V105.631a1.915,1.915,0,0,0-3.829,0" transform="translate(168.516 104.321)" /><path fill="currentColor" d="M193.077,135h-1.767V176.54h-30.92V79.433H215.9c6.625,0,10.158,3.572,10.158,8.6V118.2c0,5.823-3.091,9.394-10.158,9.394h-.148v1.853h.148c7.067,0,10.158,3.572,10.158,9.392v37.7H205.3c-7.07,0-10.16-4.356-10.16-10.179v-29.5c0-1.457-.588-1.853-2.061-1.853m2.061-31.225h-3.829v20.112h1.767c1.177,0,1.915-.266,2.061-1.326Z" transform="translate(210.645 104.323)" /><path fill="currentColor" d="M202.92,176.54c-6.48,0-10.454-3.563-10.454-10.047V139.9h30.92v9.792a1.719,1.719,0,0,0,1.915,1.851,1.79,1.79,0,0,0,1.913-1.851v-12.7H202.624c-7.067,0-10.158-3.572-10.158-9.395V88.825c0-5.82,3.091-9.392,10.158-9.392h45.353c7.067,0,10.16,3.572,10.16,9.392v20.51H227.215v-3.706a1.915,1.915,0,0,0-3.829,0v7.146h24.591c7.067,0,10.16,3.572,10.16,9.394v44.192c0,5.823-3.093,10.179-10.306,10.179Z" transform="translate(252.773 104.323)" /><path fill="currentColor" d="M241.9,73.346h-16.54V83.759h2.05c.09,0,.162.2.162.44l-.555,33.992c0,.509.1,1.957-1.548,1.957a2,2,0,0,1-2.212-1.55l.049-6.857-.028-38.635c0-2.568.391-3.3,1.416-3.3l17.158-.023-.018-50.917-31.23-.248c-3.778,0-3.87,7.528-3.866,15.6l.06,107.524c0,8.074,1.661,13.026,5.436,13.02h24.241c3.78,0,5.429-4.994,5.425-13.253Z" transform="translate(271.521 24.448)" /><path fill="currentColor" d="M130.289,115.737H99.119V128.06h1.529c.169,0,.305.234.305.523v40.611c0,1.145-.886,2.191-2.746,2.191-1.83,0-3.049-1.046-3.049-2.089l.093-8.115L95.2,115.452c0-3.04.736-3.907,2.667-3.91l32.329-.028-.035-59.46H74.251c-7.118,0-10.23,7.814-10.223,17.371l.116,127.261c.009,9.556,3.128,15.816,10.246,15.809h45.679c7.123-.007,10.23-6.311,10.22-16.085Z" transform="translate(84.091 68.366)" /></g></svg></span>
+        </div>
+        <p class="premiere"><span>Northern New Jersey's premiere</span></p>
+        <div aria-hidden="true">
+          <span class="band gothic c-bone dadrock grain" data-fit data-max="600"><span class="fit reg" data-text="Dad Rock" style="--rx:.03em;--ry:.03em">Dad Rock</span></span>
+        </div>
+        <div class="reimagined">
+          <svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg>
+          <p>Reimagined for the 21st century</p>
+          <svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg>
+        </div>
+      </section>
+
+      <div class="serving">
+        <span class="fact-small">Serving</span>
+        <span class="fact-big">Essex &amp; Hudson</span>
+        <span class="fact-small">Counties</span>
+      </div>
+
+      <div class="orn" aria-hidden="true"><span></span><svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg><svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg><svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg><span></span></div>
+
+      <section id="single" class="single press" aria-labelledby="holiday-title">
+        <svg class="winter" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+          <path class="w-hill-far" d="M0 470 C 240 420, 420 460, 720 440 S 1200 410, 1440 450 V600 H0Z"/>
+          <path class="w-far" d="M-26.3 341.2L-14.3 391.4L-38.4 391.4ZM-26.3 375.5L-5.9 420.4L-46.8 420.4ZM-26.3 409.8L2.4 449.5L-55.1 449.5ZM-31.5 446.8h10.4V473.2h-10.4ZM31.3 398.9L46.6 431.1L16.0 431.1ZM31.3 420.9L57.1 449.7L5.5 449.7ZM31.3 442.9L67.7 468.3L-5.1 468.3ZM24.7 466.6h13.1V483.6h-13.1ZM63.3 401.2L75.6 433.8L51.1 433.8ZM63.3 423.5L84.0 452.6L42.7 452.6ZM63.3 445.7L92.4 471.4L34.3 471.4ZM58.1 469.7h10.5V486.8h-10.5ZM127.3 415.8L140.5 449.9L114.1 449.9ZM127.3 439.2L149.6 469.7L105.0 469.7ZM127.3 462.5L158.7 489.5L95.9 489.5ZM121.6 487.7h11.3V505.7h-11.3ZM184.6 385.3L199.1 433.3L170.1 433.3ZM184.6 418.1L209.0 461.0L160.1 461.0ZM184.6 450.9L219.0 488.8L150.1 488.8ZM178.4 486.3h12.4V511.5h-12.4ZM247.1 319.6L260.8 376.1L233.5 376.1ZM247.1 358.2L270.3 408.8L224.0 408.8ZM247.1 396.9L279.7 441.5L214.6 441.5ZM241.3 438.5h11.7V468.2h-11.7ZM267.2 367.0L284.7 406.8L249.6 406.8ZM267.2 394.2L296.9 429.8L237.5 429.8ZM267.2 421.4L309.0 452.8L225.4 452.8ZM259.7 450.7h15.0V471.7h-15.0ZM318.5 362.8L332.8 412.6L304.2 412.6ZM318.5 396.9L342.7 441.5L294.4 441.5ZM318.5 431.0L352.5 470.3L284.5 470.3ZM312.4 467.7h12.2V493.9h-12.2ZM381.7 384.2L394.8 416.5L368.7 416.5ZM381.7 406.3L403.8 435.1L359.6 435.1ZM381.7 428.3L412.8 453.8L350.6 453.8ZM376.1 452.1h11.2V469.0h-11.2ZM436.5 381.4L452.3 421.3L420.6 421.3ZM436.5 408.7L463.3 444.5L409.7 444.5ZM436.5 436.1L474.2 467.6L398.7 467.6ZM429.7 465.5h13.6V486.5h-13.6ZM478.3 336.8L495.0 391.4L461.6 391.4ZM478.3 374.2L506.5 423.0L450.1 423.0ZM478.3 411.5L518.0 454.5L438.6 454.5ZM471.2 451.7h14.3V480.4h-14.3ZM520.8 371.6L538.8 417.9L502.8 417.9ZM520.8 403.3L551.2 444.8L490.4 444.8ZM520.8 435.0L563.6 471.6L478.0 471.6ZM513.1 469.2h15.4V493.6h-15.4ZM588.3 321.4L600.7 381.6L575.8 381.6ZM588.3 362.6L609.3 416.5L567.3 416.5ZM588.3 403.8L617.8 451.3L558.7 451.3ZM582.9 448.1h10.6V479.8h-10.6ZM627.1 410.2L642.2 445.2L611.9 445.2ZM627.1 434.1L652.7 465.5L601.5 465.5ZM627.1 458.1L663.1 485.8L591.0 485.8ZM620.6 483.9h13.0V502.3h-13.0ZM663.4 356.9L679.2 410.6L647.6 410.6ZM663.4 393.6L690.1 441.6L636.8 441.6ZM663.4 430.3L700.9 472.7L625.9 472.7ZM656.7 469.8h13.5V498.1h-13.5ZM743.5 345.4L759.4 397.0L727.6 397.0ZM743.5 380.7L770.4 426.8L716.6 426.8ZM743.5 416.0L781.4 456.6L705.6 456.6ZM736.7 453.9h13.6V481.1h-13.6ZM782.9 340.7L801.4 396.6L764.4 396.6ZM782.9 379.0L814.1 429.0L751.6 429.0ZM782.9 417.2L826.9 461.4L738.8 461.4ZM775.0 458.5h15.9V487.9h-15.9ZM829.1 413.0L845.8 445.3L812.4 445.3ZM829.1 435.1L857.3 463.9L800.8 463.9ZM829.1 457.1L868.8 482.6L789.3 482.6ZM821.9 480.9h14.3V497.9h-14.3ZM885.3 367.9L898.9 423.3L871.7 423.3ZM885.3 405.8L908.4 455.4L862.2 455.4ZM885.3 443.7L917.8 487.4L852.8 487.4ZM879.5 484.5h11.7V513.7h-11.7ZM925.9 416.3L940.8 447.4L910.9 447.4ZM925.9 437.6L951.2 465.4L900.6 465.4ZM925.9 458.8L961.5 483.4L890.3 483.4ZM919.5 481.7h12.8V498.1h-12.8ZM968.0 386.9L985.2 419.1L950.9 419.1ZM968.0 408.9L997.1 437.7L939.0 437.7ZM968.0 431.0L1009.0 456.4L927.1 456.4ZM960.7 454.7h14.7V471.6h-14.7ZM1016.7 366.6L1034.6 408.9L998.7 408.9ZM1016.7 395.5L1047.0 433.4L986.3 433.4ZM1016.7 424.5L1059.4 457.9L973.9 457.9ZM1009.0 455.6h15.4V477.9h-15.4ZM1064.9 363.6L1082.9 410.7L1046.9 410.7ZM1064.9 395.8L1095.4 438.0L1034.4 438.0ZM1064.9 428.1L1107.9 465.2L1021.9 465.2ZM1057.2 462.8h15.5V487.6h-15.5ZM1141.5 405.2L1156.1 444.1L1126.9 444.1ZM1141.5 431.8L1166.2 466.6L1116.8 466.6ZM1141.5 458.4L1176.3 489.1L1106.7 489.1ZM1135.2 487.0h12.5V507.5h-12.5ZM1174.9 351.8L1187.6 411.3L1162.3 411.3ZM1174.9 392.5L1196.3 445.8L1153.5 445.8ZM1174.9 433.3L1205.1 480.2L1144.8 480.2ZM1169.5 477.1h10.9V508.4h-10.9ZM1218.3 378.5L1233.5 416.0L1203.2 416.0ZM1218.3 404.1L1243.9 437.7L1192.8 437.7ZM1218.3 429.8L1254.3 459.4L1182.4 459.4ZM1211.9 457.4h13.0V477.1h-13.0ZM1283.2 398.3L1297.8 428.8L1268.6 428.8ZM1283.2 419.2L1307.9 446.5L1258.5 446.5ZM1283.2 440.1L1318.0 464.2L1248.4 464.2ZM1276.9 462.5h12.5V478.6h-12.5ZM1325.3 336.9L1341.9 396.3L1308.7 396.3ZM1325.3 377.6L1353.4 430.7L1297.2 430.7ZM1325.3 418.2L1364.9 465.1L1285.7 465.1ZM1318.2 461.9h14.3V493.2h-14.3ZM1380.6 361.5L1392.5 412.5L1368.6 412.5ZM1380.6 396.4L1400.8 442.0L1360.4 442.0ZM1380.6 431.3L1409.0 471.5L1352.1 471.5ZM1375.4 468.8h10.2V495.6h-10.2ZM1444.4 353.5L1461.8 410.5L1427.0 410.5ZM1444.4 392.5L1473.8 443.5L1414.9 443.5ZM1444.4 431.5L1485.8 476.4L1402.9 476.4ZM1436.9 473.4h14.9V503.4h-14.9Z"/>
+          <path class="w-hill" d="M0 560 C 300 520, 560 548, 840 530 S 1260 520, 1440 545 V600 H0Z"/>
+          <path class="w-near" d="M-46.9 387.9L-23.9 453.8L-69.9 453.8ZM-46.9 433.0L-8.0 491.8L-85.7 491.8ZM-46.9 478.0L7.9 529.9L-101.6 529.9ZM-56.7 526.5h19.7V561.1h-19.7ZM34.6 433.5L51.0 485.5L18.2 485.5ZM34.6 469.1L62.3 515.6L6.8 515.6ZM34.6 504.7L73.7 545.7L-4.5 545.7ZM27.5 543.0h14.1V570.4h-14.1ZM137.6 384.6L157.6 448.2L117.5 448.2ZM137.6 428.1L171.4 485.1L103.7 485.1ZM137.6 471.7L185.3 521.9L89.9 521.9ZM129.0 518.5h17.2V552.0h-17.2ZM262.7 413.1L282.4 466.7L243.1 466.7ZM262.7 449.8L296.0 497.8L229.5 497.8ZM262.7 486.5L309.6 528.8L215.9 528.8ZM254.3 526.0h16.9V554.2h-16.9ZM352.1 376.7L376.8 451.7L327.4 451.7ZM352.1 428.0L393.8 495.2L310.4 495.2ZM352.1 479.4L410.9 538.6L293.3 538.6ZM341.5 534.7h21.2V574.2h-21.2ZM454.4 456.6L478.6 521.3L430.1 521.3ZM454.4 500.9L495.4 558.7L413.4 558.7ZM454.4 545.1L512.1 596.1L396.6 596.1ZM444.0 592.7h20.8V626.7h-20.8ZM582.9 378.3L604.3 447.2L561.5 447.2ZM582.9 425.4L619.1 487.1L546.7 487.1ZM582.9 472.6L634.0 526.9L531.9 526.9ZM573.7 523.3h18.4V559.6h-18.4ZM672.0 457.2L692.1 521.0L651.9 521.0ZM672.0 500.8L706.0 557.9L638.0 557.9ZM672.0 544.4L719.9 594.8L624.1 594.8ZM663.4 591.4h17.2V624.9h-17.2ZM822.7 465.9L838.5 516.3L806.8 516.3ZM822.7 500.4L849.4 545.5L795.9 545.5ZM822.7 534.9L860.4 574.6L785.0 574.6ZM815.9 572.0h13.6V598.5h-13.6ZM863.8 408.7L890.8 480.8L836.9 480.8ZM863.8 458.1L909.5 522.6L818.2 522.6ZM863.8 507.4L928.1 564.3L799.6 564.3ZM852.3 560.5h23.1V598.5h-23.1ZM1013.3 350.0L1041.6 435.5L985.1 435.5ZM1013.3 408.5L1061.1 485.0L965.6 485.0ZM1013.3 467.0L1080.6 534.5L946.1 534.5ZM1001.2 530.0h24.2V575.0h-24.2ZM1122.5 450.5L1142.8 506.9L1102.2 506.9ZM1122.5 489.1L1156.8 539.5L1088.2 539.5ZM1122.5 527.6L1170.8 572.2L1074.2 572.2ZM1113.8 569.2h17.4V598.9h-17.4ZM1189.2 457.1L1212.8 520.3L1165.5 520.3ZM1189.2 500.4L1229.2 556.9L1149.1 556.9ZM1189.2 543.6L1245.5 593.5L1132.8 593.5ZM1179.0 590.2h20.3V623.4h-20.3ZM1332.8 400.2L1363.2 485.3L1302.4 485.3ZM1332.8 458.4L1384.1 534.5L1281.5 534.5ZM1332.8 516.6L1405.1 583.7L1260.5 583.7ZM1319.8 579.3h26.0V624.0h-26.0ZM1417.2 428.3L1435.2 487.2L1399.2 487.2ZM1417.2 468.6L1447.7 521.3L1386.7 521.3ZM1417.2 508.9L1460.1 555.4L1374.3 555.4ZM1409.5 552.3h15.4V583.3h-15.4Z"/>
+        </svg>
+        <canvas class="snow" aria-hidden="true"></canvas>
+        <header class="holiday">
+          <h2 id="holiday-title" class="band slab grain" data-fit data-max="190"><span class="fit reg" data-text="Happy Holidays!" style="--rx:.03em;--ry:.03em">Happy Holidays!</span></h2>
+          <p class="holiday-note">Swimming with the Jaguars wishes you and yours all the best this holiday season. We cooked up this little holiday classic just for you. Enjoy!</p>
+        </header>
+        <figure>
+          <a class="songlink" href="https://open.spotify.com/track/2j2asJqWYIVCbcIFYIssh5" target="_blank" rel="noopener" aria-label="Play Christmas Dead Mouse on Spotify"><img src="images/xdm-cover.jpg" width="640" height="640" alt="The Christmas Dead Mouse single cover."></a>
+        </figure>
+        <div class="single-copy">
+          <h3 id="single-title" class="single-title"><a class="songlink" href="https://open.spotify.com/track/2j2asJqWYIVCbcIFYIssh5" target="_blank" rel="noopener"><span class="band slab grain" data-fit data-max="240"><span class="fit reg" data-text="Christmas" style="--rx:.03em;--ry:.03em">Christmas</span></span><span class="band slab grain" data-fit data-max="240"><span class="fit reg" data-text="Dead Mouse" style="--rx:.03em;--ry:.03em">Dead Mouse</span></span></a></h3>
+          <div class="play-row" role="group" aria-label="Play Christmas Dead Mouse">
+            <span class="play-label" aria-hidden="true"><svg><use href="#i-play"/></svg>Play</span>
+            <a class="play-svc" href="https://open.spotify.com/track/2j2asJqWYIVCbcIFYIssh5" target="_blank" rel="noopener" title="Spotify" aria-label="Play Christmas Dead Mouse on Spotify"><svg aria-hidden="true"><use href="#i-spotify"/></svg></a>
+            <a class="play-svc" href="https://music.apple.com/us/album/christmas-dead-mouse/1785361087?i=1785361088" target="_blank" rel="noopener" title="Apple Music" aria-label="Play Christmas Dead Mouse on Apple Music"><svg aria-hidden="true"><use href="#i-applemusic"/></svg></a>
+            <a class="play-svc" href="https://music.youtube.com/watch?v=0se2FePBw8U" target="_blank" rel="noopener" title="YouTube Music" aria-label="Play Christmas Dead Mouse on YouTube Music"><svg aria-hidden="true"><use href="#i-youtubemusic"/></svg></a>
+            <a class="play-svc" href="https://www.amazon.com/dp/B0DQ6685G9" target="_blank" rel="noopener" title="Amazon Music" aria-label="Play Christmas Dead Mouse on Amazon Music"><svg class="wide" aria-hidden="true"><use href="#i-amazonmusic"/></svg></a>
+          </div>
+        </div>
+      </section>
+
+      <section id="singles" class="press" aria-labelledby="singles-title">
+        <div class="head">
+          <h2 id="singles-title" class="band gothic c-bone grain" data-fit data-max="600"><span class="fit reg" data-text="New Singles" style="--rx:.03em;--ry:.03em">New Singles</span></h2>
+        </div>
+        <div class="releases">
+          <article class="release">
+            <div class="inkcover"><a class="songlink" href="https://open.spotify.com/track/6XISgrDvX4fVPz4eC9JJjW" target="_blank" rel="noopener" aria-label="Play World Events on Spotify"><img src="images/world-events-cover.jpg" width="640" height="640" loading="lazy" alt="The World Events cover: the band drawn as anime-style space pilots in helmets around a flying robot, with the wordmark running down the right edge."></a></div>
+            <h3 class="release-title"><a class="songlink" href="https://open.spotify.com/track/6XISgrDvX4fVPz4eC9JJjW" target="_blank" rel="noopener"><span class="band slab" data-fit data-max="64"><span class="fit">World Events</span></span></a></h3>
+            <p class="release-meta"><span>Single <svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg></span><time datetime="2026-05-12">May 12, 2026</time></p>
+            <div class="play-row" role="group" aria-label="Play World Events">
+              <span class="play-label" aria-hidden="true"><svg><use href="#i-play"/></svg>Play</span>
+              <a class="play-svc" href="https://open.spotify.com/track/6XISgrDvX4fVPz4eC9JJjW" target="_blank" rel="noopener" title="Spotify" aria-label="Play World Events on Spotify"><svg aria-hidden="true"><use href="#i-spotify"/></svg></a>
+              <a class="play-svc" href="https://music.apple.com/us/album/world-events/6768933660?i=6768933901" target="_blank" rel="noopener" title="Apple Music" aria-label="Play World Events on Apple Music"><svg aria-hidden="true"><use href="#i-applemusic"/></svg></a>
+              <a class="play-svc" href="https://music.youtube.com/watch?v=PeIs1dpmPLI" target="_blank" rel="noopener" title="YouTube Music" aria-label="Play World Events on YouTube Music"><svg aria-hidden="true"><use href="#i-youtubemusic"/></svg></a>
+              <a class="play-svc" href="https://www.amazon.com/dp/B0H1MFCQK9" target="_blank" rel="noopener" title="Amazon Music" aria-label="Play World Events on Amazon Music"><svg class="wide" aria-hidden="true"><use href="#i-amazonmusic"/></svg></a>
             </div>
-            <p class="tagline">Northern New Jersey's premiere Dad rock band serving Essex and Hudson counties</p>
-        </div>
-        <!-- <nav>
-            <ul>
-                <li><a href="#music">Music</a></li>
-                <li><a href="#about">About</a></li>
-            </ul>
-        </nav> -->
-    </header>
-
-    <section class="hero">
-        <div class="hero-content">
-            <div class="band-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="513.425" height="280.863" viewBox="0 0 513.425 280.863" class="logo-svg">
-                    <defs>
-                        <clipPath id="a">
-                            <rect width="513.425" height="280.863" fill="none"/>
-                        </clipPath>
-                    </defs>
-                    <g clip-path="url(#a)">
-                        <path class="logo-path" d="M97.994,116.317c-4.761,0-7.683-3.359-7.683-11.185V73.014h22.724V84.837c0,1.279.435,2.237,1.409,2.237.865,0,1.407-.958,1.407-2.237V69.5H97.778c-5.193,0-7.467-4.31-7.467-11.34V11.342C90.311,4.312,92.585,0,97.778,0h33.331c5.2,0,7.467,4.312,7.467,11.342V36.109H115.85V31.637c0-1.279-.435-2.237-1.407-2.237s-1.409.958-1.409,2.237v8.626l16.517,1.559c5.193,0,9.024,2.753,9.024,9.781V104.97c0,7.03-2.272,11.347-7.574,11.347Z" transform="translate(118.609 0)" />
-                        <path class="logo-path" d="M128.873,74.084h1.094l-1-55.758h14.8l.564,54.748c0,.71.273,1.011.685,1.011h.821V26.2c0-4.444-.123-8.12,3.229-8.12h9.579L160.212,85.4c0,4.446-1.439,7.176-4.791,7.176H153.1l-17.38-.1v.1H118.541c-3.285,0-4.722-2.73-4.722-7.176l-1.557-67.321h9.51c3.01,0,5.638,3.086,5.638,8.039l.777,46.554c0,1.009.206,1.413.685,1.413" transform="translate(147.439 23.743)" />
-                        <path class="logo-path" d="M148.1,18.186l.588,17.165H134.323l-.245-17.165Zm.588,74.126H134.321V37.475h14.368Z" transform="translate(176.09 23.884)" />
-                        <path class="logo-path" d="M158.435,37.616h-1.027V92.574H143.04l-1.557-74.5h41.668c3.285,0,6.281,3.576,6.281,8.023V92.574h-9.647c-3.285,0-4.722-2.73-4.722-7.176V38.928c0-.907-.206-1.312-.754-1.416h-.752V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.342-.911-.752-1.011" transform="translate(185.815 23.743)" />
-                        <path class="logo-path" d="M180.25,37.616h-1.027V92.574H164.855l-1.557-74.5h41.668c3.285,0,6.281,3.576,6.281,8.023V92.574H201.6c-3.285,0-4.722-2.73-4.722-7.176V38.928c0-.907-.206-1.312-.754-1.416h-.752V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.342-.911-.752-1.011" transform="translate(214.466 23.743)" />
-                        <path class="logo-path" d="M199.48,35.493H185.112V18.078H199.48Zm0,56.961H185.112V37.616H199.48Z" transform="translate(243.115 23.743)" />
-                        <path class="logo-path" d="M207.92,37.616h-1.027V92.574H192.524l-.113-74.249,24.353-.248c3.283,0,6.278,3.676,6.278,8.12V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.271-.911-.752-1.011" transform="translate(252.701 23.743)" />
-                        <path class="logo-path" d="M139.084,95.4h.8V52.056h10.477V94.615c0,.551.2.789.5.789h.6V58.089c0-3.465,1.048-6.033,3.493-6.033h6.986V104.22c0,3.463-1.048,5.825-3.493,5.825H131.549c-2.4,0-3.442-2.362-3.442-5.825V52.056h6.935c2.2,0,3.542,2.1,3.542,5.952V94.3c0,.789.15,1.1.5,1.1" transform="translate(168.248 68.367)" />
-                        <path class="logo-path" d="M154.782,65.33H144.3V52.056h10.479Zm0,44.715H144.3V66.984h10.479Z" transform="translate(189.519 68.367)" />
-                        <path class="logo-path" d="M172.658,86.036v18.183c0,3.465-1.048,5.825-3.442,5.825H153.851c-2.4,0-3.445-2.36-3.445-5.825V52.055h10.479V66.983h11.773v16.14H160.885v11.1c0,.865.2,1.182.7,1.182h.594V86.036Z" transform="translate(197.534 68.366)" />
-                        <path class="logo-path" d="M172.077,104.22c0,3.463-1.048,5.825-3.442,5.825H161.6V52.056h7.037c2.394,0,3.442,2.57,3.442,6.033V78.162c0,.632.2.789.648.789s.65-.157.65-.789V58.089c0-3.463,1.046-6.033,3.442-6.033h7.035v57.989h-7.035c-2.4,0-3.442-2.362-3.442-5.825V86.666c0-.787-.2-1.1-.65-1.1s-.648.236-.648,1.1Z" transform="translate(212.233 68.367)" />
-                        <path class="logo-path" d="M197.575,86.036v18.183c0,3.465-1.048,5.825-3.442,5.825H178.766c-2.4,0-3.445-2.36-3.445-5.825V52.055H185.8V66.983h11.775v16.14H185.8v11.1c0,.865.2,1.182.7,1.182h.6V86.036Z" transform="translate(230.256 68.366)" />
-                        <path class="logo-path" d="M197,104.22c0,3.463-1.048,5.825-3.442,5.825h-7.037V52.056h7.037c2.394,0,3.442,2.57,3.442,6.033V78.162c0,.632.2.789.648.789s.652-.157.652-.789V58.089c0-3.463,1.043-6.033,3.44-6.033h7.035v57.989h-7.035c-2.4,0-3.44-2.362-3.44-5.825V86.666c0-.787-.2-1.1-.652-1.1s-.648.236-.648,1.1Z" transform="translate(244.968 68.367)" />
-                        <path class="logo-path" d="M216.16,52.056V70.278h-9.341c-.248,0-.414.331-.414,1.1v1.316h9.755V89.7H206.4V91.02c0,.768.167,1.1.414,1.1h9.341v17.928H200.577c-1.983,0-2.85-3.111-2.85-7.942V60.291c0-4.828.867-8.235,2.85-8.235Z" transform="translate(259.683 68.367)" />
-                        <path class="logo-path" d="M32.1,176.382c1.915,0,2.649-1.522,2.649-4.132V52.056H65.673v145c0,9.566-3.1,15.439-10.162,15.439H0V176.382Z" transform="translate(0 68.367)" />
-                        <path class="logo-path" d="M32.078,212.5V68.858c0-9.566,3.091-16.8,10.158-16.8H87.443c7.213,0,10.3,7.236,10.3,16.8V212.5H66.827V153.873H63V212.5ZM63,96.472v33.051h3.829V96.472c0-1.737-.588-3.042-1.913-3.042S63,94.735,63,96.472" transform="translate(42.129 68.367)" />
-                        <path class="logo-path" d="M116.7,52.056c6.48,0,10.454,5.931,10.454,16.587V168.66c0,2.392.59,3.262,2.063,3.262h1.765V52.056H161.9V212.5H106.391c-7.067,0-10.158-6.653-10.158-16.221V52.056Z" transform="translate(126.387 68.367)" />
-                        <path class="logo-path" d="M128.311,176.541V88.826c0-5.82,3.091-9.394,10.158-9.394h45.207c7.213,0,10.3,3.574,10.3,9.394v87.715H163.06V140.56h-3.829v35.982Zm30.92-70.911v20.112h3.829V105.631a1.915,1.915,0,0,0-3.829,0" transform="translate(168.516 104.321)" />
-                        <path class="logo-path" d="M193.077,135h-1.767V176.54h-30.92V79.433H215.9c6.625,0,10.158,3.572,10.158,8.6V118.2c0,5.823-3.091,9.394-10.158,9.394h-.148v1.853h.148c7.067,0,10.158,3.572,10.158,9.392v37.7H205.3c-7.07,0-10.16-4.356-10.16-10.179v-29.5c0-1.457-.588-1.853-2.061-1.853m2.061-31.225h-3.829v20.112h1.767c1.177,0,1.915-.266,2.061-1.326Z" transform="translate(210.645 104.323)" />
-                        <path class="logo-path" d="M202.92,176.54c-6.48,0-10.454-3.563-10.454-10.047V139.9h30.92v9.792a1.719,1.719,0,0,0,1.915,1.851,1.79,1.79,0,0,0,1.913-1.851v-12.7H202.624c-7.067,0-10.158-3.572-10.158-9.395V88.825c0-5.82,3.091-9.392,10.158-9.392h45.353c7.067,0,10.16,3.572,10.16,9.392v20.51H227.215v-3.706a1.915,1.915,0,0,0-3.829,0v7.146h24.591c7.067,0,10.16,3.572,10.16,9.394v44.192c0,5.823-3.093,10.179-10.306,10.179Z" transform="translate(252.773 104.323)" />
-                        <path class="logo-path" d="M241.9,73.346h-16.54V83.759h2.05c.09,0,.162.2.162.44l-.555,33.992c0,.509.1,1.957-1.548,1.957a2,2,0,0,1-2.212-1.55l.049-6.857-.028-38.635c0-2.568.391-3.3,1.416-3.3l17.158-.023-.018-50.917-31.23-.248c-3.778,0-3.87,7.528-3.866,15.6l.06,107.524c0,8.074,1.661,13.026,5.436,13.02h24.241c3.78,0,5.429-4.994,5.425-13.253Z" transform="translate(271.521 24.448)" />
-                        <path class="logo-path" d="M130.289,115.737H99.119V128.06h1.529c.169,0,.305.234.305.523v40.611c0,1.145-.886,2.191-2.746,2.191-1.83,0-3.049-1.046-3.049-2.089l.093-8.115L95.2,115.452c0-3.04.736-3.907,2.667-3.91l32.329-.028-.035-59.46H74.251c-7.118,0-10.23,7.814-10.223,17.371l.116,127.261c.009,9.556,3.128,15.816,10.246,15.809h45.679c7.123-.007,10.23-6.311,10.22-16.085Z" transform="translate(84.091 68.366)" />
-                    </g>
-                </svg>
+          </article>
+          <article class="release">
+            <div class="inkcover"><a class="songlink" href="https://open.spotify.com/track/7Ec4IGvpI0cZH8g3JFetjV" target="_blank" rel="noopener" aria-label="Play One Time on Spotify"><img src="images/one-time-cover.jpg" width="640" height="640" loading="lazy" alt="The One Time cover: playing cards flung into the air under the band wordmark, in faded amber light."></a></div>
+            <h3 class="release-title"><a class="songlink" href="https://open.spotify.com/track/7Ec4IGvpI0cZH8g3JFetjV" target="_blank" rel="noopener"><span class="band slab" data-fit data-max="46"><span class="fit">One Time</span></span></a></h3>
+            <p class="release-meta"><span>Single <svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg></span><time datetime="2025-11-02">Nov 2, 2025</time></p>
+            <div class="play-row" role="group" aria-label="Play One Time">
+              <span class="play-label" aria-hidden="true"><svg><use href="#i-play"/></svg>Play</span>
+              <a class="play-svc" href="https://open.spotify.com/track/7Ec4IGvpI0cZH8g3JFetjV" target="_blank" rel="noopener" title="Spotify" aria-label="Play One Time on Spotify"><svg aria-hidden="true"><use href="#i-spotify"/></svg></a>
+              <a class="play-svc" href="https://music.apple.com/us/album/one-time/1850914825?i=1850914826" target="_blank" rel="noopener" title="Apple Music" aria-label="Play One Time on Apple Music"><svg aria-hidden="true"><use href="#i-applemusic"/></svg></a>
+              <a class="play-svc" href="https://music.youtube.com/watch?v=9-8uNkTLpM0" target="_blank" rel="noopener" title="YouTube Music" aria-label="Play One Time on YouTube Music"><svg aria-hidden="true"><use href="#i-youtubemusic"/></svg></a>
+              <a class="play-svc" href="https://www.amazon.com/dp/B0FZ5CGP1K" target="_blank" rel="noopener" title="Amazon Music" aria-label="Play One Time on Amazon Music"><svg class="wide" aria-hidden="true"><use href="#i-amazonmusic"/></svg></a>
             </div>
-            <h2 class="hero-title">Dad rock - reimagined for the 21st century</h2>
-        </div>
-    </section>
-
-    <section class="announcement">
-        <div class="announcement-content">
-            <div>
-                <h2 class="announcement-title">Check out "Christmas Dead Mouse," our new holiday single!</h2>
-                <div class="announcement-cta">
-                    <a href="https://open.spotify.com/track/2j2asJqWYIVCbcIFYIssh5?si=f45f43e5aba44b3c" target="_blank" class="cta-button">
-                        <i class="fab fa-spotify"></i>
-                    </a>
-                    <a href="https://music.apple.com/us/album/christmas-dead-mouse/1785361087?i=1785361088" target="_blank" class="cta-button">
-                        <i class="fab fa-apple"></i>
-                    </a>
-                </div>
+          </article>
+          <article class="release">
+            <div class="inkcover"><a class="songlink" href="https://open.spotify.com/track/4WCmjxb5KoRy6IWs0CtXpx" target="_blank" rel="noopener" aria-label="Play Rock and Roll Resurrection on Spotify"><img src="images/rnr-resurrection-cover.jpg" width="640" height="640" loading="lazy" alt="The Rock and Roll Resurrection cover: a collage of video stills and a yellow road sign under a pink wordmark."></a></div>
+            <h3 class="release-title"><a class="songlink" href="https://open.spotify.com/track/4WCmjxb5KoRy6IWs0CtXpx" target="_blank" rel="noopener"><span class="band slab" data-fit data-max="64"><span class="fit">Rock and Roll</span></span><span class="band slab" data-fit data-max="64"><span class="fit">Resurrection</span></span></a></h3>
+            <p class="release-meta"><span>Single <svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg></span><time datetime="2025-08-20">Aug 20, 2025</time></p>
+            <div class="play-row" role="group" aria-label="Play Rock and Roll Resurrection">
+              <span class="play-label" aria-hidden="true"><svg><use href="#i-play"/></svg>Play</span>
+              <a class="play-svc" href="https://open.spotify.com/track/4WCmjxb5KoRy6IWs0CtXpx" target="_blank" rel="noopener" title="Spotify" aria-label="Play Rock and Roll Resurrection on Spotify"><svg aria-hidden="true"><use href="#i-spotify"/></svg></a>
+              <a class="play-svc" href="https://music.apple.com/us/album/rock-and-roll-resurrection/1834618842?i=1834619113" target="_blank" rel="noopener" title="Apple Music" aria-label="Play Rock and Roll Resurrection on Apple Music"><svg aria-hidden="true"><use href="#i-applemusic"/></svg></a>
+              <a class="play-svc" href="https://music.youtube.com/watch?v=363CUPswdRU" target="_blank" rel="noopener" title="YouTube Music" aria-label="Play Rock and Roll Resurrection on YouTube Music"><svg aria-hidden="true"><use href="#i-youtubemusic"/></svg></a>
+              <a class="play-svc" href="https://www.amazon.com/dp/B0FN4R1WDV" target="_blank" rel="noopener" title="Amazon Music" aria-label="Play Rock and Roll Resurrection on Amazon Music"><svg class="wide" aria-hidden="true"><use href="#i-amazonmusic"/></svg></a>
             </div>
-            <img src="images/xdm-family-wide.png" alt="XDM Family" class="announcement-image">
+          </article>
         </div>
-    </section>
+      </section>
 
-
-    <section id="music" class="music-section">
-        <h2>Listen to "ingrid"</h2>
-        <p class="album-description">Please give our album "Ingrid" a listen. <br>We worked really hard on it and we're really proud of ourselves.</p>
-        <div class="music-links">
-            <a href="https://open.spotify.com/album/0mI1UqhzQZ5lNYgVsv6lLG?si=ANqBYuAtSYWIlLSgddBqGA" target="_blank" class="music-platform">
-                <i class="fab fa-spotify"></i>
-                <span>Spotify</span>
-            </a>
-            <a href="https://music.apple.com/us/album/ingrid/1729899286" target="_blank" class="music-platform">
-                <i class="fab fa-apple"></i>
-                <span>Apple Music</span>
-            </a>
-            <a href="https://swimmingwiththejaguars.bandcamp.com/album/ingrid" target="_blank" class="music-platform">
-                <i class="fab fa-bandcamp"></i>
-                <span>Bandcamp</span>
-            </a>
-            <a href="https://music.youtube.com/playlist?list=OLAK5uy_mpHs2fGyESO5UWaExPxe65EsodBjkxMKU" target="_blank" class="music-platform">
-                <i class="fab fa-youtube"></i>
-                <span>YouTube Music</span>
-            </a>
-            <a href="https://music.amazon.com/albums/B0CTTX2L1G" target="_blank" class="music-platform">
-                <i class="fab fa-amazon"></i>
-                <span>Amazon Music</span>
-            </a>
+      <section id="ingrid" class="press" aria-labelledby="ingrid-title">
+        <div class="head">
+          <h2 id="ingrid-title" class="band gothic c-bone grain" data-fit data-max="600"><span class="fit reg" data-text="Listen to “ingrid”" style="--rx:.03em;--ry:.03em">Listen to &ldquo;ingrid&rdquo;</span></h2>
         </div>
-    </section>
-
-    <section id="about" class="about-section">
-        <h2>About the Band</h2>
-        <div class="about-content">
-            <div class="band-members">
-                <div class="member">
-                    <div class="member-image" style="background-image: url('images/weezy-helmet.jpg');">
-                    </div>
-                    <h3>WeeZ</h3>
-                    <p>Picks fights at the tennis club</p>
-                </div>
-                <div class="member">
-                    <div class="member-image" style="background-image: url('images/lee-tongue.jpeg');">
-                    </div>
-                    <h3>Heartbreaker</h3>
-                    <p>Got kicked off the PTA board</p>
-                </div>
-                <div class="member">
-                    <div class="member-image" style="background-image: url('images/pete-hi.jpeg');">
-                    </div>
-                    <h3>Primetime Petey Pigskin</h3>
-                    <p>Eats all the appetizers</p>
-                </div>
-                <div class="member">
-                    <div class="member-image" style="background-image: url('images/paul-doofus.jpg');">
-                    </div>
-                    <h3>Sarge</h3>
-                    <p>Electronically monitored flight risk</p>
-                </div>
-            </div>
-            
-            <div class="bio">
-                <p>Swimming with the Jaguars is a Dad band from Montclair, New Jersey. They met at their children's daycare and communicated telepathically. Each one of them broadcasting the same message: "please play loud rock music with me or else I'll die in a sea of Cheerios, diapers, and cartoons with unhealthy social dynamics."</p>
-                
-                <p>Their unification was solidified when each band member attempted to properly integrate with normal, suburban adult society and failed. Mike picked fist fights at the tennis club. Lee got kicked off the PTA board. Who knew that 7 straight fundraisers with an 80's hair metal theme would generate so much ire! Pete showed up early at a party and ate all the appetizers before the guests arrived. His pleas to the party host about how he "didn't touch any of the fruit" fell upon deaf ears as they showed him to the door. Paul actually did not have any problems acclimating but the other guys in the band wore him down until he acquiesced and become part of their outcast rock n' roll bandit tribe. He is a flight risk and is closely monitored with a 'Swimming with the Jaguars' branded ankle bracelet.</p>
-                
-                <p>Music, as it always had been for each member of the band, was their saving grace. They have rocked their way into becoming Northern New Jersey's premiere Dad rock band serving Essex and Hudson counties. When they are not rocking supremely at local Irish taverns you can find them stealing song ideas at the local middle school talent show or picking food out of their teeth with the worn down edges of their Costco cards.</p>
-                
-                <p>Thank you for listening.</p>
-            </div>
+        <div class="album">
+          <div class="album-art">
+            <a class="songlink cover-link" href="https://open.spotify.com/album/0mI1UqhzQZ5lNYgVsv6lLG" target="_blank" rel="noopener" aria-label="Stream ingrid on Spotify"><img class="cover" src="images/ingrid-cover.jpg" width="640" height="640" alt="The ingrid album cover: a smiling woman in a horned Viking helmet holding a cocktail above red roses, on a brick red ground under the band's wordmark."></a>
+            <p class="album-note">Please give our album &ldquo;Ingrid&rdquo; a listen. We worked really hard on it and we're really proud of ourselves.</p>
+          </div>
+          <div class="tracks">
+            <h3 class="sr-only">Tracklist</h3>
+            <ol>
+              <li><a class="songlink" href="https://open.spotify.com/track/7HwnItF0J3TxoD8rbPrko3" target="_blank" rel="noopener" aria-label="Play Keeping in the Grey on Spotify"><span class="band gothic" data-fit data-max="64"><span class="fit">Keeping in the Grey</span></span></a></li>
+              <li><a class="songlink" href="https://open.spotify.com/track/418p9f2ZJccsqRYStgLANq" target="_blank" rel="noopener" aria-label="Play I Love You (Sometimes) on Spotify"><span class="band gothic" data-fit data-max="64"><span class="fit">I Love You (Sometimes)</span></span></a></li>
+              <li><a class="songlink" href="https://open.spotify.com/track/48gvoHvXtlNfBvcz2xhtCv" target="_blank" rel="noopener" aria-label="Play Pure Love on Spotify"><span class="band gothic" data-fit data-max="64"><span class="fit">Pure Love</span></span></a></li>
+              <li><a class="songlink" href="https://open.spotify.com/track/59UZlSh9t30esnJPB0SiDS" target="_blank" rel="noopener" aria-label="Play Fire Away on Spotify"><span class="band gothic" data-fit data-max="64"><span class="fit">Fire Away</span></span></a></li>
+              <li><a class="songlink" href="https://open.spotify.com/track/2QHIGLLqGNqPfOy7e8uEJS" target="_blank" rel="noopener" aria-label="Play Champion Hero on Spotify"><span class="band gothic" data-fit data-max="64"><span class="fit">Champion Hero</span></span></a></li>
+              <li><a class="songlink" href="https://open.spotify.com/track/7xScFySZyq1i4P4Zhtv18H" target="_blank" rel="noopener" aria-label="Play A New Space on Spotify"><span class="band gothic" data-fit data-max="64"><span class="fit">A New Space</span></span></a></li>
+              <li><a class="songlink" href="https://open.spotify.com/track/1olQPCsur8GRhIinxxiyPw" target="_blank" rel="noopener" aria-label="Play Smokescreen on Spotify"><span class="band gothic" data-fit data-max="64"><span class="fit">Smokescreen</span></span></a></li>
+              <li><a class="songlink" href="https://open.spotify.com/track/2h8ilz8LDvIeLmQM25MPgN" target="_blank" rel="noopener" aria-label="Play Stick Around on Spotify"><span class="band gothic" data-fit data-max="64"><span class="fit">Stick Around</span></span></a></li>
+              <li><a class="songlink" href="https://open.spotify.com/track/2c0BFEG1aW63lj4rhXkUKJ" target="_blank" rel="noopener" aria-label="Play The Ringing in My Ears on Spotify"><span class="band gothic" data-fit data-max="64"><span class="fit">The Ringing in My Ears</span></span></a></li>
+              <li><a class="songlink" href="https://open.spotify.com/track/1aZVcRjNKLOcEkN0rvrUOr" target="_blank" rel="noopener" aria-label="Play Feed the Beast on Spotify"><span class="band gothic" data-fit data-max="64"><span class="fit">Feed the Beast</span></span></a></li>
+            </ol>
+          </div>
         </div>
-    </section>
-
-    <!-- <section id="contact" class="contact-section">
-        <h2>Book Us</h2>
-        <p>Ready to rock with the Jaguars? Contact us!</p>
-        <div class="contact-button">
-            <a href="https://swimmingwiththejaguars.com/pages/contact" target="_blank" class="contact-link">Contact the Band</a>
+        <div class="listen">
+          <span class="listen-label">Stream<br>ingrid on</span>
+          <a class="platform" href="https://open.spotify.com/album/0mI1UqhzQZ5lNYgVsv6lLG?si=ANqBYuAtSYWIlLSgddBqGA" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-spotify"/></svg><span>Spotify</span></a>
+          <a class="platform" href="https://music.apple.com/us/album/ingrid/1729899286" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-applemusic"/></svg><span>Apple Music</span></a>
+          <a class="platform" href="https://swimmingwiththejaguars.bandcamp.com/album/ingrid" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-bandcamp"/></svg><span>Bandcamp</span></a>
+          <a class="platform" href="https://music.youtube.com/playlist?list=OLAK5uy_mpHs2fGyESO5UWaExPxe65EsodBjkxMKU" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-youtubemusic"/></svg><span>YouTube Music</span></a>
+          <a class="platform" href="https://music.amazon.com/albums/B0CTTX2L1G" target="_blank" rel="noopener"><svg class="wide" aria-hidden="true"><use href="#i-amazonmusic"/></svg><span>Amazon Music</span></a>
         </div>
-    </section> -->
+      </section>
 
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2025 Swimming with the Jaguars. All rights reserved.</p>
-            <div class="social-links">
-                <a href="https://www.facebook.com/swimmingwiththejaguars/" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/swimmingwiththejaguars/" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.youtube.com/@swimmingwiththejaguars" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
-            </div>
+      <section id="band" class="press" aria-labelledby="band-title">
+        <div class="head knock">
+          <h2 id="band-title" class="band gothic c-yellow grain" data-fit data-max="600"><span class="fit reg" data-text="Meet the Band" style="--rx:.03em;--ry:.03em">Meet the Band</span></h2>
+          <p class="sub"><span>Four dads</span><span><svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg> One daycare</span><span><svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg> Loud rock music</span></p>
         </div>
+        <div class="lineup">
+          <article class="member">
+            <div class="halftone"><img src="images/halftone-weez.png" width="640" height="640" loading="lazy" alt="WeeZ in a black hockey helmet and glasses, glaring sideways."></div>
+            <h3 class="name"><span class="band slab" data-fit data-max="52"><span class="fit">WeeZ</span></span></h3>
+            <p class="tag">Picks fights at the tennis club</p>
+          </article>
+          <article class="member">
+            <div class="halftone"><img src="images/halftone-lee.png" width="640" height="640" loading="lazy" alt="Heartbreaker sticking his tongue out in front of a drum kit."></div>
+            <h3 class="name"><span class="band slab" data-fit data-max="52"><span class="fit">Heartbreaker</span></span></h3>
+            <p class="tag">Got kicked off the PTA board</p>
+          </article>
+          <article class="member">
+            <div class="halftone"><img src="images/halftone-pete.png" width="640" height="640" loading="lazy" alt="Primetime Petey Pigskin, wide-eyed, biting into a slice of toast with jam."></div>
+            <h3 class="name"><span class="band slab" data-fit data-max="52"><span class="fit">Primetime Petey</span></span><span class="band slab" data-fit data-max="52"><span class="fit">Pigskin</span></span></h3>
+            <p class="tag">Eats all the appetizers</p>
+          </article>
+          <article class="member">
+            <div class="halftone"><img src="images/halftone-paul.png" width="640" height="640" loading="lazy" alt="Sarge grinning in a white cap and sunglasses."></div>
+            <h3 class="name"><span class="band slab" data-fit data-max="52"><span class="fit">Sarge</span></span></h3>
+            <p class="tag">Electronically monitored flight risk</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="story press" aria-labelledby="story-title">
+        <div class="handbill">
+          <h2 id="story-title" class="band gothic grain" data-fit data-max="600"><span class="fit reg" data-text="About the Band" style="--rx:.03em;--ry:.03em">About the Band</span></h2>
+          <div class="bio">
+            <p>Swimming with the Jaguars is a Dad band from Montclair, New Jersey. They met at their children's daycare and communicated telepathically. Each one of them broadcasting the same message: &ldquo;please play loud rock music with me or else I'll die in a sea of Cheerios, diapers, and cartoons with unhealthy social dynamics.&rdquo;</p>
+            <p>Their unification was solidified when each band member attempted to properly integrate with normal, suburban adult society and failed. Mike picked fist fights at the tennis club. Lee got kicked off the PTA board. Who knew that 7 straight fundraisers with an 80's hair metal theme would generate so much ire! Pete showed up early at a party and ate all the appetizers before the guests arrived. His pleas to the party host about how he &ldquo;didn't touch any of the fruit&rdquo; fell upon deaf ears as they showed him to the door. Paul actually did not have any problems acclimating but the other guys in the band wore him down until he acquiesced and become part of their outcast rock n' roll bandit tribe. He is a flight risk and is closely monitored with a 'Swimming with the Jaguars' branded ankle bracelet.</p>
+            <p>Music, as it always had been for each member of the band, was their saving grace. They have rocked their way into becoming Northern New Jersey's premiere Dad rock band serving Essex and Hudson counties. When they are not rocking supremely at local Irish taverns you can find them stealing song ideas at the local middle school talent show or picking food out of their teeth with the worn down edges of their Costco cards.</p>
+          </div>
+          <p class="thanks">Thank you for listening.</p>
+        </div>
+      </section>
+
+      <section id="book" class="book press" aria-labelledby="book-title">
+        <div class="head">
+          <h2 id="book-title" class="sr-only">Book Us</h2>
+          <div aria-hidden="true">
+            <span class="band gothic book-1 grain" data-fit data-max="700"><span class="fit reg" data-text="Book the" style="--rx:.03em;--ry:.03em">Book the</span></span>
+            <span class="band slab book-2 grain" data-fit data-max="700"><span class="fit reg" data-text="Jaguars" style="--rx:.03em;--ry:.03em">Jaguars</span></span>
+          </div>
+          <p class="sub"><span><svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg> Ready to rock</span><span>with the Jaguars?</span><span>Contact us! <svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg></span></p>
+        </div>
+        <div class="dm">
+          <a href="https://www.instagram.com/swimmingwiththejaguars/" target="_blank" rel="noopener">
+            <svg class="hand" viewBox="0 0 120 60" aria-hidden="true" style="--knuckle: var(--ink)"><use href="#i-hand"/></svg>
+            <span>Instagram<small>Send us a DM</small></span>
+          </a>
+          <a href="https://www.facebook.com/swimmingwiththejaguars/" target="_blank" rel="noopener"><span>Facebook<small>Message the band</small></span></a>
+          <a href="https://www.youtube.com/@swimmingwiththejaguars" target="_blank" rel="noopener"><span>YouTube<small>Watch the channel</small></span></a>
+        </div>
+      </section>
+    </main>
+
+    <div class="orn" aria-hidden="true"><span></span><svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg><svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg><svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg><span></span></div>
+    <footer class="foot">
+      <span class="logo" role="img" aria-label="Swimming with the Jaguars logo"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 513.425 280.863"> <defs> <clipPath id="logo-clip"> <rect width="513.425" height="280.863" fill="none"/> </clipPath> </defs> <g clip-path="url(#logo-clip)"> <path fill="currentColor" d="M97.994,116.317c-4.761,0-7.683-3.359-7.683-11.185V73.014h22.724V84.837c0,1.279.435,2.237,1.409,2.237.865,0,1.407-.958,1.407-2.237V69.5H97.778c-5.193,0-7.467-4.31-7.467-11.34V11.342C90.311,4.312,92.585,0,97.778,0h33.331c5.2,0,7.467,4.312,7.467,11.342V36.109H115.85V31.637c0-1.279-.435-2.237-1.407-2.237s-1.409.958-1.409,2.237v8.626l16.517,1.559c5.193,0,9.024,2.753,9.024,9.781V104.97c0,7.03-2.272,11.347-7.574,11.347Z" transform="translate(118.609 0)" /> <path fill="currentColor" d="M128.873,74.084h1.094l-1-55.758h14.8l.564,54.748c0,.71.273,1.011.685,1.011h.821V26.2c0-4.444-.123-8.12,3.229-8.12h9.579L160.212,85.4c0,4.446-1.439,7.176-4.791,7.176H153.1l-17.38-.1v.1H118.541c-3.285,0-4.722-2.73-4.722-7.176l-1.557-67.321h9.51c3.01,0,5.638,3.086,5.638,8.039l.777,46.554c0,1.009.206,1.413.685,1.413" transform="translate(147.439 23.743)" /> <path fill="currentColor" d="M148.1,18.186l.588,17.165H134.323l-.245-17.165Zm.588,74.126H134.321V37.475h14.368Z" transform="translate(176.09 23.884)" /> <path fill="currentColor" d="M158.435,37.616h-1.027V92.574H143.04l-1.557-74.5h41.668c3.285,0,6.281,3.576,6.281,8.023V92.574h-9.647c-3.285,0-4.722-2.73-4.722-7.176V38.928c0-.907-.206-1.312-.754-1.416h-.752V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.342-.911-.752-1.011" transform="translate(185.815 23.743)" /> <path fill="currentColor" d="M180.25,37.616h-1.027V92.574H164.855l-1.557-74.5h41.668c3.285,0,6.281,3.576,6.281,8.023V92.574H201.6c-3.285,0-4.722-2.73-4.722-7.176V38.928c0-.907-.206-1.312-.754-1.416h-.752V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.342-.911-.752-1.011" transform="translate(214.466 23.743)" /> <path fill="currentColor" d="M199.48,35.493H185.112V18.078H199.48Zm0,56.961H185.112V37.616H199.48Z" transform="translate(243.115 23.743)" /> <path fill="currentColor" d="M207.92,37.616h-1.027V92.574H192.524l-.113-74.249,24.353-.248c3.283,0,6.278,3.676,6.278,8.12V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.271-.911-.752-1.011" transform="translate(252.701 23.743)" /> <path fill="currentColor" d="M139.084,95.4h.8V52.056h10.477V94.615c0,.551.2.789.5.789h.6V58.089c0-3.465,1.048-6.033,3.493-6.033h6.986V104.22c0,3.463-1.048,5.825-3.493,5.825H131.549c-2.4,0-3.442-2.362-3.442-5.825V52.056h6.935c2.2,0,3.542,2.1,3.542,5.952V94.3c0,.789.15,1.1.5,1.1" transform="translate(168.248 68.367)" /> <path fill="currentColor" d="M154.782,65.33H144.3V52.056h10.479Zm0,44.715H144.3V66.984h10.479Z" transform="translate(189.519 68.367)" /> <path fill="currentColor" d="M172.658,86.036v18.183c0,3.465-1.048,5.825-3.442,5.825H153.851c-2.4,0-3.445-2.36-3.445-5.825V52.055h10.479V66.983h11.773v16.14H160.885v11.1c0,.865.2,1.182.7,1.182h.594V86.036Z" transform="translate(197.534 68.366)" /> <path fill="currentColor" d="M172.077,104.22c0,3.463-1.048,5.825-3.442,5.825H161.6V52.056h7.037c2.394,0,3.442,2.57,3.442,6.033V78.162c0,.632.2.789.648.789s.65-.157.65-.789V58.089c0-3.463,1.046-6.033,3.442-6.033h7.035v57.989h-7.035c-2.4,0-3.442-2.362-3.442-5.825V86.666c0-.787-.2-1.1-.65-1.1s-.648.236-.648,1.1Z" transform="translate(212.233 68.367)" /> <path fill="currentColor" d="M197.575,86.036v18.183c0,3.465-1.048,5.825-3.442,5.825H178.766c-2.4,0-3.445-2.36-3.445-5.825V52.055H185.8V66.983h11.775v16.14H185.8v11.1c0,.865.2,1.182.7,1.182h.6V86.036Z" transform="translate(230.256 68.366)" /> <path fill="currentColor" d="M197,104.22c0,3.463-1.048,5.825-3.442,5.825h-7.037V52.056h7.037c2.394,0,3.442,2.57,3.442,6.033V78.162c0,.632.2.789.648.789s.652-.157.652-.789V58.089c0-3.463,1.043-6.033,3.44-6.033h7.035v57.989h-7.035c-2.4,0-3.44-2.362-3.44-5.825V86.666c0-.787-.2-1.1-.652-1.1s-.648.236-.648,1.1Z" transform="translate(244.968 68.367)" /> <path fill="currentColor" d="M216.16,52.056V70.278h-9.341c-.248,0-.414.331-.414,1.1v1.316h9.755V89.7H206.4V91.02c0,.768.167,1.1.414,1.1h9.341v17.928H200.577c-1.983,0-2.85-3.111-2.85-7.942V60.291c0-4.828.867-8.235,2.85-8.235Z" transform="translate(259.683 68.367)" /> <path fill="currentColor" d="M32.1,176.382c1.915,0,2.649-1.522,2.649-4.132V52.056H65.673v145c0,9.566-3.1,15.439-10.162,15.439H0V176.382Z" transform="translate(0 68.367)" /> <path fill="currentColor" d="M32.078,212.5V68.858c0-9.566,3.091-16.8,10.158-16.8H87.443c7.213,0,10.3,7.236,10.3,16.8V212.5H66.827V153.873H63V212.5ZM63,96.472v33.051h3.829V96.472c0-1.737-.588-3.042-1.913-3.042S63,94.735,63,96.472" transform="translate(42.129 68.367)" /> <path fill="currentColor" d="M116.7,52.056c6.48,0,10.454,5.931,10.454,16.587V168.66c0,2.392.59,3.262,2.063,3.262h1.765V52.056H161.9V212.5H106.391c-7.067,0-10.158-6.653-10.158-16.221V52.056Z" transform="translate(126.387 68.367)" /> <path fill="currentColor" d="M128.311,176.541V88.826c0-5.82,3.091-9.394,10.158-9.394h45.207c7.213,0,10.3,3.574,10.3,9.394v87.715H163.06V140.56h-3.829v35.982Zm30.92-70.911v20.112h3.829V105.631a1.915,1.915,0,0,0-3.829,0" transform="translate(168.516 104.321)" /> <path fill="currentColor" d="M193.077,135h-1.767V176.54h-30.92V79.433H215.9c6.625,0,10.158,3.572,10.158,8.6V118.2c0,5.823-3.091,9.394-10.158,9.394h-.148v1.853h.148c7.067,0,10.158,3.572,10.158,9.392v37.7H205.3c-7.07,0-10.16-4.356-10.16-10.179v-29.5c0-1.457-.588-1.853-2.061-1.853m2.061-31.225h-3.829v20.112h1.767c1.177,0,1.915-.266,2.061-1.326Z" transform="translate(210.645 104.323)" /> <path fill="currentColor" d="M202.92,176.54c-6.48,0-10.454-3.563-10.454-10.047V139.9h30.92v9.792a1.719,1.719,0,0,0,1.915,1.851,1.79,1.79,0,0,0,1.913-1.851v-12.7H202.624c-7.067,0-10.158-3.572-10.158-9.395V88.825c0-5.82,3.091-9.392,10.158-9.392h45.353c7.067,0,10.16,3.572,10.16,9.392v20.51H227.215v-3.706a1.915,1.915,0,0,0-3.829,0v7.146h24.591c7.067,0,10.16,3.572,10.16,9.394v44.192c0,5.823-3.093,10.179-10.306,10.179Z" transform="translate(252.773 104.323)" /> <path fill="currentColor" d="M241.9,73.346h-16.54V83.759h2.05c.09,0,.162.2.162.44l-.555,33.992c0,.509.1,1.957-1.548,1.957a2,2,0,0,1-2.212-1.55l.049-6.857-.028-38.635c0-2.568.391-3.3,1.416-3.3l17.158-.023-.018-50.917-31.23-.248c-3.778,0-3.87,7.528-3.866,15.6l.06,107.524c0,8.074,1.661,13.026,5.436,13.02h24.241c3.78,0,5.429-4.994,5.425-13.253Z" transform="translate(271.521 24.448)" /> <path fill="currentColor" d="M130.289,115.737H99.119V128.06h1.529c.169,0,.305.234.305.523v40.611c0,1.145-.886,2.191-2.746,2.191-1.83,0-3.049-1.046-3.049-2.089l.093-8.115L95.2,115.452c0-3.04.736-3.907,2.667-3.91l32.329-.028-.035-59.46H74.251c-7.118,0-10.23,7.814-10.223,17.371l.116,127.261c.009,9.556,3.128,15.816,10.246,15.809h45.679c7.123-.007,10.23-6.311,10.22-16.085Z" transform="translate(84.091 68.366)" /> </g> </svg></span>
+      <p>&copy; 2026 Swimming with the Jaguars. All rights reserved.</p>
+      <nav aria-label="Social">
+        <a href="https://www.instagram.com/swimmingwiththejaguars/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/swimmingwiththejaguars/" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.youtube.com/@swimmingwiththejaguars" target="_blank" rel="noopener">YouTube</a>
+      </nav>
     </footer>
 
-    <script src="script.js"></script>
+  </div>
+</div>
+
+<script>
+(() => {
+  // Fit each band to its measure, the way a compositor picks the wood type
+  // size that fills the chase edge to edge.
+  const bands = [...document.querySelectorAll('[data-fit]')];
+  const fit = (el) => {
+    const inner = el.querySelector('.fit');
+    if (!inner) return;
+    const max = parseFloat(el.dataset.max) || 400;
+    const cs = getComputedStyle(el);
+    const avail = el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    el.style.fontSize = '100px';
+    const w = inner.getBoundingClientRect().width;
+    if (!w || !avail) { el.style.fontSize = ''; return; }
+    el.style.fontSize = Math.min(max, Math.floor(100 * avail / w * 10) / 10) + 'px';
+  };
+  const fitAll = () => bands.forEach(fit);
+  const ro = new ResizeObserver(() => fitAll());
+  const ready = document.fonts ? document.fonts.ready : Promise.resolve();
+  ready.then(() => {
+    fitAll();
+    bands.forEach((b) => ro.observe(b.parentElement));
+  });
+
+  // Press pull: strike each section once as it comes into view.
+  const presses = document.querySelectorAll('.press');
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('inked'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.18 });
+  ready.then(() => presses.forEach((p) => io.observe(p)));
+})();
+
+  // Snow over the holiday section: slow, sparse, paused offscreen and still for reduced motion.
+  (() => {
+    const cv = document.querySelector('.single .snow');
+    if (!cv) return;
+    const ctx = cv.getContext('2d');
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let w = 0, h = 0, flakes = [], running = false, raf = 0;
+    const size = () => {
+      const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+      w = r.width; h = r.height; cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.round(w * h / 9000);
+      flakes = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, r: .8 + Math.random() * 2.2, v: .25 + Math.random() * .6, d: Math.random() * 6.28, a: .35 + Math.random() * .55 }));
+      draw();
+    };
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      for (const f of flakes) { ctx.globalAlpha = f.a; ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill(); }
+    };
+    const step = () => {
+      for (const f of flakes) { f.y += f.v; f.d += .01; f.x += Math.sin(f.d) * .3; if (f.y > h + 4) { f.y = -4; f.x = Math.random() * w; } }
+      draw(); if (running) raf = requestAnimationFrame(step);
+    };
+    new ResizeObserver(size).observe(cv);
+    if (still) return;
+    new IntersectionObserver(([e]) => { running = e.isIntersecting; cancelAnimationFrame(raf); if (running) raf = requestAnimationFrame(step); }).observe(cv);
+  })();
+</script>
+
 </body>
 </html>
