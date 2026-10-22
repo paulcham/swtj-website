@@ -1,68 +1,35 @@
 # Swimming with the Jaguars - Band Website
 
-A rock and roll themed website for the Dad band "Swimming with the Jaguars" from Montclair, New Jersey.
+The single-page website for Swimming with the Jaguars, Northern New Jersey's premiere Dad rock band from Montclair, New Jersey.
 
-## Features
+The page is designed as a printed tavern gig poster: brick red stock, brand yellow (`#e6b400`) ink, wood-type headlines that fill the width of the sheet, and a second ink pass printed slightly off register.
 
-- Modern, responsive single-page design
-- Rock and roll aesthetic with grayscale-to-color hover effects
-- Band bio and member profiles with playful titles
-- Featured announcement section for latest release "Christmas Dead Mouse"
-- Direct links to music platforms (Spotify and Apple Music) with icon buttons
-- Mobile-optimized layout with 2-column grids
+## Sections
 
-## Current Content
+- Hero: "Live! Loud! Local!", the stacked logo, and "Dad Rock, reimagined for the 21st century"
+- Holiday greeting and the single "Christmas Dead Mouse", over an animated winter scene
+- New singles: "World Events", "One Time", and "Rock and Roll Resurrection"
+- The album "ingrid", with the full tracklist
+- Meet the Band: halftone portraits of WeeZ, Heartbreaker, Primetime Petey Pigskin, and Sarge
+- About the Band (the bio)
+- Booking through Instagram, Facebook, and YouTube
 
-- Hero section with tagline "Dad rock - reimagined for the 21st century"
-- Latest release announcement with streaming links
-- Band member profiles with fun descriptions
-- Band bio section with origin story
-- Music section with streaming platform links
+Every single has a play row that links to it on Spotify, Apple Music, YouTube Music, and Amazon Music. The album also links to Bandcamp.
 
-## Technologies Used
+## Files
 
-- HTML5
-- CSS3 (with hover effects and responsive design)
-- Font Awesome (for Spotify and Apple Music icons)
-- Google Fonts (Jura)
+- `index.html`: the whole site. The CSS and JavaScript are inline, so there is no build step.
+- `images/`: covers and halftone portraits used by the page, plus the original source photos and logos.
 
-## Local Development
+Fonts load from Google Fonts (Big Shoulders Display, Ultra, Rye, Bitter). Platform icons are inline SVG from Simple Icons.
 
-Run a local server to view the website:
+## Local development
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then visit `http://localhost:8000` in your browser.
-
-## Getting Started
-
-To view the website locally, simply open the `index.html` file in your web browser.
-
-```
-open index.html
-```
-
-Or you can use a local server to serve the files.
-
-## Customization
-
-### Adding Real Images
-
-Replace the placeholder elements with actual images:
-
-1. Replace the hero background image in the CSS
-2. Add band member photos in the about section
-3. Add a band logo if available
-
-### Adding Real Music Links
-
-Update the Spotify and Apple Music links in the index.html file with the actual links to the band's music.
-
-### Adding a Contact Form
-
-Implement a working contact form to replace the placeholder.
+Then visit `http://localhost:8000`.
 
 ## License
 
