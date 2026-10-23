@@ -2,6 +2,8 @@
 
 The single-page website for Swimming with the Jaguars, Northern New Jersey's premiere Dad rock band from Montclair, New Jersey.
 
+Live at https://swimmingwiththejaguars.com, deployed automatically by Netlify on every push to `main`.
+
 The page is designed as a printed tavern gig poster: brick red stock, brand yellow (`#e6b400`) ink, wood-type headlines that fill the width of the sheet, and a second ink pass printed slightly off register.
 
 ## Sections

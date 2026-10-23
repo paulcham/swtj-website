@@ -4,7 +4,9 @@ Single-page static site for the band Swimming with the Jaguars. See `README.md` 
 
 ## Deployment
 
-The site auto-deploys to Netlify. **Every push to `main` goes straight to the live site**; there is no staging step and no build. Check changes locally before pushing to `main`.
+The site auto-deploys to Netlify. **Every push to `main` goes straight to the live site** at https://swimmingwiththejaguars.com; there is no staging step and no build. Check changes locally before pushing to `main`.
+
+After pushing, give Netlify about 5 minutes, then check the live site to confirm the change deployed (e.g. fetch the changed files and compare them with the repo, and load the page to look for console errors).
 
 ## Layout
 
