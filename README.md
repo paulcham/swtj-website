@@ -18,7 +18,11 @@ Every single has a play row that links to it on Spotify, Apple Music, YouTube Mu
 
 ## Files
 
-- `index.html`: the whole site. The CSS and JavaScript are inline, so there is no build step.
+- `index.html`: the page markup.
+- `css/style.css`: all of the styles.
+- `js/main.js`: headline fitting, the scroll-in press animation, and the holiday snow.
+
+There is no build step; the files are served as they are.
 - `images/`: covers and halftone portraits used by the page, plus the original source photos and logos.
 
 Fonts load from Google Fonts (Big Shoulders Display, Ultra, Rye, Bitter). Platform icons are inline SVG from Simple Icons.

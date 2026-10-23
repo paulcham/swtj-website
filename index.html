@@ -10,555 +10,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Bitter:ital,wght@0,400;0,600;0,800;1,400&family=Rye&family=Ultra&display=swap" rel="stylesheet">
-<style>
-:root {
-  --stock: #80261b;
-  --stock-deep: #5e1a12;
-  --yellow: #e6b400;
-  --ink: #1a120f;
-  --bone: #f3e8cf;
-  --gothic: "Big Shoulders Display", "Arial Narrow", sans-serif;
-  --slab: "Ultra", "Rockwell", serif;
-  --orn: "Rye", serif;
-  --text: "Bitter", Georgia, serif;
-  --gut: clamp(12px, 1.4vw, 20px);
-  --rule: 0px;
-  color-scheme: dark;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scrollbar-color: var(--yellow) var(--stock-deep); }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-body {
-  background: var(--stock);
-  color: var(--bone);
-  font-family: var(--text);
-  font-size: 18px;
-  line-height: 1.55;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-::selection { background: var(--yellow); color: var(--ink); }
-::-webkit-scrollbar { width: 12px; }
-::-webkit-scrollbar-track { background: var(--stock-deep); }
-::-webkit-scrollbar-thumb { background: var(--yellow); border: 3px solid var(--stock-deep); }
-a { color: inherit; }
-:focus-visible { outline: 3px solid var(--bone); outline-offset: 3px; }
-
-/* Poster stock: fibers and uneven ink take-up, multiplied over everything */
-body::after {
-  content: "";
-  position: fixed; inset: 0;
-  pointer-events: none;
-  z-index: 50;
-  mix-blend-mode: multiply;
-  opacity: .35;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.011' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .92  0 0 0 0 .85  -1.1 0 0 0 .95'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23fff'/%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.5'/%3E%3C/svg%3E");
-}
-
-/* Printed softness: crisp type, the whole sheet sits a hair out of focus like a printed poster */
-.poster { filter: blur(.45px); }
-
-
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-
-.poster {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: var(--gut);
-}
-.sheet {
-  margin: 0;
-}
-
-/* Bands: each line is a full-width slab sized by the fitter */
-.band {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  width: 100%;
-  min-width: 0;
-  line-height: .86;
-  white-space: nowrap;
-  font-size: var(--fallback, 8vw);
-}
-.band > .fit { display: block; flex: none; position: relative; }
-.gothic { font-family: var(--gothic); font-weight: 900; text-transform: uppercase; letter-spacing: .005em; }
-.gothic-md { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
-.slab { font-family: var(--slab); font-weight: 400; text-transform: uppercase; letter-spacing: -.005em; }
-.c-yellow { color: var(--yellow); }
-.c-bone { color: var(--bone); }
-.c-ink { color: var(--ink); }
-
-/* The second run of ink: a contracted key pass printed under the first, landing
-   off-register by a different distance and direction on every band */
-.reg::before {
-  content: attr(data-text);
-  position: absolute; left: 0; top: 0;
-  color: var(--pass, var(--ink));
-  -webkit-text-stroke: .02em var(--stroke, var(--stock));
-  z-index: -1;
-  transform: translate(var(--rx, .03em), var(--ry, .03em));
-  mix-blend-mode: var(--blend, multiply);
-  white-space: nowrap;
-}
-.reg { isolation: auto; z-index: 0; }
-
-.rule { border: 0; border-top: var(--rule) solid var(--ink); }
-.rule-thin { border: 0; border-top: 1.5px solid var(--ink); margin: 6px 0; }
-
-/* Masthead strip */
-.strip {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: stretch;
-  border-bottom: var(--rule) solid var(--ink);
-}
-.strip-home {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 18px;
-  border-right: 1.5px solid var(--ink);
-  text-decoration: none;
-  font-family: var(--gothic); font-weight: 800; text-transform: uppercase;
-  font-size: 22px; letter-spacing: .08em; line-height: 1;
-  color: var(--bone);
-}
-.strip-home small { display: block; font-size: 13px; letter-spacing: .3em; color: var(--yellow); margin-top: 3px; }
-.strip-cta {
-  display: flex; align-items: center; gap: 12px;
-  margin: 8px; padding: 0 22px;
-  background: var(--yellow); color: var(--ink);
-  font-family: var(--gothic); font-weight: 900; text-transform: uppercase;
-  font-size: 24px; letter-spacing: .08em; text-decoration: none;
-  transition: background-color .18s ease-out;
-}
-.strip-cta:hover { background: var(--bone); }
-.strip-cta svg { width: 18px; height: 18px; }
-
-/* Hero */
-.hero { padding: clamp(8px, .8vw, 12px) clamp(14px, 2.4vw, 34px) 0; }
-.hero .band + .band { margin-top: .06em; }
-.presents { --fallback: 7vw; }
-.name-1 { --fallback: 10vw; margin-top: clamp(6px, .8vw, 12px); }
-.name-2 { --fallback: 22vw; }
-.premiere {
-  display: flex; align-items: center; gap: 18px;
-  font-family: var(--gothic); font-weight: 800; text-transform: uppercase;
-  letter-spacing: .22em; font-size: clamp(14px, 1.6vw, 24px);
-  color: var(--bone); margin: clamp(8px, 1vw, 14px) 0 clamp(4px, .6vw, 10px);
-  white-space: nowrap;
-}
-.premiere::before, .premiere::after { content: ""; flex: 1; height: 0; border-top: 3px double var(--ink); border-bottom: 1.5px solid var(--ink); padding-top: 4px; }
-.dadrock { --fallback: 24vw; }
-.reimagined {
-  display: flex; justify-content: center; align-items: center; gap: clamp(10px, 2vw, 28px);
-  margin: clamp(8px, 1vw, 14px) 0 clamp(10px, 1.2vw, 18px);
-}
-.reimagined p {
-  font-family: var(--orn); color: var(--yellow);
-  font-size: clamp(22px, 3vw, 44px); line-height: 1; text-align: center;
-}
-.star { width: clamp(18px, 2.6vw, 38px); height: auto; color: var(--ink); flex: none; }
-
-/* Row of three boxed facts under the headline */
-.facts {
-  display: grid; grid-template-columns: 1fr 1.6fr 1fr;
-  border-top: 1.5px solid var(--ink);
-}
-.facts > * { padding: clamp(14px, 1.6vw, 22px); text-align: center; display: grid; place-content: center; gap: 6px; }
-.facts > * + * { border-left: 1.5px solid var(--ink); }
-.fact-small { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .2em; font-size: clamp(13px, 1.1vw, 17px); color: var(--bone); }
-.fact-big { font-family: var(--gothic); font-weight: 900; text-transform: uppercase; font-size: clamp(34px, 4vw, 64px); line-height: .9; color: var(--yellow); }
-.fact-mid { font-family: var(--slab); text-transform: uppercase; font-size: clamp(22px, 2.3vw, 36px); line-height: 1; color: var(--bone); }
-.hero .dadrock { width: 56%; margin-inline: auto; }
-.hero { padding-top: clamp(28px, 3.6vw, 56px); }
-.serving { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: clamp(12px, 1.6vw, 24px); row-gap: 2px; padding: clamp(14px, 1.8vw, 24px) 16px; border-top: var(--rule) solid var(--ink); text-align: center; }
-.serving .fact-big { white-space: nowrap; }
-@media (max-width: 640px) { .serving { flex-direction: column; align-items: center; } }
-.fact-center { display: flex !important; align-items: center; justify-content: center; gap: clamp(10px, 1.6vw, 22px); }
-.fact-center .hand { width: clamp(46px, 5vw, 78px); color: var(--yellow); flex: none; }
-.fact-center .songlink .fact-small:last-child { margin-top: .45em; }
-.fact-center .hand.flip { transform: scaleX(-1); }
-
-/* Ticket buttons: the action band */
-.actions {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  border-top: 1.5px solid var(--ink);
-}
-.orn {
-  display: flex; align-items: center; gap: 14px;
-  padding: clamp(28px, 3.4vw, 52px) clamp(14px, 2.4vw, 34px);
-  border-top: var(--rule) solid var(--ink);
-  color: var(--yellow);
-}
-.orn span { flex: 1; height: 7px; border-top: 3px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
-.orn .star { width: 22px; color: var(--yellow); }
-.ticket {
-  display: flex; align-items: center; justify-content: center; gap: 14px;
-  min-height: 60px; padding: 10px 18px;
-  font-family: var(--gothic); font-weight: 900; text-transform: uppercase;
-  font-size: clamp(22px, 2.2vw, 34px); letter-spacing: .06em; line-height: 1;
-  text-decoration: none; text-align: center;
-  transition: background-color .18s ease-out, color .18s ease-out;
-}
-.ticket + .ticket { border-left: 1.5px solid var(--ink); }
-.ticket svg { width: .8em; height: .8em; flex: none; transition: transform .2s cubic-bezier(.2,.9,.2,1); }
-.ticket:hover svg { transform: translateX(4px); }
-.t-yellow { background: var(--yellow); color: var(--ink); }
-.t-yellow:hover { background: var(--bone); }
-.t-ink { background: var(--ink); color: var(--yellow); }
-.t-ink:hover { color: var(--bone); }
-.t-bone { background: var(--bone); color: var(--ink); }
-.t-bone:hover { background: var(--yellow); }
-
-/* Section header bands */
-.head {
-  padding: clamp(18px, 2.4vw, 34px) clamp(14px, 2.4vw, 34px) clamp(12px, 1.4vw, 18px);
-  border-top: var(--rule) solid var(--ink);
-}
-.head .band { --fallback: 12vw; }
-.head.knock { background: var(--ink); --pass: var(--stock); --stroke: var(--ink); --blend: normal; }
-.sub {
-  font-family: var(--gothic); font-weight: 800; text-transform: uppercase;
-  letter-spacing: .24em; font-size: clamp(14px, 1.3vw, 20px);
-  text-align: center; color: var(--bone); margin-top: 12px;
-  display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;
-}
-.sub .star { width: 14px; color: var(--yellow); }
-.sub > span { white-space: nowrap; display: inline-flex; align-items: center; gap: 14px; }
-
-/* ingrid */
-.album {
-  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-}
-.album-art { padding: clamp(16px, 2.4vw, 36px); display: grid; gap: 22px; align-content: start; }
-.cover {
-  display: block; width: 100%; height: auto; aspect-ratio: 1;
-}
-.album-note {
-  font-family: var(--text); font-style: italic; font-size: clamp(19px, 1.6vw, 24px); line-height: 1.4;
-  color: var(--bone); text-align: center; text-wrap: balance;
-}
-.album-note::before, .album-note::after { font-family: var(--orn); color: var(--yellow); font-style: normal; }
-.album-note::before { content: "\201C"; }
-.album-note::after { content: "\201D"; }
-.tracks { padding: clamp(16px, 2.4vw, 36px) clamp(16px, 2.6vw, 40px); }
-.tracks ol { list-style: none; counter-reset: t; }
-.tracks li {
-  counter-increment: t;
-  display: grid; grid-template-columns: 2.4em 1fr; align-items: center;
-  padding: 4px 0 6px;
-}
-.tracks li::before {
-  content: counter(t);
-  font-family: var(--slab); font-size: clamp(16px, 1.4vw, 22px); color: var(--ink);
-  background: var(--yellow);
-  width: 1.9em; height: 1.9em; display: grid; place-items: center;
-  border-radius: 50%;
-}
-.tracks .band { justify-content: flex-start; text-align: left; --fallback: 6vw; }
-.tracks li:nth-child(odd) .band { color: var(--bone); }
-.tracks li:nth-child(even) .band { color: var(--yellow); }
-.tracks .gothic { font-weight: 800; }
-.listen {
-  border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); border-right: 1.5px solid var(--ink);
-  display: grid; grid-template-columns: auto repeat(5, 1fr);
-}
-.listen-label {
-  display: grid; place-items: center; padding: 14px 22px;
-  background: var(--ink); color: var(--yellow);
-  font-family: var(--gothic); font-weight: 900; text-transform: uppercase; letter-spacing: .14em;
-  font-size: clamp(18px, 1.6vw, 24px); line-height: 1.05; text-align: center;
-}
-.platform {
-  display: grid; place-items: center; min-height: 72px; padding: 12px 10px;
-  border-left: 1.5px solid var(--ink);
-  font-family: var(--gothic); font-weight: 900; text-transform: uppercase;
-  font-size: clamp(18px, 1.6vw, 26px); letter-spacing: .08em; line-height: 1; text-align: center;
-  text-decoration: none; color: var(--bone);
-  transition: background-color .18s ease-out, color .18s ease-out;
-}
-.platform:hover { background: var(--yellow); color: var(--ink); }
-
-/* New singles: three ruled cells, covers printed in one ink */
-.releases {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-.release {
-  min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr);
-  grid-row: span 4; grid-template-rows: subgrid; row-gap: 14px;
-  padding: clamp(14px, 1.8vw, 26px); text-align: center;
-}
-.inkcover { aspect-ratio: 1; background: var(--yellow); border: 3px solid var(--ink); overflow: hidden; }
-.inkcover img {
-  display: block; width: 100%; height: 100%; object-fit: cover;
-  filter: grayscale(1) contrast(1.45) brightness(1.05);
-  mix-blend-mode: multiply;
-}
-.release-title { align-self: center; display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; gap: .08em; }
-.release-title .band { --fallback: 6vw; color: var(--yellow); }
-.release-meta {
-  display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap;
-  font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .2em;
-  font-size: 16px; color: var(--bone);
-  border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); padding: 8px 0;
-}
-.release-meta > span { display: inline-flex; align-items: center; gap: 12px; white-space: nowrap; }
-.release-meta .star { width: 13px; color: var(--yellow); }
-.release-meta time { white-space: nowrap; }
-.release-play {
-  display: flex; align-items: center; justify-content: center; gap: 12px;
-  min-height: 56px; padding: 10px 16px;
-  background: var(--yellow); color: var(--ink); text-decoration: none;
-  font-family: var(--gothic); font-weight: 900; text-transform: uppercase; letter-spacing: .08em;
-  font-size: clamp(19px, 1.7vw, 24px); line-height: 1;
-  transition: background-color .18s ease-out;
-}
-.release-play:hover { background: var(--bone); }
-.release-play svg { width: .8em; height: .8em; flex: none; }
-
-/* Holiday single */
-.single { border-bottom: 10px solid var(--stock);
-  border-top: var(--rule) solid var(--ink);
-  background: var(--ink);
-  color: var(--bone);
-  display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); align-items: center;
-}
-/* Holiday section: a printed winter night behind the single, drawn in the poster's own inks */
-.single { position: relative; overflow: hidden; isolation: isolate; }
-.single > figure, .single > .single-copy { position: relative; z-index: 2; }
-.winter { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-.single { --night: #10203a; background: linear-gradient(180deg, #0c1a31 0%, #17304f 70%, #1f3d60 100%); }
-.w-hill-far { fill: #8fa1b6; }
-.w-far { fill: #2c6150; }
-.w-hill { fill: #b4bfcd; }
-.w-near { fill: #44725f; }
-.snow { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-.single figure { margin: clamp(14px, 2vw, 28px); border: 2px solid var(--yellow); justify-self: center;
-  /* Same width as a New Singles cover: one third of the sheet, less that card's padding */
-  width: calc((min(100vw, 1440px) - 2 * var(--gut)) / 3 - 2 * clamp(14px, 1.8vw, 26px)); }
-@media (max-width: 980px) { .single figure { margin-inline: auto; } }
-@media (max-width: 640px) { .single figure { width: calc(100% - 2 * clamp(14px, 2vw, 28px)); max-width: 320px; } }
-.single figure img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
-.single-copy { padding: clamp(20px, 3vw, 44px) clamp(18px, 3vw, 44px) clamp(20px, 3vw, 44px) 0; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
-.single-copy .kick { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .3em; font-size: 16px; color: var(--yellow); display: flex; align-items: center; gap: 12px; }
-.single-copy .kick .star { width: 16px; color: var(--yellow); }
-.single-copy .band { justify-content: flex-start; text-align: left; --fallback: 9vw; color: var(--yellow); --pass: var(--stock); --stroke: var(--ink); --blend: normal; }
-.single-copy p.blurb { font-size: 19px; max-width: 34ch; color: var(--bone); }
-.single-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
-.single-links a {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 12px 20px; border: 2px solid var(--yellow); background: var(--night, var(--ink));
-  font-family: var(--gothic); font-weight: 900; text-transform: uppercase; letter-spacing: .1em; font-size: 22px; line-height: 1;
-  text-decoration: none; color: var(--yellow);
-  transition: background-color .18s ease-out, color .18s ease-out;
-}
-.single-links a:hover { background: var(--yellow); color: var(--ink); }
-.single-links svg { width: 16px; height: 16px; }
-
-/* The band */
-.lineup {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1.5px solid var(--ink);
-}
-.member { min-width: 0; padding: clamp(14px, 1.8vw, 24px); display: grid; grid-template-columns: minmax(0, 1fr); grid-row: span 3; grid-template-rows: subgrid; row-gap: 12px; text-align: center; }
-.member .name { align-self: center; display: grid; gap: .1em; }
-.halftone {
-  position: relative; aspect-ratio: 1; overflow: hidden;
-  background: var(--yellow);
-  border: 3px solid var(--ink);
-  isolation: isolate;
-}
-.halftone img {
-  display: block; width: 100%; height: 100%; object-fit: cover;
-  mix-blend-mode: multiply;
-}
-.member .band { --fallback: 7vw; color: var(--yellow); }
-.member .aka { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .3em; font-size: 14px; color: var(--bone); }
-.member .tag {
-  font-family: var(--text); font-style: italic; font-size: 18px; line-height: 1.35; color: var(--bone);
-  border-top: 1.5px solid var(--ink); padding-top: 10px;
-}
-
-/* Bio: a bone handbill pasted onto the poster */
-.story { border-top: var(--rule) solid var(--ink); padding: clamp(18px, 3vw, 48px); }
-#band { margin-top: clamp(36px, 5vw, 80px); }
-.handbill {
-  background: var(--bone); color: var(--ink);
-  padding: clamp(22px, 3.4vw, 56px);
-}
-.handbill .band { --fallback: 9vw; color: var(--stock); --stroke: var(--bone); }
-.handbill .sub { color: var(--ink); }
-.handbill .sub .star { color: var(--stock); }
-.bio {
-  columns: 2 32ch; column-gap: clamp(28px, 4vw, 64px); column-rule: 1.5px solid var(--ink);
-  margin-top: clamp(20px, 2.6vw, 36px);
-  font-size: 18.5px; line-height: 1.62;
-  hyphens: auto;
-}
-.bio p + p { margin-top: 1em; }
-.bio p:first-child::first-letter {
-  font-family: var(--slab); color: var(--stock);
-  float: left; font-size: 4.6em; line-height: .82; margin: .06em .1em 0 0;
-}
-.thanks {
-  text-align: center; margin-top: clamp(22px, 2.8vw, 38px);
-  font-family: var(--orn); color: var(--stock); font-size: clamp(26px, 3vw, 44px); line-height: 1;
-}
-
-/* Booking */
-.book { border-top: var(--rule) solid var(--ink); background: var(--yellow); color: var(--ink); --stroke: var(--yellow); }
-.book .book-1 { --pass: var(--stock); }
-.book .head { border-top: 0; }
-.book .band { --fallback: 14vw; }
-.book .book-1 { color: var(--ink); }
-.book .book-2 { color: var(--stock); }
-.book .sub { color: var(--ink); letter-spacing: .14em; font-size: clamp(16px, 1.6vw, 24px); }
-.book .sub .star { color: var(--stock); }
-.dm {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  border-top: var(--rule) solid var(--ink);
-}
-.dm a {
-  display: flex; align-items: center; justify-content: center; gap: 14px;
-  min-height: 96px; padding: 16px;
-  font-family: var(--gothic); font-weight: 900; text-transform: uppercase;
-  font-size: clamp(22px, 2.4vw, 38px); letter-spacing: .06em; line-height: 1; text-decoration: none;
-  color: var(--ink);
-  transition: background-color .18s ease-out, color .18s ease-out;
-}
-.dm a + a { border-left: 1.5px solid var(--ink); }
-.dm a:first-child { background: var(--ink); color: var(--yellow); }
-.dm a:hover { background: var(--stock); color: var(--bone); }
-.dm small { display: block; font-family: var(--text); font-weight: 600; font-size: 14px; letter-spacing: .02em; text-transform: none; margin-top: 6px; opacity: .85; }
-.dm .hand { width: 54px; flex: none; }
-
-/* Foot */
-.foot {
-  border-top: var(--rule) solid var(--ink);
-  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px;
-  padding: clamp(16px, 2vw, 26px) clamp(16px, 2.4vw, 34px);
-}
-.foot .logo { width: clamp(150px, 16vw, 220px); color: var(--yellow); display: block; }
-.foot p { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .2em; font-size: 14px; color: var(--bone); text-align: center; }
-.foot nav { display: flex; gap: 18px; }
-.foot nav a { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .14em; font-size: 16px; text-underline-offset: 5px; }
-.foot nav a:hover { color: var(--yellow); }
-
-.hero-logo { position: relative; display: block; width: 100%; max-width: min(100%, calc(48vh * 1.828)); margin: clamp(28px, 4vw, 64px) auto clamp(32px, 4.4vw, 72px); }
-.hero-logo svg { display: block; width: 100%; height: auto; }
-.hero-logo .ink1 { position: relative; color: var(--yellow); }
-.hero-logo .ink2 { position: absolute; inset: 0; color: var(--ink); transform: translate(.55%, .9%); mix-blend-mode: multiply; }
-.press.inked .hero-logo .ink2 { animation: slip-logo .7s cubic-bezier(.16, .9, .2, 1) .16s both; }
-@keyframes slip-logo { from { transform: none; } }
-@media (prefers-reduced-motion: reduce) { .press.inked .hero-logo .ink2 { animation: none; } }
-/* Every song and album mention is a Spotify link */
-.songlink { display: block; color: inherit; text-decoration: none; transition: filter .2s, transform .2s; }
-.songlink:hover { filter: brightness(1.18); }
-.songlink:focus-visible { outline: 3px solid var(--bone); outline-offset: 4px; }
-.tracks .songlink:hover .fit { text-decoration: none; }
-.tracks .songlink:hover { filter: none; }
-.tracks .songlink:hover .band { color: var(--bone); }
-.songlink { min-width: 0; }
-.release-title .songlink { display: grid; grid-template-columns: minmax(0, 1fr); gap: inherit; }
-.facts > * > .songlink { display: grid; place-content: center; gap: 6px; }
-.logo-hero { display: block; width: clamp(120px, 12vw, 170px); color: var(--yellow); }
-
-/* Press pull: each run of ink strikes once as its section comes under the platen.
-   Content never starts hidden; the strike is a thump of the main ink and the
-   second run sliding from registered to its off-register rest. */
-@keyframes strike {
-  0% { transform: translateY(-.06em) scale(1.018); filter: blur(1.2px); }
-  55% { transform: translateY(.012em) scale(.998); filter: none; }
-  100% { transform: none; filter: none; }
-}
-@keyframes slip {
-  from { transform: translate(0, 0); opacity: 0; }
-  to { transform: translate(var(--rx, .03em), var(--ry, .03em)); opacity: 1; }
-}
-.press.inked .band > .fit { animation: strike .5s cubic-bezier(.16, .9, .2, 1) both; }
-.press.inked .band > .fit.reg::before { animation: slip .7s cubic-bezier(.16, .9, .2, 1) .16s both; }
-.press.inked .band:nth-of-type(2) > .fit { animation-delay: .07s; }
-.press.inked .band:nth-of-type(3) > .fit { animation-delay: .14s; }
-@media (prefers-reduced-motion: reduce) {
-  .press.inked .band > .fit, .press.inked .band > .fit.reg::before { animation: none; }
-}
-
-/* Narrow sheets: boxes stack, the bands keep filling the measure */
-@media (max-width: 980px) {
-  .strip-home { border-right: 0; }
-  .facts { grid-template-columns: 1fr 1fr; }
-  .facts .fact-center { grid-column: 1 / -1; grid-row: 1; border-left: 0 !important; border-bottom: 1.5px solid var(--ink); }
-  .facts > :nth-child(3) { border-left: 1.5px solid var(--ink); }
-  .album { grid-template-columns: minmax(0, 1fr); }
-  .album-art .cover { max-width: 560px; justify-self: center; }
-  .listen { grid-template-columns: repeat(2, 1fr); }
-  .listen-label { grid-column: 1 / -1; }
-  .platform:nth-child(even) { border-left: 0; }
-  .platform { border-top: 1.5px solid var(--ink); }
-  .platform:last-child { grid-column: 1 / -1; }
-  .single { grid-template-columns: minmax(0, 1fr); }
-  .single-copy { padding: 0 clamp(18px, 4vw, 34px) clamp(24px, 5vw, 40px); }
-  .lineup { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .releases { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .member:nth-child(3) { border-left: 0; }
-  .foot { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
-}
-@media (max-width: 640px) {
-  body { font-size: 17px; }
-  .sheet { margin: 4px; outline-offset: 3px; }
-  :root { --rule: 0px; }
-        .strip-home { padding: 10px 12px; font-size: 16px; letter-spacing: .03em; white-space: nowrap; }
-  .strip-home small { font-size: 11px; letter-spacing: .16em; }
-  .strip-cta { font-size: 16px; padding: 0 12px; margin: 6px; }
-  .strip-cta svg { display: none; }
-  .facts { grid-template-columns: minmax(0, 1fr); }
-  .facts > :nth-child(3) { border-left: 0; border-top: 1.5px solid var(--ink); }
-  .actions, .dm { grid-template-columns: minmax(0, 1fr); }
-  .ticket + .ticket, .dm a + a { border-left: 0; border-top: 1.5px solid var(--ink); }
-  .ticket { min-height: 68px; }
-  .premiere { letter-spacing: .14em; gap: 10px; }
-  .lineup { grid-template-columns: minmax(0, 1fr); }
-  .releases { grid-template-columns: minmax(0, 1fr); }
-  .release .inkcover { max-width: 320px; width: 100%; justify-self: center; }
-  .member .halftone { max-width: 320px; width: 100%; justify-self: center; }
-  .bio { columns: 1; font-size: 17.5px; }
-  .single-links a { flex: 1; justify-content: center; white-space: nowrap; font-size: 19px; padding: 12px 14px; }
-  .foot nav { flex-wrap: wrap; justify-content: center; }
-}
-
-/* Play row: one play strip per single, one icon per service */
-.play-row { display: grid; grid-template-columns: auto repeat(4, minmax(0, 1fr)); min-height: 58px; border: 1.5px solid var(--ink); background: var(--yellow); }
-.play-label {
-  display: flex; align-items: center; gap: 10px; padding: 0 18px;
-  background: var(--ink); color: var(--yellow);
-  font-family: var(--gothic); font-weight: 900; text-transform: uppercase; letter-spacing: .1em; font-size: clamp(19px, 1.7vw, 24px); line-height: 1;
-}
-.play-label svg { width: .8em; height: .8em; flex: none; }
-.play-svc { display: grid; place-items: center; color: var(--ink); transition: background-color .18s ease-out, color .18s ease-out; }
-.play-svc + .play-svc { border-left: 1.5px solid var(--ink); }
-.play-svc svg { width: 26px; height: 26px; transition: transform .2s cubic-bezier(.2, .9, .2, 1); }
-.play-svc:hover { background: var(--bone); }
-.play-svc:hover svg { transform: scale(1.12); }
-.play-svc:focus-visible { outline: 3px solid var(--bone); outline-offset: -5px; }
-.single .play-row { margin-top: 8px; max-width: 460px; border: 2px solid var(--yellow); background: var(--night, var(--ink)); }
-.single .play-label { background: var(--yellow); color: var(--ink); }
-.single .play-svc { color: var(--yellow); }
-.single .play-svc + .play-svc { border-left: 2px solid var(--yellow); }
-.single .play-svc:hover { background: var(--yellow); color: var(--ink); }
-.platform { display: flex; align-items: center; justify-content: center; gap: 10px; }
-.platform svg { width: 1.05em; height: 1.05em; flex: none; }
-.play-svc svg.wide { width: 46px; height: 46px; }
-.platform svg.wide { width: 1.9em; height: 1.9em; margin-block: -.4em; }
-@media (max-width: 640px) { .play-label { padding: 0 14px; } .play-svc svg.wide { width: 42px; height: 42px; } .play-svc svg { width: 24px; height: 24px; } }
-
-/* Holiday greeting across the top of the winter scene */
-.single > .holiday { grid-column: 1 / -1; position: relative; z-index: 2; text-align: center; padding: clamp(26px, 3.6vw, 56px) clamp(18px, 4vw, 64px) clamp(4px, 1vw, 12px); }
-.holiday .band { --fallback: 9vw; font-family: var(--orn); color: var(--yellow); --pass: var(--ink); --stroke: var(--night); --blend: normal; }
-.holiday-note { max-width: 60ch; margin: clamp(14px, 1.6vw, 22px) auto 0; font-style: italic; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.5; color: var(--bone); text-wrap: balance; }
-</style>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
   <defs>
     <symbol id="i-star" viewBox="0 0 40 38">
       <path fill="currentColor" d="M20 0l4.9 13.6 14.6.5-11.5 9 4 14-12-8.2-12 8.2 4-14L.5 14.1l14.6-.5z"/>
@@ -588,12 +43,12 @@ body::after {
       <section class="hero press" aria-labelledby="hero-title">
         <h1 id="hero-title" class="sr-only">Swimming with the Jaguars. Dad rock, reimagined for the 21st century.</h1>
         <div aria-hidden="true">
-          <span class="band slab c-bone presents grain" data-fit data-max="600"><span class="fit reg" data-text="Live! Loud! Local!" style="--rx:.03em;--ry:.03em">Live! Loud! Local!</span></span>
+          <span class="band slab c-bone presents grain" data-fit data-max="600"><span class="fit reg" data-text="Live! Loud! Local!">Live! Loud! Local!</span></span>
           <span class="hero-logo"><svg class="ink2" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 513.425 280.863"><defs><clipPath id="hl2"><rect width="513.425" height="280.863" fill="none"/></clipPath></defs><g clip-path="url(#hl2)"><path fill="currentColor" d="M97.994,116.317c-4.761,0-7.683-3.359-7.683-11.185V73.014h22.724V84.837c0,1.279.435,2.237,1.409,2.237.865,0,1.407-.958,1.407-2.237V69.5H97.778c-5.193,0-7.467-4.31-7.467-11.34V11.342C90.311,4.312,92.585,0,97.778,0h33.331c5.2,0,7.467,4.312,7.467,11.342V36.109H115.85V31.637c0-1.279-.435-2.237-1.407-2.237s-1.409.958-1.409,2.237v8.626l16.517,1.559c5.193,0,9.024,2.753,9.024,9.781V104.97c0,7.03-2.272,11.347-7.574,11.347Z" transform="translate(118.609 0)" /><path fill="currentColor" d="M128.873,74.084h1.094l-1-55.758h14.8l.564,54.748c0,.71.273,1.011.685,1.011h.821V26.2c0-4.444-.123-8.12,3.229-8.12h9.579L160.212,85.4c0,4.446-1.439,7.176-4.791,7.176H153.1l-17.38-.1v.1H118.541c-3.285,0-4.722-2.73-4.722-7.176l-1.557-67.321h9.51c3.01,0,5.638,3.086,5.638,8.039l.777,46.554c0,1.009.206,1.413.685,1.413" transform="translate(147.439 23.743)" /><path fill="currentColor" d="M148.1,18.186l.588,17.165H134.323l-.245-17.165Zm.588,74.126H134.321V37.475h14.368Z" transform="translate(176.09 23.884)" /><path fill="currentColor" d="M158.435,37.616h-1.027V92.574H143.04l-1.557-74.5h41.668c3.285,0,6.281,3.576,6.281,8.023V92.574h-9.647c-3.285,0-4.722-2.73-4.722-7.176V38.928c0-.907-.206-1.312-.754-1.416h-.752V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.342-.911-.752-1.011" transform="translate(185.815 23.743)" /><path fill="currentColor" d="M180.25,37.616h-1.027V92.574H164.855l-1.557-74.5h41.668c3.285,0,6.281,3.576,6.281,8.023V92.574H201.6c-3.285,0-4.722-2.73-4.722-7.176V38.928c0-.907-.206-1.312-.754-1.416h-.752V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.342-.911-.752-1.011" transform="translate(214.466 23.743)" /><path fill="currentColor" d="M199.48,35.493H185.112V18.078H199.48Zm0,56.961H185.112V37.616H199.48Z" transform="translate(243.115 23.743)" /><path fill="currentColor" d="M207.92,37.616h-1.027V92.574H192.524l-.113-74.249,24.353-.248c3.283,0,6.278,3.676,6.278,8.12V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.271-.911-.752-1.011" transform="translate(252.701 23.743)" /><path fill="currentColor" d="M139.084,95.4h.8V52.056h10.477V94.615c0,.551.2.789.5.789h.6V58.089c0-3.465,1.048-6.033,3.493-6.033h6.986V104.22c0,3.463-1.048,5.825-3.493,5.825H131.549c-2.4,0-3.442-2.362-3.442-5.825V52.056h6.935c2.2,0,3.542,2.1,3.542,5.952V94.3c0,.789.15,1.1.5,1.1" transform="translate(168.248 68.367)" /><path fill="currentColor" d="M154.782,65.33H144.3V52.056h10.479Zm0,44.715H144.3V66.984h10.479Z" transform="translate(189.519 68.367)" /><path fill="currentColor" d="M172.658,86.036v18.183c0,3.465-1.048,5.825-3.442,5.825H153.851c-2.4,0-3.445-2.36-3.445-5.825V52.055h10.479V66.983h11.773v16.14H160.885v11.1c0,.865.2,1.182.7,1.182h.594V86.036Z" transform="translate(197.534 68.366)" /><path fill="currentColor" d="M172.077,104.22c0,3.463-1.048,5.825-3.442,5.825H161.6V52.056h7.037c2.394,0,3.442,2.57,3.442,6.033V78.162c0,.632.2.789.648.789s.65-.157.65-.789V58.089c0-3.463,1.046-6.033,3.442-6.033h7.035v57.989h-7.035c-2.4,0-3.442-2.362-3.442-5.825V86.666c0-.787-.2-1.1-.65-1.1s-.648.236-.648,1.1Z" transform="translate(212.233 68.367)" /><path fill="currentColor" d="M197.575,86.036v18.183c0,3.465-1.048,5.825-3.442,5.825H178.766c-2.4,0-3.445-2.36-3.445-5.825V52.055H185.8V66.983h11.775v16.14H185.8v11.1c0,.865.2,1.182.7,1.182h.6V86.036Z" transform="translate(230.256 68.366)" /><path fill="currentColor" d="M197,104.22c0,3.463-1.048,5.825-3.442,5.825h-7.037V52.056h7.037c2.394,0,3.442,2.57,3.442,6.033V78.162c0,.632.2.789.648.789s.652-.157.652-.789V58.089c0-3.463,1.043-6.033,3.44-6.033h7.035v57.989h-7.035c-2.4,0-3.44-2.362-3.44-5.825V86.666c0-.787-.2-1.1-.652-1.1s-.648.236-.648,1.1Z" transform="translate(244.968 68.367)" /><path fill="currentColor" d="M216.16,52.056V70.278h-9.341c-.248,0-.414.331-.414,1.1v1.316h9.755V89.7H206.4V91.02c0,.768.167,1.1.414,1.1h9.341v17.928H200.577c-1.983,0-2.85-3.111-2.85-7.942V60.291c0-4.828.867-8.235,2.85-8.235Z" transform="translate(259.683 68.367)" /><path fill="currentColor" d="M32.1,176.382c1.915,0,2.649-1.522,2.649-4.132V52.056H65.673v145c0,9.566-3.1,15.439-10.162,15.439H0V176.382Z" transform="translate(0 68.367)" /><path fill="currentColor" d="M32.078,212.5V68.858c0-9.566,3.091-16.8,10.158-16.8H87.443c7.213,0,10.3,7.236,10.3,16.8V212.5H66.827V153.873H63V212.5ZM63,96.472v33.051h3.829V96.472c0-1.737-.588-3.042-1.913-3.042S63,94.735,63,96.472" transform="translate(42.129 68.367)" /><path fill="currentColor" d="M116.7,52.056c6.48,0,10.454,5.931,10.454,16.587V168.66c0,2.392.59,3.262,2.063,3.262h1.765V52.056H161.9V212.5H106.391c-7.067,0-10.158-6.653-10.158-16.221V52.056Z" transform="translate(126.387 68.367)" /><path fill="currentColor" d="M128.311,176.541V88.826c0-5.82,3.091-9.394,10.158-9.394h45.207c7.213,0,10.3,3.574,10.3,9.394v87.715H163.06V140.56h-3.829v35.982Zm30.92-70.911v20.112h3.829V105.631a1.915,1.915,0,0,0-3.829,0" transform="translate(168.516 104.321)" /><path fill="currentColor" d="M193.077,135h-1.767V176.54h-30.92V79.433H215.9c6.625,0,10.158,3.572,10.158,8.6V118.2c0,5.823-3.091,9.394-10.158,9.394h-.148v1.853h.148c7.067,0,10.158,3.572,10.158,9.392v37.7H205.3c-7.07,0-10.16-4.356-10.16-10.179v-29.5c0-1.457-.588-1.853-2.061-1.853m2.061-31.225h-3.829v20.112h1.767c1.177,0,1.915-.266,2.061-1.326Z" transform="translate(210.645 104.323)" /><path fill="currentColor" d="M202.92,176.54c-6.48,0-10.454-3.563-10.454-10.047V139.9h30.92v9.792a1.719,1.719,0,0,0,1.915,1.851,1.79,1.79,0,0,0,1.913-1.851v-12.7H202.624c-7.067,0-10.158-3.572-10.158-9.395V88.825c0-5.82,3.091-9.392,10.158-9.392h45.353c7.067,0,10.16,3.572,10.16,9.392v20.51H227.215v-3.706a1.915,1.915,0,0,0-3.829,0v7.146h24.591c7.067,0,10.16,3.572,10.16,9.394v44.192c0,5.823-3.093,10.179-10.306,10.179Z" transform="translate(252.773 104.323)" /><path fill="currentColor" d="M241.9,73.346h-16.54V83.759h2.05c.09,0,.162.2.162.44l-.555,33.992c0,.509.1,1.957-1.548,1.957a2,2,0,0,1-2.212-1.55l.049-6.857-.028-38.635c0-2.568.391-3.3,1.416-3.3l17.158-.023-.018-50.917-31.23-.248c-3.778,0-3.87,7.528-3.866,15.6l.06,107.524c0,8.074,1.661,13.026,5.436,13.02h24.241c3.78,0,5.429-4.994,5.425-13.253Z" transform="translate(271.521 24.448)" /><path fill="currentColor" d="M130.289,115.737H99.119V128.06h1.529c.169,0,.305.234.305.523v40.611c0,1.145-.886,2.191-2.746,2.191-1.83,0-3.049-1.046-3.049-2.089l.093-8.115L95.2,115.452c0-3.04.736-3.907,2.667-3.91l32.329-.028-.035-59.46H74.251c-7.118,0-10.23,7.814-10.223,17.371l.116,127.261c.009,9.556,3.128,15.816,10.246,15.809h45.679c7.123-.007,10.23-6.311,10.22-16.085Z" transform="translate(84.091 68.366)" /></g></svg><svg class="ink1" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 513.425 280.863"><defs><clipPath id="hl1"><rect width="513.425" height="280.863" fill="none"/></clipPath></defs><g clip-path="url(#hl1)"><path fill="currentColor" d="M97.994,116.317c-4.761,0-7.683-3.359-7.683-11.185V73.014h22.724V84.837c0,1.279.435,2.237,1.409,2.237.865,0,1.407-.958,1.407-2.237V69.5H97.778c-5.193,0-7.467-4.31-7.467-11.34V11.342C90.311,4.312,92.585,0,97.778,0h33.331c5.2,0,7.467,4.312,7.467,11.342V36.109H115.85V31.637c0-1.279-.435-2.237-1.407-2.237s-1.409.958-1.409,2.237v8.626l16.517,1.559c5.193,0,9.024,2.753,9.024,9.781V104.97c0,7.03-2.272,11.347-7.574,11.347Z" transform="translate(118.609 0)" /><path fill="currentColor" d="M128.873,74.084h1.094l-1-55.758h14.8l.564,54.748c0,.71.273,1.011.685,1.011h.821V26.2c0-4.444-.123-8.12,3.229-8.12h9.579L160.212,85.4c0,4.446-1.439,7.176-4.791,7.176H153.1l-17.38-.1v.1H118.541c-3.285,0-4.722-2.73-4.722-7.176l-1.557-67.321h9.51c3.01,0,5.638,3.086,5.638,8.039l.777,46.554c0,1.009.206,1.413.685,1.413" transform="translate(147.439 23.743)" /><path fill="currentColor" d="M148.1,18.186l.588,17.165H134.323l-.245-17.165Zm.588,74.126H134.321V37.475h14.368Z" transform="translate(176.09 23.884)" /><path fill="currentColor" d="M158.435,37.616h-1.027V92.574H143.04l-1.557-74.5h41.668c3.285,0,6.281,3.576,6.281,8.023V92.574h-9.647c-3.285,0-4.722-2.73-4.722-7.176V38.928c0-.907-.206-1.312-.754-1.416h-.752V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.342-.911-.752-1.011" transform="translate(185.815 23.743)" /><path fill="currentColor" d="M180.25,37.616h-1.027V92.574H164.855l-1.557-74.5h41.668c3.285,0,6.281,3.576,6.281,8.023V92.574H201.6c-3.285,0-4.722-2.73-4.722-7.176V38.928c0-.907-.206-1.312-.754-1.416h-.752V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.342-.911-.752-1.011" transform="translate(214.466 23.743)" /><path fill="currentColor" d="M199.48,35.493H185.112V18.078H199.48Zm0,56.961H185.112V37.616H199.48Z" transform="translate(243.115 23.743)" /><path fill="currentColor" d="M207.92,37.616h-1.027V92.574H192.524l-.113-74.249,24.353-.248c3.283,0,6.278,3.676,6.278,8.12V92.574h-9.649c-3.285,0-4.722-2.73-4.722-7.176V38.627c-.067-.71-.271-.911-.752-1.011" transform="translate(252.701 23.743)" /><path fill="currentColor" d="M139.084,95.4h.8V52.056h10.477V94.615c0,.551.2.789.5.789h.6V58.089c0-3.465,1.048-6.033,3.493-6.033h6.986V104.22c0,3.463-1.048,5.825-3.493,5.825H131.549c-2.4,0-3.442-2.362-3.442-5.825V52.056h6.935c2.2,0,3.542,2.1,3.542,5.952V94.3c0,.789.15,1.1.5,1.1" transform="translate(168.248 68.367)" /><path fill="currentColor" d="M154.782,65.33H144.3V52.056h10.479Zm0,44.715H144.3V66.984h10.479Z" transform="translate(189.519 68.367)" /><path fill="currentColor" d="M172.658,86.036v18.183c0,3.465-1.048,5.825-3.442,5.825H153.851c-2.4,0-3.445-2.36-3.445-5.825V52.055h10.479V66.983h11.773v16.14H160.885v11.1c0,.865.2,1.182.7,1.182h.594V86.036Z" transform="translate(197.534 68.366)" /><path fill="currentColor" d="M172.077,104.22c0,3.463-1.048,5.825-3.442,5.825H161.6V52.056h7.037c2.394,0,3.442,2.57,3.442,6.033V78.162c0,.632.2.789.648.789s.65-.157.65-.789V58.089c0-3.463,1.046-6.033,3.442-6.033h7.035v57.989h-7.035c-2.4,0-3.442-2.362-3.442-5.825V86.666c0-.787-.2-1.1-.65-1.1s-.648.236-.648,1.1Z" transform="translate(212.233 68.367)" /><path fill="currentColor" d="M197.575,86.036v18.183c0,3.465-1.048,5.825-3.442,5.825H178.766c-2.4,0-3.445-2.36-3.445-5.825V52.055H185.8V66.983h11.775v16.14H185.8v11.1c0,.865.2,1.182.7,1.182h.6V86.036Z" transform="translate(230.256 68.366)" /><path fill="currentColor" d="M197,104.22c0,3.463-1.048,5.825-3.442,5.825h-7.037V52.056h7.037c2.394,0,3.442,2.57,3.442,6.033V78.162c0,.632.2.789.648.789s.652-.157.652-.789V58.089c0-3.463,1.043-6.033,3.44-6.033h7.035v57.989h-7.035c-2.4,0-3.44-2.362-3.44-5.825V86.666c0-.787-.2-1.1-.652-1.1s-.648.236-.648,1.1Z" transform="translate(244.968 68.367)" /><path fill="currentColor" d="M216.16,52.056V70.278h-9.341c-.248,0-.414.331-.414,1.1v1.316h9.755V89.7H206.4V91.02c0,.768.167,1.1.414,1.1h9.341v17.928H200.577c-1.983,0-2.85-3.111-2.85-7.942V60.291c0-4.828.867-8.235,2.85-8.235Z" transform="translate(259.683 68.367)" /><path fill="currentColor" d="M32.1,176.382c1.915,0,2.649-1.522,2.649-4.132V52.056H65.673v145c0,9.566-3.1,15.439-10.162,15.439H0V176.382Z" transform="translate(0 68.367)" /><path fill="currentColor" d="M32.078,212.5V68.858c0-9.566,3.091-16.8,10.158-16.8H87.443c7.213,0,10.3,7.236,10.3,16.8V212.5H66.827V153.873H63V212.5ZM63,96.472v33.051h3.829V96.472c0-1.737-.588-3.042-1.913-3.042S63,94.735,63,96.472" transform="translate(42.129 68.367)" /><path fill="currentColor" d="M116.7,52.056c6.48,0,10.454,5.931,10.454,16.587V168.66c0,2.392.59,3.262,2.063,3.262h1.765V52.056H161.9V212.5H106.391c-7.067,0-10.158-6.653-10.158-16.221V52.056Z" transform="translate(126.387 68.367)" /><path fill="currentColor" d="M128.311,176.541V88.826c0-5.82,3.091-9.394,10.158-9.394h45.207c7.213,0,10.3,3.574,10.3,9.394v87.715H163.06V140.56h-3.829v35.982Zm30.92-70.911v20.112h3.829V105.631a1.915,1.915,0,0,0-3.829,0" transform="translate(168.516 104.321)" /><path fill="currentColor" d="M193.077,135h-1.767V176.54h-30.92V79.433H215.9c6.625,0,10.158,3.572,10.158,8.6V118.2c0,5.823-3.091,9.394-10.158,9.394h-.148v1.853h.148c7.067,0,10.158,3.572,10.158,9.392v37.7H205.3c-7.07,0-10.16-4.356-10.16-10.179v-29.5c0-1.457-.588-1.853-2.061-1.853m2.061-31.225h-3.829v20.112h1.767c1.177,0,1.915-.266,2.061-1.326Z" transform="translate(210.645 104.323)" /><path fill="currentColor" d="M202.92,176.54c-6.48,0-10.454-3.563-10.454-10.047V139.9h30.92v9.792a1.719,1.719,0,0,0,1.915,1.851,1.79,1.79,0,0,0,1.913-1.851v-12.7H202.624c-7.067,0-10.158-3.572-10.158-9.395V88.825c0-5.82,3.091-9.392,10.158-9.392h45.353c7.067,0,10.16,3.572,10.16,9.392v20.51H227.215v-3.706a1.915,1.915,0,0,0-3.829,0v7.146h24.591c7.067,0,10.16,3.572,10.16,9.394v44.192c0,5.823-3.093,10.179-10.306,10.179Z" transform="translate(252.773 104.323)" /><path fill="currentColor" d="M241.9,73.346h-16.54V83.759h2.05c.09,0,.162.2.162.44l-.555,33.992c0,.509.1,1.957-1.548,1.957a2,2,0,0,1-2.212-1.55l.049-6.857-.028-38.635c0-2.568.391-3.3,1.416-3.3l17.158-.023-.018-50.917-31.23-.248c-3.778,0-3.87,7.528-3.866,15.6l.06,107.524c0,8.074,1.661,13.026,5.436,13.02h24.241c3.78,0,5.429-4.994,5.425-13.253Z" transform="translate(271.521 24.448)" /><path fill="currentColor" d="M130.289,115.737H99.119V128.06h1.529c.169,0,.305.234.305.523v40.611c0,1.145-.886,2.191-2.746,2.191-1.83,0-3.049-1.046-3.049-2.089l.093-8.115L95.2,115.452c0-3.04.736-3.907,2.667-3.91l32.329-.028-.035-59.46H74.251c-7.118,0-10.23,7.814-10.223,17.371l.116,127.261c.009,9.556,3.128,15.816,10.246,15.809h45.679c7.123-.007,10.23-6.311,10.22-16.085Z" transform="translate(84.091 68.366)" /></g></svg></span>
         </div>
         <p class="premiere"><span>Northern New Jersey's premiere</span></p>
         <div aria-hidden="true">
-          <span class="band gothic c-bone dadrock grain" data-fit data-max="600"><span class="fit reg" data-text="Dad Rock" style="--rx:.03em;--ry:.03em">Dad Rock</span></span>
+          <span class="band gothic c-bone dadrock grain" data-fit data-max="600"><span class="fit reg" data-text="Dad Rock">Dad Rock</span></span>
         </div>
         <div class="reimagined">
           <svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg>
@@ -619,14 +74,14 @@ body::after {
         </svg>
         <canvas class="snow" aria-hidden="true"></canvas>
         <header class="holiday">
-          <h2 id="holiday-title" class="band slab grain" data-fit data-max="190"><span class="fit reg" data-text="Happy Holidays!" style="--rx:.03em;--ry:.03em">Happy Holidays!</span></h2>
+          <h2 id="holiday-title" class="band slab grain" data-fit data-max="190"><span class="fit reg" data-text="Happy Holidays!">Happy Holidays!</span></h2>
           <p class="holiday-note">Swimming with the Jaguars wishes you and yours all the best this holiday season. We cooked up this little holiday classic just for you. Enjoy!</p>
         </header>
         <figure>
           <a class="songlink" href="https://open.spotify.com/track/2j2asJqWYIVCbcIFYIssh5" target="_blank" rel="noopener" aria-label="Play Christmas Dead Mouse on Spotify"><img src="images/xdm-cover.jpg" width="640" height="640" alt="The Christmas Dead Mouse single cover."></a>
         </figure>
         <div class="single-copy">
-          <h3 id="single-title" class="single-title"><a class="songlink" href="https://open.spotify.com/track/2j2asJqWYIVCbcIFYIssh5" target="_blank" rel="noopener"><span class="band slab grain" data-fit data-max="240"><span class="fit reg" data-text="Christmas" style="--rx:.03em;--ry:.03em">Christmas</span></span><span class="band slab grain" data-fit data-max="240"><span class="fit reg" data-text="Dead Mouse" style="--rx:.03em;--ry:.03em">Dead Mouse</span></span></a></h3>
+          <h3 id="single-title" class="single-title"><a class="songlink" href="https://open.spotify.com/track/2j2asJqWYIVCbcIFYIssh5" target="_blank" rel="noopener"><span class="band slab grain" data-fit data-max="240"><span class="fit reg" data-text="Christmas">Christmas</span></span><span class="band slab grain" data-fit data-max="240"><span class="fit reg" data-text="Dead Mouse">Dead Mouse</span></span></a></h3>
           <div class="play-row" role="group" aria-label="Play Christmas Dead Mouse">
             <span class="play-label" aria-hidden="true"><svg><use href="#i-play"/></svg>Play</span>
             <a class="play-svc" href="https://open.spotify.com/track/2j2asJqWYIVCbcIFYIssh5" target="_blank" rel="noopener" title="Spotify" aria-label="Play Christmas Dead Mouse on Spotify"><svg aria-hidden="true"><use href="#i-spotify"/></svg></a>
@@ -639,7 +94,7 @@ body::after {
 
       <section id="singles" class="press" aria-labelledby="singles-title">
         <div class="head">
-          <h2 id="singles-title" class="band gothic c-bone grain" data-fit data-max="600"><span class="fit reg" data-text="New Singles" style="--rx:.03em;--ry:.03em">New Singles</span></h2>
+          <h2 id="singles-title" class="band gothic c-bone grain" data-fit data-max="600"><span class="fit reg" data-text="New Singles">New Singles</span></h2>
         </div>
         <div class="releases">
           <article class="release">
@@ -683,7 +138,7 @@ body::after {
 
       <section id="ingrid" class="press" aria-labelledby="ingrid-title">
         <div class="head">
-          <h2 id="ingrid-title" class="band gothic c-bone grain" data-fit data-max="600"><span class="fit reg" data-text="Listen to “ingrid”" style="--rx:.03em;--ry:.03em">Listen to &ldquo;ingrid&rdquo;</span></h2>
+          <h2 id="ingrid-title" class="band gothic c-bone grain" data-fit data-max="600"><span class="fit reg" data-text="Listen to “ingrid”">Listen to &ldquo;ingrid&rdquo;</span></h2>
         </div>
         <div class="album">
           <div class="album-art">
@@ -718,7 +173,7 @@ body::after {
 
       <section id="band" class="press" aria-labelledby="band-title">
         <div class="head knock">
-          <h2 id="band-title" class="band gothic c-yellow grain" data-fit data-max="600"><span class="fit reg" data-text="Meet the Band" style="--rx:.03em;--ry:.03em">Meet the Band</span></h2>
+          <h2 id="band-title" class="band gothic c-yellow grain" data-fit data-max="600"><span class="fit reg" data-text="Meet the Band">Meet the Band</span></h2>
           <p class="sub"><span>Four dads</span><span><svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg> One daycare</span><span><svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg> Loud rock music</span></p>
         </div>
         <div class="lineup">
@@ -747,7 +202,7 @@ body::after {
 
       <section class="story press" aria-labelledby="story-title">
         <div class="handbill">
-          <h2 id="story-title" class="band gothic grain" data-fit data-max="600"><span class="fit reg" data-text="About the Band" style="--rx:.03em;--ry:.03em">About the Band</span></h2>
+          <h2 id="story-title" class="band gothic grain" data-fit data-max="600"><span class="fit reg" data-text="About the Band">About the Band</span></h2>
           <div class="bio">
             <p>Swimming with the Jaguars is a Dad band from Montclair, New Jersey. They met at their children's daycare and communicated telepathically. Each one of them broadcasting the same message: &ldquo;please play loud rock music with me or else I'll die in a sea of Cheerios, diapers, and cartoons with unhealthy social dynamics.&rdquo;</p>
             <p>Their unification was solidified when each band member attempted to properly integrate with normal, suburban adult society and failed. Mike picked fist fights at the tennis club. Lee got kicked off the PTA board. Who knew that 7 straight fundraisers with an 80's hair metal theme would generate so much ire! Pete showed up early at a party and ate all the appetizers before the guests arrived. His pleas to the party host about how he &ldquo;didn't touch any of the fruit&rdquo; fell upon deaf ears as they showed him to the door. Paul actually did not have any problems acclimating but the other guys in the band wore him down until he acquiesced and become part of their outcast rock n' roll bandit tribe. He is a flight risk and is closely monitored with a 'Swimming with the Jaguars' branded ankle bracelet.</p>
@@ -761,14 +216,14 @@ body::after {
         <div class="head">
           <h2 id="book-title" class="sr-only">Book Us</h2>
           <div aria-hidden="true">
-            <span class="band gothic book-1 grain" data-fit data-max="700"><span class="fit reg" data-text="Book the" style="--rx:.03em;--ry:.03em">Book the</span></span>
-            <span class="band slab book-2 grain" data-fit data-max="700"><span class="fit reg" data-text="Jaguars" style="--rx:.03em;--ry:.03em">Jaguars</span></span>
+            <span class="band gothic book-1 grain" data-fit data-max="700"><span class="fit reg" data-text="Book the">Book the</span></span>
+            <span class="band slab book-2 grain" data-fit data-max="700"><span class="fit reg" data-text="Jaguars">Jaguars</span></span>
           </div>
           <p class="sub"><span><svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg> Ready to rock</span><span>with the Jaguars?</span><span>Contact us! <svg class="star" viewBox="0 0 40 38" aria-hidden="true"><use href="#i-star"/></svg></span></p>
         </div>
         <div class="dm">
           <a href="https://www.instagram.com/swimmingwiththejaguars/" target="_blank" rel="noopener">
-            <svg class="hand" viewBox="0 0 120 60" aria-hidden="true" style="--knuckle: var(--ink)"><use href="#i-hand"/></svg>
+            <svg class="hand" viewBox="0 0 120 60" aria-hidden="true"><use href="#i-hand"/></svg>
             <span>Instagram<small>Send us a DM</small></span>
           </a>
           <a href="https://www.facebook.com/swimmingwiththejaguars/" target="_blank" rel="noopener"><span>Facebook<small>Message the band</small></span></a>
@@ -791,68 +246,7 @@ body::after {
   </div>
 </div>
 
-<script>
-(() => {
-  // Fit each band to its measure, the way a compositor picks the wood type
-  // size that fills the chase edge to edge.
-  const bands = [...document.querySelectorAll('[data-fit]')];
-  const fit = (el) => {
-    const inner = el.querySelector('.fit');
-    if (!inner) return;
-    const max = parseFloat(el.dataset.max) || 400;
-    const cs = getComputedStyle(el);
-    const avail = el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-    el.style.fontSize = '100px';
-    const w = inner.getBoundingClientRect().width;
-    if (!w || !avail) { el.style.fontSize = ''; return; }
-    el.style.fontSize = Math.min(max, Math.floor(100 * avail / w * 10) / 10) + 'px';
-  };
-  const fitAll = () => bands.forEach(fit);
-  const ro = new ResizeObserver(() => fitAll());
-  const ready = document.fonts ? document.fonts.ready : Promise.resolve();
-  ready.then(() => {
-    fitAll();
-    bands.forEach((b) => ro.observe(b.parentElement));
-  });
-
-  // Press pull: strike each section once as it comes into view.
-  const presses = document.querySelectorAll('.press');
-  if (!('IntersectionObserver' in window)) return;
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) { e.target.classList.add('inked'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.18 });
-  ready.then(() => presses.forEach((p) => io.observe(p)));
-})();
-
-  // Snow over the holiday section: slow, sparse, paused offscreen and still for reduced motion.
-  (() => {
-    const cv = document.querySelector('.single .snow');
-    if (!cv) return;
-    const ctx = cv.getContext('2d');
-    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let w = 0, h = 0, flakes = [], running = false, raf = 0;
-    const size = () => {
-      const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
-      w = r.width; h = r.height; cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = Math.round(w * h / 9000);
-      flakes = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, r: .8 + Math.random() * 2.2, v: .25 + Math.random() * .6, d: Math.random() * 6.28, a: .35 + Math.random() * .55 }));
-      draw();
-    };
-    const draw = () => {
-      ctx.clearRect(0, 0, w, h);
-      for (const f of flakes) { ctx.globalAlpha = f.a; ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill(); }
-    };
-    const step = () => {
-      for (const f of flakes) { f.y += f.v; f.d += .01; f.x += Math.sin(f.d) * .3; if (f.y > h + 4) { f.y = -4; f.x = Math.random() * w; } }
-      draw(); if (running) raf = requestAnimationFrame(step);
-    };
-    new ResizeObserver(size).observe(cv);
-    if (still) return;
-    new IntersectionObserver(([e]) => { running = e.isIntersecting; cancelAnimationFrame(raf); if (running) raf = requestAnimationFrame(step); }).observe(cv);
-  })();
-</script>
+<script src="js/main.js"></script>
 
 </body>
 </html>
