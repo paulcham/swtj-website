@@ -303,6 +303,48 @@ body::after {
 .release-play:hover { background: var(--bone); }
 .release-play svg { width: .8em; height: .8em; flex: none; }
 
+/* Upcoming shows: two gig posters tacked side by side at the top of the sheet */
+.shows .head { padding-top: 0; }
+.show-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.show {
+  min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr);
+  grid-row: span 4; grid-template-rows: subgrid; row-gap: 14px;
+  padding: clamp(14px, 1.8vw, 26px); text-align: center;
+}
+.show + .show { border-left: 1.5px solid var(--ink); }
+/* Both posters print at one height; the portrait one simply runs narrower */
+.show-poster {
+  display: block; justify-self: center; max-width: 100%;
+  border: 3px solid var(--ink); background: var(--bone);
+}
+.show-poster img { display: block; height: clamp(280px, 30vw, 400px); width: auto; max-width: 100%; object-fit: contain; }
+.show-date {
+  font-family: var(--slab); text-transform: uppercase; color: var(--yellow);
+  font-size: clamp(30px, 3.4vw, 54px); line-height: 1;
+  border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); padding: 12px 0 10px;
+}
+.show-info { display: grid; gap: 6px; align-content: start; }
+.show-name { font-family: var(--gothic); font-weight: 900; text-transform: uppercase; letter-spacing: .04em; font-size: clamp(24px, 2.4vw, 36px); line-height: 1; color: var(--bone); }
+.show-where { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .16em; font-size: clamp(14px, 1.2vw, 18px); color: var(--yellow); }
+.show-meta { font-style: italic; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.4; color: var(--bone); text-wrap: balance; }
+.show-cta {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  min-height: 56px; padding: 10px 16px;
+  background: var(--yellow); color: var(--ink); text-decoration: none;
+  font-family: var(--gothic); font-weight: 900; text-transform: uppercase; letter-spacing: .08em;
+  font-size: clamp(19px, 1.7vw, 24px); line-height: 1;
+  transition: background-color .18s ease-out;
+}
+a.show-cta:hover { background: var(--bone); }
+.show-cta svg { width: .8em; height: .8em; flex: none; transition: transform .2s cubic-bezier(.2, .9, .2, 1); }
+a.show-cta:hover svg { transform: translateX(4px); }
+@media (prefers-reduced-motion: reduce) { .show-cta svg { transition: none; } }
+@media (max-width: 640px) {
+  .show-list { grid-template-columns: minmax(0, 1fr); }
+  .show { grid-row: auto; grid-template-rows: none; }
+  .show + .show { border-left: 0; border-top: 1.5px solid var(--ink); }
+}
+
 /* Holiday single */
 .single { border-bottom: 10px solid var(--stock);
   border-top: var(--rule) solid var(--ink);

@@ -9,6 +9,7 @@ The page is designed as a printed tavern gig poster: brick red stock, brand yell
 ## Sections
 
 - Hero: "Live! Loud! Local!", the stacked logo, and "Dad Rock, reimagined for the 21st century"
+- Catch Us Live: upcoming gigs, each with its poster, date, venue, and a ticket link where there is one
 - Holiday greeting and the single "Christmas Dead Mouse", over an animated winter scene
 - New singles: "World Events", "One Time", and "Rock and Roll Resurrection"
 - The album "ingrid", with the full tracklist
