@@ -303,7 +303,7 @@ body::after {
 .release-play:hover { background: var(--bone); }
 .release-play svg { width: .8em; height: .8em; flex: none; }
 
-/* Upcoming shows: two gig posters tacked side by side at the top of the sheet */
+/* Upcoming shows: gig posters tacked side by side at the top of the sheet */
 .shows .head { padding-top: 0; }
 .show-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .show {
@@ -312,6 +312,8 @@ body::after {
   padding: clamp(14px, 1.8vw, 26px); text-align: center;
 }
 .show + .show { border-left: 1.5px solid var(--ink); }
+/* A lone show spans the sheet instead of leaving an empty half */
+.show:only-child { grid-column: 1 / -1; justify-self: center; width: min(100%, 640px); }
 /* Both posters print at one height; the portrait one simply runs narrower */
 .show-poster {
   display: block; justify-self: center; max-width: 100%;
