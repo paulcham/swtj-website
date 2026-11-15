@@ -127,23 +127,6 @@ body::after {
 .presents { --fallback: 7vw; }
 .name-1 { --fallback: 10vw; margin-top: clamp(6px, .8vw, 12px); }
 .name-2 { --fallback: 22vw; }
-.premiere {
-  display: flex; align-items: center; gap: 18px;
-  font-family: var(--gothic); font-weight: 800; text-transform: uppercase;
-  letter-spacing: .22em; font-size: clamp(14px, 1.6vw, 24px);
-  color: var(--bone); margin: clamp(8px, 1vw, 14px) 0 clamp(4px, .6vw, 10px);
-  white-space: nowrap;
-}
-.premiere::before, .premiere::after { content: ""; flex: 1; height: 0; border-top: 3px double var(--ink); border-bottom: 1.5px solid var(--ink); padding-top: 4px; }
-.dadrock { --fallback: 24vw; }
-.reimagined {
-  display: flex; justify-content: center; align-items: center; gap: clamp(10px, 2vw, 28px);
-  margin: clamp(8px, 1vw, 14px) 0 clamp(10px, 1.2vw, 18px);
-}
-.reimagined p {
-  font-family: var(--orn); color: var(--yellow);
-  font-size: clamp(22px, 3vw, 44px); line-height: 1; text-align: center;
-}
 .star { width: clamp(18px, 2.6vw, 38px); height: auto; color: var(--ink); flex: none; }
 
 /* Row of three boxed facts under the headline */
@@ -156,7 +139,6 @@ body::after {
 .fact-small { font-family: var(--gothic); font-weight: 800; text-transform: uppercase; letter-spacing: .2em; font-size: clamp(13px, 1.1vw, 17px); color: var(--bone); }
 .fact-big { font-family: var(--gothic); font-weight: 900; text-transform: uppercase; font-size: clamp(34px, 4vw, 64px); line-height: .9; color: var(--yellow); }
 .fact-mid { font-family: var(--slab); text-transform: uppercase; font-size: clamp(22px, 2.3vw, 36px); line-height: 1; color: var(--bone); }
-.hero .dadrock { width: 56%; margin-inline: auto; }
 .hero { padding-top: clamp(28px, 3.6vw, 56px); }
 .serving { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: clamp(12px, 1.6vw, 24px); row-gap: 2px; padding: clamp(14px, 1.8vw, 24px) 16px; border-top: var(--rule) solid var(--ink); text-align: center; }
 .serving .fact-big { white-space: nowrap; }
@@ -547,7 +529,6 @@ a.show-cta:hover svg { transform: translateX(4px); }
   .actions, .dm { grid-template-columns: minmax(0, 1fr); }
   .ticket + .ticket, .dm a + a { border-left: 0; border-top: 1.5px solid var(--ink); }
   .ticket { min-height: 68px; }
-  .premiere { letter-spacing: .14em; gap: 10px; }
   .lineup { grid-template-columns: minmax(0, 1fr); }
   .releases { grid-template-columns: minmax(0, 1fr); }
   .release .inkcover { max-width: 320px; width: 100%; justify-self: center; }

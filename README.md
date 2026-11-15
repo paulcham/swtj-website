@@ -1,6 +1,6 @@
 # Swimming with the Jaguars - Band Website
 
-The single-page website for Swimming with the Jaguars, Northern New Jersey's premiere Dad rock band from Montclair, New Jersey.
+The single-page website for Swimming with the Jaguars, a rock band from Montclair, New Jersey.
 
 Live at https://swimmingwiththejaguars.com, deployed automatically by Netlify on every push to `main`.
 
@@ -8,7 +8,7 @@ The page is designed as a printed tavern gig poster: brick red stock, brand yell
 
 ## Sections
 
-- Hero: "Live! Loud! Local!", the stacked logo, and "Dad Rock, reimagined for the 21st century"
+- Hero: "Live! Loud! Local!" and the stacked logo
 - Catch Us Live: upcoming gigs, each with its poster, date, venue, and a ticket link where there is one
 - Holiday greeting and the single "Christmas Dead Mouse", over an animated winter scene
 - New singles: "World Events", "One Time", and "Rock and Roll Resurrection"
